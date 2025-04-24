@@ -2,29 +2,41 @@
 #include "TextView.h"
 #include "GameController.h"
 #include <iostream>
+#include <Windows.h>
 
 int main() {
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
     setlocale(LC_ALL, "Russian");
-    GameState gameState;
-    gameState.initializeLocations();
+    try {
+        GameState state;
+        state.initialize("locations.txt");
 
-    GameController controller(&gameState);
+        GameController controller(&state);
+        std::string input;
 
-    char input;
-    do {
-        TextView::showLocation(*gameState.currentLocation);
-        TextView::showHelp();
+        while (true) {
+            TextView::showLocation(*state.currentLocation);
+            TextView::showAvailableConnections(state);
 
-        std::cout << "> ";
-        std::cin >> input;
+            std::cin >> input;
+            if (input == "q") break;
 
-        if (input == 'q') break;
-
-        if (!controller.handleInput(input)) {
-            std::cout << "Нельзя туда идти!\n";
+            try {
+                int targetId = std::stoi(input);
+                if (!controller.handleInput(targetId)) {
+                    std::cout << "Неверный выбор!\n";
+                }
+            }
+            catch (...) {
+                std::cout << "Введите число или 'q'!\n";
+            }
         }
-
-    } while (true);
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Ошибка: " << e.what() << "\n";
+        return 1;
+    }
 
     return 0;
 }

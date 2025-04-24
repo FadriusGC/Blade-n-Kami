@@ -128,6 +128,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Blade&amp;Kami.cpp" />
+    <ClCompile Include="GameController.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Location.cpp" />
+    <ClCompile Include="LocationLoader.cpp" />
+    <ClCompile Include="TextView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EnemyData.h" />
@@ -135,6 +140,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="LocationData.h" />
+    <ClInclude Include="LocationLoader.h" />
     <ClInclude Include="TextView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

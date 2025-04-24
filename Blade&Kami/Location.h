@@ -7,8 +7,7 @@ public:
     int id;
     std::string name;
     std::string description;
-    std::vector<int> connectedLocations;
+    std::vector<int> connections;
 
-    Location(int id, std::string name, std::string desc)
-        : id(id), name(name), description(desc) {}
+    Location(int id, const std::string& name, const std::string& desc, const std::vector<int>& conn);
 };
