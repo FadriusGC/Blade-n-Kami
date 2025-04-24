@@ -1,15 +1,26 @@
-#include "TextView.h"
+#pragma once
+#include "GameState.h"
 #include <iostream>
+#include "TextView.h"
+#include "MenuSystem.h"
+#include "Player.h"
+
+static void clearScreen() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+};
 
 
-
-void TextView::showLocation(const Location& loc) {
+static void showLocation(const Location& loc) {
     std::cout << "\n=== " << loc.name << " ===\n"
-        << loc.description << "\n\n";
-}
+        << loc.description << "\n";
+};
 
-void TextView::showAvailableConnections(const GameState& state) {
-    std::cout << "Доступные переходы:\n";
+static void showAvailableConnections(const GameState& state) {
+    std::cout << "\nДоступные переходы:\n";
     for (int connId : state.currentLocation->connections) {
         for (const auto& loc : state.locations) {
             if (loc.id == connId) {
@@ -18,5 +29,18 @@ void TextView::showAvailableConnections(const GameState& state) {
             }
         }
     }
-    std::cout << "\nВведите ID локации или 'q' для выхода: ";
-}
+    std::cout << "Введите ID локации или 'b' для возврата: ";
+};
+
+static void showPlayerStats(const Player& player) {
+    clearScreen();
+    std::cout << "=== Характеристики персонажа ===\n"
+        << "Уровень: " << player.level << "\n"
+        << "Опыт: " << player.exp << "/100\n"
+        << "Сила: " << player.strength << "\n"
+        << "Ловкость: " << player.agility << "\n"
+        << "Дух: " << player.spirit << "\n"
+        << "Здоровье: " << player.currentHealth << "/" << player.maxHealth << "\n"
+        << "Рэйки: " << player.currentReiki << "/" << player.maxReiki << "\n"
+        << "\nНажмите любую клавишу для возврата...";
+};
