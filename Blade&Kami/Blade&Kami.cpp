@@ -3,33 +3,72 @@
 #include "GameController.h"
 #include <iostream>
 #include <Windows.h>
+#include <sstream>
 
 int main() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     setlocale(LC_ALL, "Russian");
+
     try {
         GameState state;
         state.initialize("locations.txt");
-
         GameController controller(&state);
         std::string input;
+        bool isRunning = true;
 
-        while (true) {
-            TextView::showLocation(*state.currentLocation);
-            TextView::showAvailableConnections(state);
-
-            std::cin >> input;
-            if (input == "q") break;
-
-            try {
-                int targetId = std::stoi(input);
-                if (!controller.handleInput(targetId)) {
-                    std::cout << "Неверный выбор!\n";
+        while (isRunning) {
+            std::cin.ignore();
+            TextView::clearScreen();
+            switch (state.currentMenu) {
+            case MenuState::MAIN_MENU: {
+                TextView::showMainMenu();
+                std::cin >> input;
+                try {
+                    int choice = std::stoi(input);
+                    isRunning = controller.handleMainMenu(choice);
                 }
+                catch (...) {
+                    TextView::showMessage("Некорректный ввод!");
+                }
+                break;
             }
-            catch (...) {
-                std::cout << "Введите число или 'q'!\n";
+
+            case MenuState::GAME_MENU: {
+                TextView::showGameMenu();
+                std::cin >> input;
+                try {
+                    int choice = std::stoi(input);
+                    controller.handleGameMenu(choice);
+                }
+                catch (...) {
+                    TextView::showMessage("Некорректный ввод!");
+                }
+                break;
+            }
+
+            case MenuState::MOVE_MENU: {
+                TextView::showLocation(*state.currentLocation);
+                TextView::showAvailableConnections(state);
+                std::cout << "[0] Вернуться в меню\nВведите ID локации или 0: ";
+
+                std::cin >> input;
+                if (input == "0") {
+                    state.currentMenu = MenuState::GAME_MENU;
+                    break;
+                }
+
+                try {
+                    int targetId = std::stoi(input);
+                    if (!controller.handleMovement(targetId)) {
+                        TextView::showMessage("Неверный выбор локации!");
+                    }
+                }
+                catch (...) {
+                    TextView::showMessage("Некорректный ввод!");
+                }
+                break;
+            }
             }
         }
     }
