@@ -48,3 +48,22 @@ void TextView::showAvailableConnections(const GameState& state) {
     }
     //std::cout << "\nВведите ID локации или 'q' для выхода: ";
 }
+
+void TextView::showPlayerMenu(const Player& player) {
+    std::cout << "\n=== ХАРАКТЕРИСТИКИ ИГРОКА ===\n"
+        << "Уровень: " << player.level << "\n"
+        << "Здоровье: " << player.currentHealth << "/" << player.maxHealth << "\n"
+        << "Рейки: " << player.currentReiki << "/" << player.maxReiki << "\n"
+        << "Сила: " << player.strength << "\n"
+        << "Ловкость: " << player.agility << "\n"
+        << "Дух: " << player.spirit << "\n"
+        << "[1] Улучшить силу\n[2] Улучшить дух\n[3] Показать статы Курай\n[0] Назад\nВыбор: ";
+}
+
+void TextView::showKuraiMenu(const KuraiBlade& blade) {
+    std::cout << "\n=== МЕЧ КУРАЙ ===\n"
+        << "Урон: " << blade.minDamage << "-" << blade.maxDamage << "\n"
+        << "Точность: " << blade.accuracy << "\n"
+        << "Крит: " << blade.critChance << "\n"
+        << "[1] Улучшить урон\n[2] Улучшить точность\n[0] Назад\nВыбор: ";
+}

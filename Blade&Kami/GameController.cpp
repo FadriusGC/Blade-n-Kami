@@ -28,8 +28,7 @@ bool GameController::handleGameMenu(int choice) {
         state->currentMenu = MenuState::MOVE_MENU;
         return true;
     case 2: // Статы
-        std::cin.ignore();
-        TextView::showMessage("Статистика игрока пока не реализована");
+        state->currentMenu = MenuState::PLAYER_MENU;
         return true;
     case 3: // Сохранить
         std::cin.ignore();
@@ -59,4 +58,39 @@ bool GameController::handleMovement(int targetId) {
         }
     }
     return false;
+}
+
+void GameController::handlePlayerMenu(int choice) {
+    switch (choice) {
+    case 1:
+        state->player.strength += 2;
+        TextView::showMessage("Сила увеличена!");
+        break;
+    case 2:
+        state->player.spirit += 2;
+        TextView::showMessage("Дух усилен!");
+        break;
+    case 3:
+        state->currentMenu = MenuState::KURAI_MENU;
+        break;
+    case 0:
+        state->currentMenu = MenuState::GAME_MENU;
+        break;
+    }
+}
+
+void GameController::handleKuraiMenu(int choice) {
+    switch (choice) {
+    case 1:
+        state->player.blade.upgradeStat(BladeStatType::DAMAGE);
+        TextView::showMessage("Урон меча улучшен!");
+        break;
+    case 2:
+        state->player.blade.upgradeStat(BladeStatType::ACCURACY);
+        TextView::showMessage("Точность повышена!");
+        break;
+    case 0:
+        state->currentMenu = MenuState::PLAYER_MENU;
+        break;
+    }
 }

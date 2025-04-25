@@ -1,6 +1,7 @@
 ﻿// GameState.h
 #pragma once
 #include "Location.h"
+#include "Player.h"
 #include <vector>
 #include <string>
 
@@ -18,6 +19,8 @@ class GameState {
 public:
     std::vector<Location> locations;
     Location* currentLocation;
+    Player player; // Добавлен игрок
+    /*KuraiBlade blade;*/
     MenuState currentMenu = MenuState::MAIN_MENU;
 
     void initialize(const std::string& locationsFile);

@@ -14,6 +14,8 @@ int main() {
         GameState state;
         state.initialize("locations.txt");
         GameController controller(&state);
+        Player player;
+        /*KuraiBlade blade;*/
         std::string input;
         bool isRunning = true;
 
@@ -66,6 +68,32 @@ int main() {
                 }
                 catch (...) {
                     TextView::showMessage("Некорректный ввод!");
+                }
+                break;
+            }
+
+            case MenuState::PLAYER_MENU: {
+                TextView::showPlayerMenu(state.player);
+                std::cin >> input;
+                try {
+                    int choice = std::stoi(input);
+                    controller.handlePlayerMenu(choice);
+                }
+                catch (...) {
+                    TextView::showMessage("Ошибка ввода!");
+                }
+                break;
+            }
+
+            case MenuState::KURAI_MENU: {
+                TextView::showKuraiMenu(state.player.blade);
+                std::cin >> input;
+                try {
+                    int choice = std::stoi(input);
+                    controller.handleKuraiMenu(choice);
+                }
+                catch (...) {
+                    TextView::showMessage("Ошибка ввода!");
                 }
                 break;
             }
