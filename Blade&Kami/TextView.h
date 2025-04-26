@@ -13,4 +13,7 @@ public:
     static void showMessage(const std::string& msg);
     static void showPlayerMenu(const Player& player);
     static void showKuraiMenu(const KuraiBlade& blade);
+    static void showEnemyInfo(const Enemy& enemy);
+    static void showEnemyList(const std::vector<EnemyData>& enemies);
+    static void showEnemyDetails(const Enemy& enemy);
 };

@@ -2,6 +2,7 @@
 #pragma once
 #include "Location.h"
 #include "Player.h"
+#include "Enemy.h"
 #include <vector>
 #include <string>
 
@@ -18,10 +19,11 @@ enum class MenuState {
 class GameState {
 public:
     std::vector<Location> locations;
+    std::vector<EnemyData> enemyTemplates;
     Location* currentLocation;
     Player player; // Добавлен игрок
     /*KuraiBlade blade;*/
     MenuState currentMenu = MenuState::MAIN_MENU;
 
-    void initialize(const std::string& locationsFile);
+    void initialize(const std::string& locationsFile, const std::string& enemiesFile);
 };

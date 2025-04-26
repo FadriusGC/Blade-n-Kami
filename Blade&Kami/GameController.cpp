@@ -1,6 +1,7 @@
 // GameController.cpp
 #include "GameController.h"
 #include "TextView.h"
+#include "EnemyFactory.h"
 
 bool GameController::handleMainMenu(int choice) {
     switch (choice) {
@@ -32,7 +33,8 @@ bool GameController::handleGameMenu(int choice) {
         return true;
     case 3: // Сохранить
         std::cin.ignore();
-        TextView::showMessage("Сохранение пока не реализовано");
+       /* TextView::showMessage("Сохранение пока не реализовано");*/
+        TextView::showEnemyInfo; 
         return true;
     case 4: // Главное меню
         state->currentMenu = MenuState::MAIN_MENU;

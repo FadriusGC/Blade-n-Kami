@@ -67,3 +67,36 @@ void TextView::showKuraiMenu(const KuraiBlade& blade) {
         << "Крит: " << blade.critChance << "\n"
         << "[1] Улучшить урон\n[2] Улучшить точность\n[0] Назад\nВыбор: ";
 }
+
+void TextView::showEnemyInfo(const Enemy& enemy) {
+    std::cout << "\n=== " << enemy.data.name << " ===\n"
+        << "Здоровье: " << enemy.data.currentHealth << "/" << enemy.data.maxHealth << "\n"
+        << "Урон: " << enemy.data.minDamage << "-" << enemy.data.maxDamage << "\n"
+        << "Уровень: " << enemy.data.level << "\n";
+}
+
+void TextView::showEnemyList(const std::vector<EnemyData>& enemies) {
+    std::cout << "\n=== ЗАГРУЖЕННЫЕ ВРАГИ ===";
+    for (const auto& e : enemies) {
+        std::cout << "\n[" << e.id << "] " << e.name
+            << " (Уровень: " << e.level << ")";
+    }
+    std::cout << "\n";
+}
+
+void TextView::showEnemyDetails(const Enemy& enemy) {
+    const auto& d = enemy.data;
+    std::cout << "\n=== " << d.name << " ===\n"
+        << "ID: " << d.id << "\n"
+        << "Уровень: " << d.level << "\n"
+        << "Здоровье: " << d.currentHealth << "/" << d.maxHealth << "\n"
+        << "Урон: " << d.minDamage << "-" << d.maxDamage << "\n"
+        << "Точность: " << d.accuracy * 100 << "%\n"
+        << "Дух: " << d.spirit << "\n"
+        << "Сила: " << d.strength << "\n"
+        << "Способности: ";
+    for (const auto& a : d.abilities) {
+        std::cout << a << " ";
+    }
+    std::cout << "\n";
+}

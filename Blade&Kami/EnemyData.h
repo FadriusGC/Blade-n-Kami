@@ -5,7 +5,7 @@
 
 struct Spell {
     std::string name; //спеллы переделаю
-    float power;
+    double power;
     int cost;
 };
 
@@ -14,10 +14,10 @@ struct EnemyData {
     int strength;
     int agility;
     int spirit;
-    float evasion;
-    float accuracy;
+    double evasion;
+    double accuracy;
     int minDamage;
     int maxDamage;
-    float maxHealth;
+    double maxHealth;
     std::vector<Spell> spells;
 };

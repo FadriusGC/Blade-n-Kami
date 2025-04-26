@@ -4,6 +4,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <sstream>
+#include "EnemyFactory.h"
 
 int main() {
     SetConsoleCP(1251);
@@ -12,12 +13,20 @@ int main() {
 
     try {
         GameState state;
-        state.initialize("locations.txt");
+        state.initialize("locations.txt", "enemies.txt");
         GameController controller(&state);
         Player player;
         /*KuraiBlade blade;*/
         std::string input;
         bool isRunning = true;
+        TextView::showMessage("Тест загрузки врагов:");
+        TextView::showEnemyList(state.enemyTemplates);
+
+        // Создайте тестового врага
+        Enemy testEnemy = EnemyFactory::createEnemy(state, "wolf");
+        TextView::showEnemyDetails(testEnemy);
+        Enemy testEnemy2 = EnemyFactory::createEnemy(state, "goblin");
+        TextView::showEnemyDetails(testEnemy2);
 
         while (isRunning) {
             std::cin.ignore();

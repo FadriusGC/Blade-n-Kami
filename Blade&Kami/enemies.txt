@@ -1,0 +1,25 @@
+[wolf]
+name=Лесной волк
+level=2
+strength=12
+agility=15
+spirit=0
+maxHealth=70
+minDamage=8
+maxDamage=12
+expReward=75
+abilities=bite,howl
+
+[goblin]
+name=Гоблин-разведчик
+level=3
+strength=9
+agility=20
+spirit=10
+evasion=0.15
+accuracy=0.8
+maxHealth=60
+minDamage=6
+maxDamage=9
+expReward=100
+abilities=throw_knife,escape
