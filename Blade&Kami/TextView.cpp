@@ -1,4 +1,4 @@
-// TextView.cpp
+ï»¿// TextView.cpp
 #include "TextView.h"
 #include <iostream>
 #include <cstdlib>
@@ -12,20 +12,20 @@ void TextView::clearScreen() {
 }
 
 void TextView::showMainMenu() {
-    std::cout << u8"\n=== ÃËÀÂÍÎÅ ÌÅÍÞ ===\n"
-        << u8"1. Íîâàÿ èãðà\n"
-        << u8"2. Çàãðóçèòü èãðó\n"
-        << u8"3. Âûõîä\n"
-        << u8"Âûáåðèòå âàðèàíò: ";
+    std::cout << u8"\n=== Ð“Ð›ÐÐ’ÐÐžÐ• ÐœÐ•ÐÐ® ===\n"
+        << u8"1. ÐÐ¾Ð²Ð°Ñ Ð¸Ð³Ñ€Ð°\n"
+        << u8"2. Ð—Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ Ð¸Ð³Ñ€Ñƒ\n"
+        << u8"3. Ð’Ñ‹Ñ…Ð¾Ð´\n"
+        << u8"Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚: ";
 }
 
 void TextView::showGameMenu() {
-    std::cout << u8"\n=== ÈÃÐÎÂÎÅ ÌÅÍÞ ===\n"
-        << u8"1. Ïåðåäâèæåíèå\n"
-        << u8"2. Ñòàòû èãðîêà\n"
-        << u8"3. Ñîõðàíèòü èãðó\n"
-        << u8"4. Ãëàâíîå ìåíþ\n"
-        << u8"Âûáåðèòå äåéñòâèå: ";
+    std::cout << u8"\n=== Ð˜Ð“Ð ÐžÐ’ÐžÐ• ÐœÐ•ÐÐ® ===\n"
+        << u8"1. ÐŸÐµÑ€ÐµÐ´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ðµ\n"
+        << u8"2. Ð¡Ñ‚Ð°Ñ‚Ñ‹ Ð¸Ð³Ñ€Ð¾ÐºÐ°\n"
+        << u8"3. Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð¸Ð³Ñ€Ñƒ\n"
+        << u8"4. Ð“Ð»Ð°Ð²Ð½Ð¾Ðµ Ð¼ÐµÐ½ÑŽ\n"
+        << u8"Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ: ";
 }
 
 void TextView::showMessage(const std::string& msg) {
@@ -37,7 +37,7 @@ void TextView::showLocation(const Location& loc) {
 }
 
 void TextView::showAvailableConnections(const GameState& state) {
-    std::cout << u8"Äîñòóïíûå ïåðåõîäû:\n";
+    std::cout << u8"Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ñ‹Ðµ Ð¿ÐµÑ€ÐµÑ…Ð¾Ð´Ñ‹:\n";
     for (int connId : state.currentLocation->connections) {
         for (const auto& loc : state.locations) {
             if (loc.id == connId) {
@@ -46,40 +46,41 @@ void TextView::showAvailableConnections(const GameState& state) {
             }
         }
     }
-    //std::cout << "\nÂâåäèòå ID ëîêàöèè èëè 'q' äëÿ âûõîäà: ";
+    //std::cout << "\nÐ’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ID Ð»Ð¾ÐºÐ°Ñ†Ð¸Ð¸ Ð¸Ð»Ð¸ 'q' Ð´Ð»Ñ Ð²Ñ‹Ñ…Ð¾Ð´Ð°: ";
 }
 
 void TextView::showPlayerMenu(const Player& player) {
-    std::cout << u8"\n=== ÕÀÐÀÊÒÅÐÈÑÒÈÊÈ ÈÃÐÎÊÀ ===\n"
-        << u8"Óðîâåíü: " << player.level << "\n"
-        << u8"Çäîðîâüå: " << player.currentHealth << "/" << player.maxHealth << "\n"
-        << u8"Ðåéêè: " << player.currentReiki << "/" << player.maxReiki << "\n"
-        << u8"Ñèëà: " << player.strength << "\n"
-        << u8"Ëîâêîñòü: " << player.agility << "\n"
-        << u8"Äóõ: " << player.spirit << "\n"
-        << u8"[1] Óëó÷øèòü ñèëó\n[2] Óëó÷øèòü äóõ\n[3] Ïîêàçàòü ñòàòû Êóðàé\n[0] Íàçàä\nÂûáîð: ";
+    std::cout << u8"\n=== Ð¥ÐÐ ÐÐšÐ¢Ð•Ð Ð˜Ð¡Ð¢Ð˜ÐšÐ˜ Ð˜Ð“Ð ÐžÐšÐ ===\n"
+        << u8"ðŸŒŸ Ð£Ñ€Ð¾Ð²ÐµÐ½ÑŒ: " << player.level << u8" ÐžÐ¿Ñ‹Ñ‚: "<< player.exp << "\n"
+        << u8"â¤ï¸ Ð—Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ: " << player.currentHealth << "/" << player.maxHealth << "\n"
+        << u8"ðŸŒ€ Ð ÐµÐ¹ÐºÐ¸: " << player.currentReiki << "/" << player.maxReiki << "\n"
+        << u8"ðŸ’ª Ð¡Ð¸Ð»Ð°: " << player.strength << "\n"
+        << u8"ðŸ¹ Ð›Ð¾Ð²ÐºÐ¾ÑÑ‚ÑŒ: " << player.agility << "\n"
+        << u8"ðŸ§¿ Ð”ÑƒÑ…: " << player.spirit << "\n"
+        << "=============================" << "\n"
+        << u8"[1] Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚ÑŒ ÑÐ¸Ð»Ñƒ\n[2] Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚ÑŒ Ð´ÑƒÑ…\n[3] ÐŸÐ¾ÐºÐ°Ð·Ð°Ñ‚ÑŒ ÑÑ‚Ð°Ñ‚Ñ‹ ÐšÑƒÑ€Ð°Ð¹\n[0] ÐÐ°Ð·Ð°Ð´\nÐ’Ñ‹Ð±Ð¾Ñ€: ";
 }
 
 void TextView::showKuraiMenu(const KuraiBlade& blade) {
-    std::cout << u8"\n=== ÌÅ× ÊÓÐÀÉ ===\n"
-        << u8"Óðîí: " << blade.minDamage << "-" << blade.maxDamage << "\n"
-        << u8"Òî÷íîñòü: " << blade.accuracy << "\n"
-        << u8"Êðèò: " << blade.critChance << "\n"
-        << u8"[1] Óëó÷øèòü óðîí\n[2] Óëó÷øèòü òî÷íîñòü\n[0] Íàçàä\nÂûáîð: ";
+    std::cout << u8"\n=== ÐœÐ•Ð§ ÐšÐ£Ð ÐÐ™ ===\n"
+        << u8"Ð£Ñ€Ð¾Ð½: " << blade.minDamage << "-" << blade.maxDamage << "\n"
+        << u8"Ð¢Ð¾Ñ‡Ð½Ð¾ÑÑ‚ÑŒ: " << blade.accuracy << "\n"
+        << u8"ÐšÑ€Ð¸Ñ‚: " << blade.critChance << "\n"
+        << u8"[1] Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚ÑŒ ÑƒÑ€Ð¾Ð½\n[2] Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚ÑŒ Ñ‚Ð¾Ñ‡Ð½Ð¾ÑÑ‚ÑŒ\n[0] ÐÐ°Ð·Ð°Ð´\nÐ’Ñ‹Ð±Ð¾Ñ€: ";
 }
 
 void TextView::showEnemyInfo(const Enemy& enemy) {
     std::cout << "\n=== " << enemy.data.name << " ===\n"
-        << u8"Çäîðîâüå: " << enemy.data.currentHealth << "/" << enemy.data.maxHealth << "\n"
-        << u8"Óðîí: " << enemy.data.minDamage << "-" << enemy.data.maxDamage << "\n"
-        << u8"Óðîâåíü: " << enemy.data.level << "\n";
+        << u8"Ð—Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ: " << enemy.data.currentHealth << "/" << enemy.data.maxHealth << "\n"
+        << u8"Ð£Ñ€Ð¾Ð½: " << enemy.data.minDamage << "-" << enemy.data.maxDamage << "\n"
+        << u8"Ð£Ñ€Ð¾Ð²ÐµÐ½ÑŒ: " << enemy.data.level << "\n";
 }
 
 void TextView::showEnemyList(const std::vector<EnemyData>& enemies) {
-    std::cout << u8"\n=== ÇÀÃÐÓÆÅÍÍÛÅ ÂÐÀÃÈ ===";
+    std::cout << u8"\n=== Ð—ÐÐ“Ð Ð£Ð–Ð•ÐÐÐ«Ð• Ð’Ð ÐÐ“Ð˜ ===";
     for (const auto& e : enemies) {
         std::cout << "\n[" << e.id << "] " << e.name
-            << u8" (Óðîâåíü: " << e.level << ")";
+            << u8" (Ð£Ñ€Ð¾Ð²ÐµÐ½ÑŒ: " << e.level << ")";
     }
     std::cout << "\n";
 }
@@ -88,13 +89,13 @@ void TextView::showEnemyDetails(const Enemy& enemy) {
     const auto& d = enemy.data;
     std::cout << "\n=== " << d.name << " ===\n"
         << u8"ID: " << d.id << "\n"
-        << u8"Óðîâåíü: " << d.level << "\n"
-        << u8"Çäîðîâüå: " << d.currentHealth << "/" << d.maxHealth << "\n"
-        << u8"Óðîí: " << d.minDamage << "-" << d.maxDamage << "\n"
-        << u8"Òî÷íîñòü: " << d.accuracy * 100 << "%\n"
-        << u8"Äóõ: " << d.spirit << "\n"
-        << u8"Ñèëà: " << d.strength << "\n"
-        << u8"Ñïîñîáíîñòè: ";
+        << u8"Ð£Ñ€Ð¾Ð²ÐµÐ½ÑŒ: " << d.level << "\n"
+        << u8"Ð—Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ: " << d.currentHealth << "/" << d.maxHealth << "\n"
+        << u8"Ð£Ñ€Ð¾Ð½: " << d.minDamage << "-" << d.maxDamage << "\n"
+        << u8"Ð¢Ð¾Ñ‡Ð½Ð¾ÑÑ‚ÑŒ: " << d.accuracy * 100 << "%\n"
+        << u8"Ð”ÑƒÑ…: " << d.spirit << "\n"
+        << u8"Ð¡Ð¸Ð»Ð°: " << d.strength << "\n"
+        << u8"Ð¡Ð¿Ð¾ÑÐ¾Ð±Ð½Ð¾ÑÑ‚Ð¸: ";
     for (const auto& a : d.abilities) {
         std::cout << a << " ";
     }
