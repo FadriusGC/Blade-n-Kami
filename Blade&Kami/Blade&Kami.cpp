@@ -5,12 +5,15 @@
 #include <Windows.h>
 #include <sstream>
 #include "EnemyFactory.h"
+#include "Localisation.h"
 
 int main() {
-    SetConsoleCP(1251);
+    /*SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    setlocale(LC_ALL, "Russian");
-
+    setlocale(LC_ALL, "Russian");*/
+    //SetConsoleOutputCP(CP_UTF8);  // Устанавливаем UTF-8 для вывода
+    //SetConsoleCP(CP_UTF8);        // Устанавливаем UTF-8 для ввода
+    localise();
     try {
         GameState state;
         state.initialize("locations.txt", "enemies.txt");
@@ -19,7 +22,7 @@ int main() {
         /*KuraiBlade blade;*/
         std::string input;
         bool isRunning = true;
-        TextView::showMessage("Тест загрузки врагов:");
+        TextView::showMessage(u8"Тест загрузки врагов:");
         TextView::showEnemyList(state.enemyTemplates);
 
         // Создайте тестового врага
@@ -40,7 +43,7 @@ int main() {
                     isRunning = controller.handleMainMenu(choice);
                 }
                 catch (...) {
-                    TextView::showMessage("Некорректный ввод!");
+                    TextView::showMessage(u8"Некорректный ввод!");
                 }
                 break;
             }
@@ -53,7 +56,7 @@ int main() {
                     controller.handleGameMenu(choice);
                 }
                 catch (...) {
-                    TextView::showMessage("Некорректный ввод!");
+                    TextView::showMessage(u8"Некорректный ввод!");
                 }
                 break;
             }
@@ -61,7 +64,7 @@ int main() {
             case MenuState::MOVE_MENU: {
                 TextView::showLocation(*state.currentLocation);
                 TextView::showAvailableConnections(state);
-                std::cout << "[0] Вернуться в меню\nВведите ID локации или 0: ";
+                std::cout << u8"[0] Вернуться в меню\nВведите ID локации или 0: ";
 
                 std::cin >> input;
                 if (input == "0") {
@@ -72,11 +75,11 @@ int main() {
                 try {
                     int targetId = std::stoi(input);
                     if (!controller.handleMovement(targetId)) {
-                        TextView::showMessage("Неверный выбор локации!");
+                        TextView::showMessage(u8"Неверный выбор локации!");
                     }
                 }
                 catch (...) {
-                    TextView::showMessage("Некорректный ввод!");
+                    TextView::showMessage(u8"Некорректный ввод!");
                 }
                 break;
             }
@@ -89,7 +92,7 @@ int main() {
                     controller.handlePlayerMenu(choice);
                 }
                 catch (...) {
-                    TextView::showMessage("Ошибка ввода!");
+                    TextView::showMessage(u8"Ошибка ввода!");
                 }
                 break;
             }
@@ -102,7 +105,7 @@ int main() {
                     controller.handleKuraiMenu(choice);
                 }
                 catch (...) {
-                    TextView::showMessage("Ошибка ввода!");
+                    TextView::showMessage(u8"Ошибка ввода!");
                 }
                 break;
             }
@@ -110,7 +113,7 @@ int main() {
         }
     }
     catch (const std::exception& e) {
-        std::cerr << "Ошибка: " << e.what() << "\n";
+        std::cerr << u8"Ошибка: " << e.what() << "\n";
         return 1;
     }
 

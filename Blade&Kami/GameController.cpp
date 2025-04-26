@@ -8,17 +8,17 @@ bool GameController::handleMainMenu(int choice) {
     case 1: // Новая игра
         std::cin.ignore();
         state->currentMenu = MenuState::GAME_MENU;
-        TextView::showMessage("Новая игра начата!");
+        TextView::showMessage(u8"Новая игра начата!");
         return true;
     case 2: // Загрузить
         std::cin.ignore();
-        TextView::showMessage("Загрузка пока не реализована");
+        TextView::showMessage(u8"Загрузка пока не реализована");
         return true;
     case 3: // Выход
         return false;
     default:
         std::cin.ignore();
-        TextView::showMessage("Неверный выбор!");
+        TextView::showMessage(u8"Неверный выбор!");
         return true;
     }
 }
@@ -33,15 +33,14 @@ bool GameController::handleGameMenu(int choice) {
         return true;
     case 3: // Сохранить
         std::cin.ignore();
-       /* TextView::showMessage("Сохранение пока не реализовано");*/
-        TextView::showEnemyInfo; 
+        TextView::showMessage(u8"Сохранение пока не реализовано");
         return true;
     case 4: // Главное меню
         state->currentMenu = MenuState::MAIN_MENU;
         return true;
     default:
         std::cin.ignore();
-        TextView::showMessage("Неверный выбор!");
+        TextView::showMessage(u8"Неверный выбор!");
         return true;
     }
 }
@@ -66,11 +65,11 @@ void GameController::handlePlayerMenu(int choice) {
     switch (choice) {
     case 1:
         state->player.strength += 2;
-        TextView::showMessage("Сила увеличена!");
+        TextView::showMessage(u8"Сила увеличена!");
         break;
     case 2:
         state->player.spirit += 2;
-        TextView::showMessage("Дух усилен!");
+        TextView::showMessage(u8"Дух усилен!");
         break;
     case 3:
         state->currentMenu = MenuState::KURAI_MENU;
@@ -85,11 +84,11 @@ void GameController::handleKuraiMenu(int choice) {
     switch (choice) {
     case 1:
         state->player.blade.upgradeStat(BladeStatType::DAMAGE);
-        TextView::showMessage("Урон меча улучшен!");
+        TextView::showMessage(u8"Урон меча улучшен!");
         break;
     case 2:
         state->player.blade.upgradeStat(BladeStatType::ACCURACY);
-        TextView::showMessage("Точность повышена!");
+        TextView::showMessage(u8"Точность повышена!");
         break;
     case 0:
         state->currentMenu = MenuState::PLAYER_MENU;

@@ -1,5 +1,5 @@
 [wolf]
-name=Лесной волк
+name=Р›РµСЃРЅРѕР№ РІРѕР»Рє
 level=2
 strength=12
 agility=15
@@ -11,7 +11,7 @@ expReward=75
 abilities=bite,howl
 
 [goblin]
-name=Гоблин-разведчик
+name=Р“РѕР±Р»РёРЅ-СЂР°Р·РІРµРґС‡РёРє
 level=3
 strength=9
 agility=20

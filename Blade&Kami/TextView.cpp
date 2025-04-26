@@ -12,32 +12,32 @@ void TextView::clearScreen() {
 }
 
 void TextView::showMainMenu() {
-    std::cout << "\n=== ГЛАВНОЕ МЕНЮ ===\n"
-        << "1. Новая игра\n"
-        << "2. Загрузить игру\n"
-        << "3. Выход\n"
-        << "Выберите вариант: ";
+    std::cout << u8"\n=== ГЛАВНОЕ МЕНЮ ===\n"
+        << u8"1. Новая игра\n"
+        << u8"2. Загрузить игру\n"
+        << u8"3. Выход\n"
+        << u8"Выберите вариант: ";
 }
 
 void TextView::showGameMenu() {
-    std::cout << "\n=== ИГРОВОЕ МЕНЮ ===\n"
-        << "1. Передвижение\n"
-        << "2. Статы игрока\n"
-        << "3. Сохранить игру\n"
-        << "4. Главное меню\n"
-        << "Выберите действие: ";
+    std::cout << u8"\n=== ИГРОВОЕ МЕНЮ ===\n"
+        << u8"1. Передвижение\n"
+        << u8"2. Статы игрока\n"
+        << u8"3. Сохранить игру\n"
+        << u8"4. Главное меню\n"
+        << u8"Выберите действие: ";
 }
 
 void TextView::showMessage(const std::string& msg) {
-    std::cout << "\n[!] " << msg << "\n";
+    std::cout << u8"\n[!] " << msg << "\n";
 }
 void TextView::showLocation(const Location& loc) {
-    std::cout << "\n=== " << loc.name << " ===\n"
+    std::cout << u8"\n=== " << loc.name << " ===\n"
         << loc.description << "\n\n";
 }
 
 void TextView::showAvailableConnections(const GameState& state) {
-    std::cout << "Доступные переходы:\n";
+    std::cout << u8"Доступные переходы:\n";
     for (int connId : state.currentLocation->connections) {
         for (const auto& loc : state.locations) {
             if (loc.id == connId) {
@@ -50,36 +50,36 @@ void TextView::showAvailableConnections(const GameState& state) {
 }
 
 void TextView::showPlayerMenu(const Player& player) {
-    std::cout << "\n=== ХАРАКТЕРИСТИКИ ИГРОКА ===\n"
-        << "Уровень: " << player.level << "\n"
-        << "Здоровье: " << player.currentHealth << "/" << player.maxHealth << "\n"
-        << "Рейки: " << player.currentReiki << "/" << player.maxReiki << "\n"
-        << "Сила: " << player.strength << "\n"
-        << "Ловкость: " << player.agility << "\n"
-        << "Дух: " << player.spirit << "\n"
-        << "[1] Улучшить силу\n[2] Улучшить дух\n[3] Показать статы Курай\n[0] Назад\nВыбор: ";
+    std::cout << u8"\n=== ХАРАКТЕРИСТИКИ ИГРОКА ===\n"
+        << u8"Уровень: " << player.level << "\n"
+        << u8"Здоровье: " << player.currentHealth << "/" << player.maxHealth << "\n"
+        << u8"Рейки: " << player.currentReiki << "/" << player.maxReiki << "\n"
+        << u8"Сила: " << player.strength << "\n"
+        << u8"Ловкость: " << player.agility << "\n"
+        << u8"Дух: " << player.spirit << "\n"
+        << u8"[1] Улучшить силу\n[2] Улучшить дух\n[3] Показать статы Курай\n[0] Назад\nВыбор: ";
 }
 
 void TextView::showKuraiMenu(const KuraiBlade& blade) {
-    std::cout << "\n=== МЕЧ КУРАЙ ===\n"
-        << "Урон: " << blade.minDamage << "-" << blade.maxDamage << "\n"
-        << "Точность: " << blade.accuracy << "\n"
-        << "Крит: " << blade.critChance << "\n"
-        << "[1] Улучшить урон\n[2] Улучшить точность\n[0] Назад\nВыбор: ";
+    std::cout << u8"\n=== МЕЧ КУРАЙ ===\n"
+        << u8"Урон: " << blade.minDamage << "-" << blade.maxDamage << "\n"
+        << u8"Точность: " << blade.accuracy << "\n"
+        << u8"Крит: " << blade.critChance << "\n"
+        << u8"[1] Улучшить урон\n[2] Улучшить точность\n[0] Назад\nВыбор: ";
 }
 
 void TextView::showEnemyInfo(const Enemy& enemy) {
     std::cout << "\n=== " << enemy.data.name << " ===\n"
-        << "Здоровье: " << enemy.data.currentHealth << "/" << enemy.data.maxHealth << "\n"
-        << "Урон: " << enemy.data.minDamage << "-" << enemy.data.maxDamage << "\n"
-        << "Уровень: " << enemy.data.level << "\n";
+        << u8"Здоровье: " << enemy.data.currentHealth << "/" << enemy.data.maxHealth << "\n"
+        << u8"Урон: " << enemy.data.minDamage << "-" << enemy.data.maxDamage << "\n"
+        << u8"Уровень: " << enemy.data.level << "\n";
 }
 
 void TextView::showEnemyList(const std::vector<EnemyData>& enemies) {
-    std::cout << "\n=== ЗАГРУЖЕННЫЕ ВРАГИ ===";
+    std::cout << u8"\n=== ЗАГРУЖЕННЫЕ ВРАГИ ===";
     for (const auto& e : enemies) {
         std::cout << "\n[" << e.id << "] " << e.name
-            << " (Уровень: " << e.level << ")";
+            << u8" (Уровень: " << e.level << ")";
     }
     std::cout << "\n";
 }
@@ -87,14 +87,14 @@ void TextView::showEnemyList(const std::vector<EnemyData>& enemies) {
 void TextView::showEnemyDetails(const Enemy& enemy) {
     const auto& d = enemy.data;
     std::cout << "\n=== " << d.name << " ===\n"
-        << "ID: " << d.id << "\n"
-        << "Уровень: " << d.level << "\n"
-        << "Здоровье: " << d.currentHealth << "/" << d.maxHealth << "\n"
-        << "Урон: " << d.minDamage << "-" << d.maxDamage << "\n"
-        << "Точность: " << d.accuracy * 100 << "%\n"
-        << "Дух: " << d.spirit << "\n"
-        << "Сила: " << d.strength << "\n"
-        << "Способности: ";
+        << u8"ID: " << d.id << "\n"
+        << u8"Уровень: " << d.level << "\n"
+        << u8"Здоровье: " << d.currentHealth << "/" << d.maxHealth << "\n"
+        << u8"Урон: " << d.minDamage << "-" << d.maxDamage << "\n"
+        << u8"Точность: " << d.accuracy * 100 << "%\n"
+        << u8"Дух: " << d.spirit << "\n"
+        << u8"Сила: " << d.strength << "\n"
+        << u8"Способности: ";
     for (const auto& a : d.abilities) {
         std::cout << a << " ";
     }

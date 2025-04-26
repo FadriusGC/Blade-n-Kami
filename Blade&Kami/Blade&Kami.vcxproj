@@ -145,6 +145,7 @@
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="KuraiBlade.h" />
+    <ClInclude Include="Localisation.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="LocationData.h" />
     <ClInclude Include="LocationLoader.h" />
