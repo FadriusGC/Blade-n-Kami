@@ -2,6 +2,8 @@
 #include "GameController.h"
 #include "TextView.h"
 #include "EnemyFactory.h"
+#include "CombatLogic.h"
+#include "CombatSystem.h"
 
 bool GameController::handleMainMenu(int choice) {
     switch (choice) {
@@ -51,6 +53,9 @@ bool GameController::handleMovement(int targetId) {
         if (loc.id == targetId) {
             for (int connId : state->currentLocation->connections) {
                 if (connId == targetId) {
+                    if (loc.enemyID != "") {
+                        state->currentMenu = MenuState::COMBAT_MENU;
+                    }
                     state->currentLocation = &loc;
                     return true;
                 }
@@ -93,5 +98,26 @@ void GameController::handleKuraiMenu(int choice) {
     case 0:
         state->currentMenu = MenuState::PLAYER_MENU;
         break;
+    }
+}
+
+CombatSystem::CombatResult GameController::handleCombatMenu(int choice, Enemy& enemy) {
+    switch (choice) {
+    case 1: // Атака
+        return CombatSystem::updateCombat(state->player, enemy, choice);
+
+    case 5: // Бежать
+        // Возврат на предыдущую локацию
+        for (auto& loc : state->locations) {
+            if (loc.id == state->currentLocation->id - 1) {
+                state->currentLocation = &loc;
+                return CombatSystem::FLEE;
+            }
+        }
+        return CombatSystem::FLEE;
+
+    default:
+        TextView::showMessage(u8"Неверный выбор!");
+        return CombatSystem::IN_PROGRESS;
     }
 }

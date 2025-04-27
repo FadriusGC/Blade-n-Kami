@@ -25,7 +25,7 @@ public:
     EnemyData data;
 
     Enemy(const EnemyData& baseData);
-    void takeDamage(double damage);
+    void takeDamage(int damage);
     bool isAlive() const;
     void reset();
 };

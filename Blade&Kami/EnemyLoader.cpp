@@ -38,10 +38,10 @@ std::vector<EnemyData> EnemyLoader::loadFromFile(const std::string& filename) {
             current.spirit = std::stoi(line.substr(7));
         }
         else if (line.find("evasion=") == 0) {
-            current.evasion = std::stoi(line.substr(8));
+            current.evasion = std::stod(line.substr(8));
         }
         else if (line.find("accuracy=") == 0) {
-            current.accuracy = std::stoi(line.substr(9));
+            current.accuracy = std::stod(line.substr(9));
         }
         else if (line.find("maxHealth=") == 0) {
             current.maxHealth = std::stoi(line.substr(10));

@@ -1,6 +1,7 @@
 // GameController.h
 #pragma once
 #include "GameState.h"
+#include "CombatSystem.h"
 
 class GameController {
     GameState* state;
@@ -13,4 +14,5 @@ public:
     bool handleMovement(int targetId);
     void handlePlayerMenu(int choice);
     void handleKuraiMenu(int choice);
+    CombatSystem::CombatResult handleCombatMenu(int choice, Enemy& enemy);
 };

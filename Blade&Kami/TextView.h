@@ -16,4 +16,6 @@ public:
     static void showEnemyInfo(const Enemy& enemy);
     static void showEnemyList(const std::vector<EnemyData>& enemies);
     static void showEnemyDetails(const Enemy& enemy);
+    static void showCombatStats(const Player& player, const Enemy& enemy);
+    static void showCombatMenu();
 };

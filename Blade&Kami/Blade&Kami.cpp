@@ -6,6 +6,7 @@
 #include <sstream>
 #include "EnemyFactory.h"
 #include "Localisation.h"
+#include "CombatSystem.h"
 
 int main() {
     /*SetConsoleCP(1251);
@@ -22,6 +23,7 @@ int main() {
         /*KuraiBlade blade;*/
         std::string input;
         bool isRunning = true;
+        Enemy* currentEnemy = nullptr;
         TextView::showMessage(u8"Тест загрузки врагов:");
         TextView::showEnemyList(state.enemyTemplates);
 
@@ -103,6 +105,53 @@ int main() {
                 try {
                     int choice = std::stoi(input);
                     controller.handleKuraiMenu(choice);
+                }
+                catch (...) {
+                    TextView::showMessage(u8"Ошибка ввода!");
+                }
+                break;
+            }
+            case MenuState::COMBAT_MENU: {
+                // Инициализация боя при входе
+                if (!currentEnemy && state.currentLocation->enemyID != "") {
+                    currentEnemy = new Enemy(EnemyFactory::createEnemy(state, state.currentLocation->enemyID));
+                }
+
+                // Отображение интерфейса
+                TextView::showCombatStats(state.player, *currentEnemy);
+                TextView::showCombatMenu();
+
+                // Ввод игрока
+                std::string input;
+                std::cout << u8"> ";
+                std::cin >> input;
+
+                try {
+                    int choice = std::stoi(input);
+                    auto result = controller.handleCombatMenu(choice, *currentEnemy);
+
+                    // Обработка результатов
+                    switch (result) {
+                    case CombatSystem::PLAYER_WIN:
+                        TextView::showMessage(u8"Победа! Опыт +"
+                            + std::to_string(currentEnemy->data.expReward));
+                        state.player.exp += currentEnemy->data.expReward;
+                        currentEnemy = nullptr;
+                        state.currentLocation->enemyID = "";
+                        std::cin.ignore();
+                        state.currentMenu = MenuState::GAME_MENU;
+                        break;
+
+                    case CombatSystem::ENEMY_WIN:
+                        TextView::showMessage(u8"Игрок погиб");
+                        std::cin.ignore();
+                        exit(0);
+
+                    case CombatSystem::FLEE:
+                        state.currentMenu = MenuState::GAME_MENU;
+                        currentEnemy = nullptr;
+                        break;
+                    }
                 }
                 catch (...) {
                     TextView::showMessage(u8"Ошибка ввода!");

@@ -101,3 +101,18 @@ void TextView::showEnemyDetails(const Enemy& enemy) {
     }
     std::cout << "\n";
 }
+
+void TextView::showCombatStats(const Player& player, const Enemy& enemy) {
+    std::cout << u8"\n=== БОЙ ===\n"
+        << u8"Игрок: " << player.currentHealth << u8"/" << player.maxHealth << u8" HP\n"
+        << u8"Урон: " << player.blade.minDamage << u8"-" << player.blade.maxDamage << "\n"
+        << u8"Точность: " << (player.blade.accuracy * 100) << u8"%\n"
+        << u8"Враг (" << enemy.data.name << u8"): "
+        << enemy.data.currentHealth << u8"/" << enemy.data.maxHealth << u8" HP\n"
+        << u8"Урон врага: " << enemy.data.minDamage << u8"-" << enemy.data.maxDamage << u8"\n"
+        << u8"Точность врага: " << (enemy.data.accuracy * 100) << u8"%\n";
+}
+
+void TextView::showCombatMenu() {
+    std::cout << u8"\n1. Атака\n5. Бежать\nВыбор: ";
+}

@@ -13,13 +13,14 @@ std::vector<Location> LocationLoader::loadFromFile(const std::string& filename) 
     std::string line;
     std::string name, desc;
     std::vector<int> conn;
+    std::string enemyID;
 
     while (getline(file, line)) {
         if (line.empty()) continue;
 
         if (line[0] == '[') {
             if (currentId != -1) {
-                locations.emplace_back(currentId, name, desc, conn);
+                locations.emplace_back(currentId, name, desc, conn, enemyID);
                 conn.clear();
             }
             currentId = std::stoi(line.substr(1, line.find(']') - 1));
@@ -37,10 +38,13 @@ std::vector<Location> LocationLoader::loadFromFile(const std::string& filename) 
                 conn.push_back(std::stoi(token));
             }
         }
+        else if (line.find("enemyID=") == 0) {
+            enemyID = line.substr(8);
+        }
     }
 
     if (currentId != -1) {
-        locations.emplace_back(currentId, name, desc, conn);
+        locations.emplace_back(currentId, name, desc, conn, enemyID);
     }
 
     return locations;

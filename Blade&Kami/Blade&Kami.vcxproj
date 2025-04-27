@@ -128,6 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Blade&amp;Kami.cpp" />
+    <ClCompile Include="CombatLogic.cpp" />
+    <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyLoader.cpp" />
     <ClCompile Include="GameController.cpp" />
@@ -138,6 +140,8 @@
     <ClCompile Include="TextView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CombatLogic.h" />
+    <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyData.h" />
     <ClInclude Include="EnemyFactory.h" />

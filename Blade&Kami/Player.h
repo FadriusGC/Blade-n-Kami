@@ -15,10 +15,15 @@ public:
     double currentHealth = 100.0;
     double maxReiki = 50.0;
     double currentReiki = 50.0;
+    bool isAlive() const {
+        return currentHealth > 0;
+    }
     KuraiBlade blade;
 
     void upgradeStat(PlayerStatType stat);
-    void takeDamage(double damage);
+    void takeDamage(int& damage) {
+        currentHealth -= damage;
+    }
     void heal(double amount);
     void levelUp();
     void updateKi(int delta);

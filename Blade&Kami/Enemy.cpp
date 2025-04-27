@@ -5,7 +5,7 @@ Enemy::Enemy(const EnemyData& baseData) : data(baseData) {
     data.currentHealth = data.maxHealth;
 }
 
-void Enemy::takeDamage(double damage) {
+void Enemy::takeDamage(int damage) {
     data.currentHealth -= damage;
     if (data.currentHealth < 0) data.currentHealth = 0;
 }
