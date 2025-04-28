@@ -1,12 +1,11 @@
 #pragma once
 #include "KuraiBlade.h"
 
-enum class PlayerStatType { STRENGTH, AGILITY, SPIRIT };
-
 class Player {
 public:
     int level = 1;
     int exp = 0;
+    int requiredExp = 100 + 50 * level;
     int strength = 10;
     int agility = 10;
     int spirit = 10;
@@ -15,16 +14,42 @@ public:
     double currentHealth = 100.0;
     double maxReiki = 50.0;
     double currentReiki = 50.0;
+    int availablePoints = 0;
+    KuraiBlade blade;
+
     bool isAlive() const {
         return currentHealth > 0;
     }
-    KuraiBlade blade;
-
-    void upgradeStat(PlayerStatType stat);
+    
     void takeDamage(int& damage) {
         currentHealth -= damage;
     }
+
+    void gainExp(int amount) { // Модифицировано
+        exp += amount;
+        checkLevelUp();
+    }
+
+    void checkLevelUp() {
+        while (exp >= requiredExp) {
+            exp -= requiredExp;
+            level++;
+            availablePoints += 2;
+            requiredExp = 100 + 50 * level;
+            // Можно добавить TextView::showMessage("Уровень повышен!");
+        }
+    }
+    void increaseStat(int statType) {
+        if (availablePoints <= 0) return;
+
+        switch (statType) {
+        case 1: strength++; break;
+        case 2: agility++; break;
+        case 3: spirit++; break;
+        }
+        availablePoints--;
+    }
+
     void heal(double amount);
-    void levelUp();
     void updateKi(int delta);
 };

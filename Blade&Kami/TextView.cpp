@@ -13,18 +13,20 @@ void TextView::clearScreen() {
 
 void TextView::showMainMenu() {
     std::cout << u8"\n=== ГЛАВНОЕ МЕНЮ ===\n"
-        << u8"1. Новая игра\n"
-        << u8"2. Загрузить игру\n"
-        << u8"3. Выход\n"
+        << u8"[1] Новая игра\n"
+        << u8"[2] Загрузить игру\n"
+        << u8"[3] Выход\n"
+        << u8"====================\n"
         << u8"Выберите вариант: ";
 }
 
 void TextView::showGameMenu() {
     std::cout << u8"\n=== ИГРОВОЕ МЕНЮ ===\n"
-        << u8"1. Передвижение\n"
-        << u8"2. Статы игрока\n"
-        << u8"3. Сохранить игру\n"
-        << u8"4. Главное меню\n"
+        << u8"[1] Передвижение\n"
+        << u8"[2] Статы игрока\n"
+        << u8"[3] Сохранить игру\n"
+        << u8"[4] Главное меню\n"
+        << u8"====================\n"
         << u8"Выберите действие: ";
 }
 
@@ -51,14 +53,14 @@ void TextView::showAvailableConnections(const GameState& state) {
 
 void TextView::showPlayerMenu(const Player& player) {
     std::cout << u8"\n=== ХАРАКТЕРИСТИКИ ИГРОКА ===\n"
-        << u8"🌟 Уровень: " << player.level << u8" Опыт: "<< player.exp << "\n"
+        << u8"🌟 Уровень: " << player.level << u8" Опыт: "<< player.exp << u8"/" << player.requiredExp << "\n"
         << u8"❤️ Здоровье: " << player.currentHealth << "/" << player.maxHealth << "\n"
         << u8"🌀 Рейки: " << player.currentReiki << "/" << player.maxReiki << "\n"
         << u8"💪 Сила: " << player.strength << "\n"
         << u8"🏹 Ловкость: " << player.agility << "\n"
         << u8"🧿 Дух: " << player.spirit << "\n"
         << "=============================" << "\n"
-        << u8"[1] Улучшить силу\n[2] Улучшить дух\n[3] Показать статы Курай\n[0] Назад\nВыбор: ";
+        << u8"[1] Прокачка характеристик\n[2] Показать статы Курай\n[0] Назад\n=============================\nВыбор: ";
 }
 
 void TextView::showKuraiMenu(const KuraiBlade& blade) {
@@ -66,7 +68,8 @@ void TextView::showKuraiMenu(const KuraiBlade& blade) {
         << u8"Урон: " << blade.minDamage << "-" << blade.maxDamage << "\n"
         << u8"Точность: " << blade.accuracy << "\n"
         << u8"Крит: " << blade.critChance << "\n"
-        << u8"[1] Улучшить урон\n[2] Улучшить точность\n[0] Назад\nВыбор: ";
+        << u8"=================" << "\n"
+        << u8"[1] Улучшить урон\n[2] Улучшить точность\n[0] Назад\n" << "=================\n" << u8"Выбор: ";
 }
 
 void TextView::showEnemyInfo(const Enemy& enemy) {
@@ -107,12 +110,23 @@ void TextView::showCombatStats(const Player& player, const Enemy& enemy) {
         << u8"Игрок: " << player.currentHealth << u8"/" << player.maxHealth << u8" HP\n"
         << u8"Урон: " << player.blade.minDamage << u8"-" << player.blade.maxDamage << "\n"
         << u8"Точность: " << (player.blade.accuracy * 100) << u8"%\n"
-        << u8"Враг (" << enemy.data.name << u8"): "
+        << u8"----vs.----\n" << u8"Враг (" << enemy.data.name << u8"): "
         << enemy.data.currentHealth << u8"/" << enemy.data.maxHealth << u8" HP\n"
         << u8"Урон врага: " << enemy.data.minDamage << u8"-" << enemy.data.maxDamage << u8"\n"
         << u8"Точность врага: " << (enemy.data.accuracy * 100) << u8"%\n";
 }
 
 void TextView::showCombatMenu() {
-    std::cout << u8"\n1. Атака\n5. Бежать\nВыбор: ";
+    std::cout << u8"===========\n[1] Атака\n[5] Бежать\n===========\nВыбор: ";
+}
+
+void TextView::showLevelUpMenu(const Player& player) {
+    std::cout << u8"\n=== ПРОКАЧКА ХАРАКТЕРИСТИК ===\n"
+        << u8"Доступно очков: " << player.availablePoints << "\n" << u8"==============================" << "\n"
+        << u8"[1] Сила: " << player.strength << "\n"
+        << u8"[2] Ловкость: " << player.agility << "\n"
+        << u8"[3] Дух: " << player.spirit << "\n"
+        << u8"[0] Выход\n"
+        << u8"==============================" << "\n"
+        << u8"Какую характеристику улучшить: ";
 }

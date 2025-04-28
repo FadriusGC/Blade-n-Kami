@@ -13,6 +13,7 @@ public:
     bool handleGameMenu(int choice);
     bool handleMovement(int targetId);
     void handlePlayerMenu(int choice);
+    void handleLevelUpMenu(int choice);
     void handleKuraiMenu(int choice);
     CombatSystem::CombatResult handleCombatMenu(int choice, Enemy& enemy);
 };

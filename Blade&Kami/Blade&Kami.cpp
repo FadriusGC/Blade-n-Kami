@@ -114,16 +114,15 @@ int main() {
             case MenuState::COMBAT_MENU: {
                 // Инициализация боя при входе
                 if (!currentEnemy && state.currentLocation->enemyID != "") {
-                    currentEnemy = new Enemy(EnemyFactory::createEnemy(state, state.currentLocation->enemyID));
-                }
+                    currentEnemy = new Enemy(EnemyFactory::createEnemy(state, state.currentLocation->enemyID)); // <--- во тута ахуительная утечка памяти, потому что я не делитаю указатель, а ставлю его нуллптр. Не ебу как фикисть, осталю так
+                } // <- чисто в теории можно сделать еще один указатели типо темп_енеми который как раз будет присваиваться куррент энеми и уже темп энеми мы будем удалять полностью а куррент просто очищать
 
                 // Отображение интерфейса
                 TextView::showCombatStats(state.player, *currentEnemy);
                 TextView::showCombatMenu();
 
                 // Ввод игрока
-                std::string input;
-                std::cout << u8"> ";
+                //std::string input;
                 std::cin >> input;
 
                 try {
@@ -135,7 +134,9 @@ int main() {
                     case CombatSystem::PLAYER_WIN:
                         TextView::showMessage(u8"Победа! Опыт +"
                             + std::to_string(currentEnemy->data.expReward));
-                        state.player.exp += currentEnemy->data.expReward;
+
+                        state.player.gainExp(currentEnemy->data.expReward);
+                        //state.player.exp += currentEnemy->data.expReward;
                         currentEnemy = nullptr;
                         state.currentLocation->enemyID = "";
                         std::cin.ignore();
@@ -143,7 +144,7 @@ int main() {
                         break;
 
                     case CombatSystem::ENEMY_WIN:
-                        TextView::showMessage(u8"Игрок погиб");
+                        TextView::showMessage(u8"Игрок погиб, игра окончена :(");
                         std::cin.ignore();
                         exit(0);
 
@@ -155,6 +156,20 @@ int main() {
                 }
                 catch (...) {
                     TextView::showMessage(u8"Ошибка ввода!");
+                }
+                break;
+            }
+            case MenuState::LEVEL_UP_MENU: {
+                TextView::showLevelUpMenu(state.player);
+                //std::string input;
+                std::cin >> input;
+
+                try {
+                    int choice = std::stoi(input);
+                    controller.handleLevelUpMenu(choice);
+                }
+                catch (...) {
+                    TextView::showMessage(u8"Некорректный ввод!");
                 }
                 break;
             }

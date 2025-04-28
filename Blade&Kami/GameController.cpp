@@ -69,14 +69,9 @@ bool GameController::handleMovement(int targetId) {
 void GameController::handlePlayerMenu(int choice) {
     switch (choice) {
     case 1:
-        state->player.strength += 2;
-        TextView::showMessage(u8"Сила увеличена!");
+        state->currentMenu = MenuState::LEVEL_UP_MENU;
         break;
     case 2:
-        state->player.spirit += 2;
-        TextView::showMessage(u8"Дух усилен!");
-        break;
-    case 3:
         state->currentMenu = MenuState::KURAI_MENU;
         break;
     case 0:
@@ -119,5 +114,26 @@ CombatSystem::CombatResult GameController::handleCombatMenu(int choice, Enemy& e
     default:
         TextView::showMessage(u8"Неверный выбор!");
         return CombatSystem::IN_PROGRESS;
+    }
+}
+
+void GameController::handleLevelUpMenu(int choice) {
+    if (choice == 0) {
+        state->currentMenu = MenuState::PLAYER_MENU;
+        return;
+    }
+
+    if (state->player.availablePoints > 0) {
+        state->player.increaseStat(choice);
+        TextView::showMessage(u8"Характеристика улучшена!");
+        std::cin.ignore();
+    }
+    else if (choice <=3) {
+        TextView::showMessage(u8"Нет очков прокачки!");
+        std::cin.ignore();
+    }
+    else {
+        TextView::showMessage(u8"Некорректный ввод");
+        std::cin.ignore();
     }
 }

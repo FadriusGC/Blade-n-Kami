@@ -13,7 +13,7 @@ enum class MenuState {
     PLAYER_MENU,
     COMBAT_MENU,
     KURAI_MENU,
-    LVLUP_MENU
+    LEVEL_UP_MENU,
 };
 
 class GameState {
