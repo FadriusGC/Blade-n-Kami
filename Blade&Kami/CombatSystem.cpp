@@ -2,7 +2,7 @@
 #include "CombatSystem.h"
 #include "CombatLogic.h"
 
-CombatSystem::CombatResult CombatSystem::updateCombat(Player& player, Enemy& enemy, int playerAction) {
+CombatSystem::CombatResult CombatSystem::updateCombat(Player& player, Enemy& enemy, int playerAction, GameState& state) {
     // Обработка действия игрока
     CombatLogic::processPlayerAction(player, enemy, playerAction);
     if (!enemy.isAlive()) return PLAYER_WIN;
@@ -10,6 +10,6 @@ CombatSystem::CombatResult CombatSystem::updateCombat(Player& player, Enemy& ene
     // Обработка действия врага
     CombatLogic::processEnemyAction(player, enemy);
     if (!player.isAlive()) return ENEMY_WIN;
-
+  
     return IN_PROGRESS;
 }

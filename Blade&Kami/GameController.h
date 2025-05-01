@@ -18,4 +18,5 @@ public:
     CombatSystem::CombatResult handleCombatMenu(int choice, Enemy& enemy);
     void handleItemUse(int itemIndex);
     void handleInventoryMenu(int choice);
+    void handleInventoryCombatMenu(int choice);
 };

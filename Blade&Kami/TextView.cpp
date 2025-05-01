@@ -117,7 +117,7 @@ void TextView::showCombatStats(const Player& player, const Enemy& enemy) {
 }
 
 void TextView::showCombatMenu() {
-    std::cout << u8"===========\n[1] Атака\n[5] Бежать\n===========\nВыбор: ";
+    std::cout << u8"===========\n[1] Атака\n[2] Использовать предмет\n[5] Бежать\n===========\nВыбор: ";
 }
 
 void TextView::showLevelUpMenu(const Player& player) {
@@ -141,4 +141,16 @@ void TextView::showInventory(const Inventory& inv) {
         std::cout << u8"- " << item.name << ": " << item.desc << u8"\n";
     }
     std::cout << u8"=================\n[0] Выход\n=================\nВыбор: ";
+}
+
+void TextView::showInventoryCombat(const Inventory& inv) {
+    std::cout << u8"\n=== ИНВЕНТАРЬ ===\n";
+    std::cout << u8"Фляга Сакэ: " << inv.sakeCharges << u8" заряда(ов)\n"
+        << u8"==== Рюкзак: ====\n";
+
+    for (size_t i = 0; i < inv.items.size(); ++i) {
+        std::cout << u8"[" << i + 1 << u8"] " << inv.items[i].name << u8" - "
+            << inv.items[i].desc << "\n";
+    }
+    std::cout << u8"=================\nВведите номер предмета для использования либо 0, чтобы вернуться в меню Бой.\n=================\nВыбор: ";
 }

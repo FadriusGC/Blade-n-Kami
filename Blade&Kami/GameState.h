@@ -17,6 +17,7 @@ enum class MenuState {
     KURAI_MENU,
     LEVEL_UP_MENU,
     INVENTORY_MENU,
+    INV_COMBAT_MENU,
 };
 
 class GameState {
@@ -25,6 +26,7 @@ public:
     std::vector<EnemyData> enemyTemplates;
     std::vector<Item> itemTemplates;  // Библиотека всех предметов
     Location* currentLocation;
+    Enemy* currentEnemy = nullptr;
     Inventory playerInventory;
     Player player;
     MenuState currentMenu = MenuState::MAIN_MENU;

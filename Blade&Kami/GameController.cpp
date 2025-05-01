@@ -124,8 +124,13 @@ void GameController::handleKuraiMenu(int choice) {
 CombatSystem::CombatResult GameController::handleCombatMenu(int choice, Enemy& enemy) {
     switch (choice) {
     case 1: // Атака
-        return CombatSystem::updateCombat(state->player, enemy, choice);
-
+        CombatSystem::updateCombat(state->player, enemy, choice, *state);
+        break;
+    case 2: { // Предметы
+        state->currentMenu = MenuState::INV_COMBAT_MENU;
+        return CombatSystem::IN_PROGRESS;
+        break;
+    }
     case 5: // Бежать
         // Возврат на предыдущую локацию
         for (auto& loc : state->locations) {
@@ -163,26 +168,6 @@ void GameController::handleLevelUpMenu(int choice) {
     }
 }
 
-// GameController.cpp
-void GameController::handleItemUse(int itemIndex) {
-    auto& inv = state->playerInventory;
-    if (itemIndex >= inv.items.size()) return;
-
-    Item& item = inv.items[itemIndex];
-
-    if (item.id == "sake_flask" && inv.sakeCharges > 0) {
-        AbilityHandler::execute(item, state->player);
-        inv.sakeCharges--;
-    }
-    /*else if (item.id == "whetstone" && inv.whetstones > 0) {
-        state->player.blade.upgradeStat();
-        inv.whetstones--;
-    }*/
-    else {
-        AbilityHandler::execute(item, state->player);//, //currentEnemy);
-        inv.items.erase(inv.items.begin() + itemIndex);
-    }
-}
 void GameController::handleInventoryMenu(int choice) {
     if (choice == 0) {
         state->currentMenu = MenuState::PLAYER_MENU;
@@ -190,5 +175,41 @@ void GameController::handleInventoryMenu(int choice) {
     else {
         TextView::showMessage(u8"Некорректный ввод");
         std::cin.ignore();
+    }
+}
+
+void GameController::handleInventoryCombatMenu(int choice) {
+    if (choice == 0) {
+        state->currentMenu = MenuState::COMBAT_MENU;
+        return;
+    }
+
+    try {
+        int itemIndex = choice - 1;
+        this->handleItemUse(itemIndex);
+    }
+    catch (...) {
+        TextView::showMessage(u8"Ошибка использования предмета!");
+    }
+}
+
+void GameController::handleItemUse(int itemIndex) {
+    auto& inv = state->playerInventory;
+    if (itemIndex < 0 || itemIndex >= inv.items.size()) return;
+
+    Item& item = inv.items[itemIndex];
+
+    try {
+        TextView::showMessage(u8"Использован предмет: [" + item.name + u8"]" + u8"!");
+        // Для способностей, требующих врага
+        AbilityHandler::execute(item, state->player, state->currentEnemy);
+        std::cin.ignore();
+        // Удаление расходуемых предметов
+        if (item.id != "sake_flask") {
+            inv.items.erase(inv.items.begin() + itemIndex);
+        }
+    }
+    catch (const std::exception& e) {
+        TextView::showMessage(e.what());
     }
 }

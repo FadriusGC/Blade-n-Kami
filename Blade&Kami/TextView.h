@@ -20,4 +20,5 @@ public:
     static void showCombatStats(const Player& player, const Enemy& enemy);
     static void showCombatMenu();
     static void showInventory(const Inventory& inv);
+    static void showInventoryCombat(const Inventory& inv);
 };
