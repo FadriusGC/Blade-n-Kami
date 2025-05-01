@@ -8,6 +8,8 @@
 #include "Localisation.h"
 #include "CombatSystem.h"
 #include "AbilityHandler.h"
+#include "Inventory.h"
+#include "ItemFactory.h"
 
 int main() {
     /*SetConsoleCP(1251);
@@ -29,6 +31,8 @@ int main() {
         TextView::showMessage(u8"Тест загрузки врагов:");
         TextView::showEnemyList(state.enemyTemplates);
 
+        state.playerInventory.addItem("health_potion", state);
+        state.playerInventory.addItem("bomb", state);
         state.playerInventory.addItem("health_potion", state);
 
         // Создайте тестового врага

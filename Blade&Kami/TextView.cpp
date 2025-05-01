@@ -133,10 +133,12 @@ void TextView::showLevelUpMenu(const Player& player) {
 
 void TextView::showInventory(const Inventory& inv) {
     std::cout << u8"\n=== ИНВЕНТАРЬ ===\n";
-    std::cout << u8"Фляга Сакэ: " << inv.sakeCharges << u8" зарядов\n";
+    std::cout << u8"Фляга Сакэ: " << inv.sakeCharges << u8" заряда(ов)\n"
+        << u8"Точильные камни: " << inv.whetstones << u8" шт.\n"
+        << u8"==== Рюкзак: ====\n";
 
     for (const auto& item : inv.items) {
         std::cout << u8"- " << item.name << ": " << item.desc << u8"\n";
     }
-    std::cout << u8"\n[0] Выход";
+    std::cout << u8"=================\n[0] Выход\n=================\nВыбор: ";
 }

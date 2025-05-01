@@ -135,7 +135,9 @@
     <ClCompile Include="EnemyLoader.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemFactory.cpp" />
     <ClCompile Include="ItemLoader.cpp" />
     <ClCompile Include="KuraiBlade.cpp" />
     <ClCompile Include="Location.cpp" />

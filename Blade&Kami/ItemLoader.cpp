@@ -30,7 +30,7 @@ std::vector<Item> ItemLoader::loadFromFile(const std::string& filename) {
             current.cost = std::stoi(line.substr(5));
         }
         else if (line.find("ability=") == 0) {
-            current.abilityType = line.substr(8);
+            current.ability = line.substr(8);
         }
         else if (line.find("minPower=") == 0) {
             current.minPower = std::stoi(line.substr(9));
