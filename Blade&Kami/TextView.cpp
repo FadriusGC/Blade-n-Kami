@@ -60,7 +60,7 @@ void TextView::showPlayerMenu(const Player& player) {
         << u8"🏹 Ловкость: " << player.agility << "\n"
         << u8"🧿 Дух: " << player.spirit << "\n"
         << "=============================" << "\n"
-        << u8"[1] Прокачка характеристик\n[2] Показать статы Курай\n[0] Назад\n=============================\nВыбор: ";
+        << u8"[1] Прокачка характеристик\n[2] Показать статы Курай\n[3] Инвентарь\n[0] Назад\n=============================\nВыбор: ";
 }
 
 void TextView::showKuraiMenu(const KuraiBlade& blade) {
@@ -129,4 +129,14 @@ void TextView::showLevelUpMenu(const Player& player) {
         << u8"[0] Выход\n"
         << u8"==============================" << "\n"
         << u8"Какую характеристику улучшить: ";
+}
+
+void TextView::showInventory(const Inventory& inv) {
+    std::cout << u8"\n=== ИНВЕНТАРЬ ===\n";
+    std::cout << u8"Фляга Сакэ: " << inv.sakeCharges << u8" зарядов\n";
+
+    for (const auto& item : inv.items) {
+        std::cout << u8"- " << item.name << ": " << item.desc << u8"\n";
+    }
+    std::cout << u8"\n[0] Выход";
 }

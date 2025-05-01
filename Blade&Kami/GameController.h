@@ -16,4 +16,6 @@ public:
     void handleLevelUpMenu(int choice);
     void handleKuraiMenu(int choice);
     CombatSystem::CombatResult handleCombatMenu(int choice, Enemy& enemy);
+    void handleItemUse(int itemIndex);
+    void handleInventoryMenu(int choice);
 };

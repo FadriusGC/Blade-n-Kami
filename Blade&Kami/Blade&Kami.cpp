@@ -7,6 +7,7 @@
 #include "EnemyFactory.h"
 #include "Localisation.h"
 #include "CombatSystem.h"
+#include "AbilityHandler.h"
 
 int main() {
     /*SetConsoleCP(1251);
@@ -17,7 +18,8 @@ int main() {
     localise();
     try {
         GameState state;
-        state.initialize("locations.txt", "enemies.txt");
+        state.initialize("locations.txt", "enemies.txt", "items.txt");
+        AbilityHandler::initAbilities();
         GameController controller(&state);
         Player player;
         /*KuraiBlade blade;*/
@@ -26,6 +28,8 @@ int main() {
         Enemy* currentEnemy = nullptr;
         TextView::showMessage(u8"Тест загрузки врагов:");
         TextView::showEnemyList(state.enemyTemplates);
+
+        state.playerInventory.addItem("health_potion", state);
 
         // Создайте тестового врага
         Enemy testEnemy = EnemyFactory::createEnemy(state, "wolf");
@@ -167,6 +171,18 @@ int main() {
                 try {
                     int choice = std::stoi(input);
                     controller.handleLevelUpMenu(choice);
+                }
+                catch (...) {
+                    TextView::showMessage(u8"Некорректный ввод!");
+                }
+                break;
+            }
+            case MenuState::INVENTORY_MENU: {
+                TextView::showInventory(state.playerInventory);
+                std::cin >> input;
+                try {
+                    int choice = std::stoi(input);
+                    controller.handleInventoryMenu(choice);
                 }
                 catch (...) {
                     TextView::showMessage(u8"Некорректный ввод!");

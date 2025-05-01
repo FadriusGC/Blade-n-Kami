@@ -4,6 +4,8 @@
 #include "EnemyFactory.h"
 #include "CombatLogic.h"
 #include "CombatSystem.h"
+#include "AbilityHandler.h"
+#include "KuraiBlade.h"
 
 bool GameController::handleMainMenu(int choice) {
     switch (choice) {
@@ -74,6 +76,9 @@ void GameController::handlePlayerMenu(int choice) {
     case 2:
         state->currentMenu = MenuState::KURAI_MENU;
         break;
+    case 3:
+        state->currentMenu = MenuState::INVENTORY_MENU;
+        break;
     case 0:
         state->currentMenu = MenuState::GAME_MENU;
         break;
@@ -83,18 +88,38 @@ void GameController::handlePlayerMenu(int choice) {
 void GameController::handleKuraiMenu(int choice) {
     switch (choice) {
     case 1:
-        state->player.blade.upgradeStat(BladeStatType::DAMAGE);
-        TextView::showMessage(u8"Урон меча улучшен!");
+        if (state->playerInventory.whetstones > 0) {
+            state->player.blade.upgradeStat(BladeStatType::DAMAGE);
+            state->playerInventory.whetstones--;
+            TextView::showMessage(u8"Урон меча улучшен!");
+            break;
+        }
+        else if (choice <= 2) {
+            TextView::showMessage(u8"Не хватает точильных камней.");
+            break;
+        }
         break;
     case 2:
-        state->player.blade.upgradeStat(BladeStatType::ACCURACY);
-        TextView::showMessage(u8"Точность повышена!");
+        if (state->playerInventory.whetstones > 0) {
+            state->player.blade.upgradeStat(BladeStatType::ACCURACY);
+            state->playerInventory.whetstones--;
+            TextView::showMessage(u8"Точность повышена!");
+            break;
+        }
+        else if (choice <= 2) {
+            TextView::showMessage(u8"Не хватает точильных камней.");
+            break;
+        }
         break;
     case 0:
         state->currentMenu = MenuState::PLAYER_MENU;
         break;
+    default:
+        std::cin.ignore();
+        TextView::showMessage(u8"Неверный выбор!");
+        break;
     }
-}
+ }
 
 CombatSystem::CombatResult GameController::handleCombatMenu(int choice, Enemy& enemy) {
     switch (choice) {
@@ -131,6 +156,36 @@ void GameController::handleLevelUpMenu(int choice) {
     else if (choice <=3) {
         TextView::showMessage(u8"Нет очков прокачки!");
         std::cin.ignore();
+    }
+    else {
+        TextView::showMessage(u8"Некорректный ввод");
+        std::cin.ignore();
+    }
+}
+
+// GameController.cpp
+void GameController::handleItemUse(int itemIndex) {
+    auto& inv = state->playerInventory;
+    if (itemIndex >= inv.items.size()) return;
+
+    Item& item = inv.items[itemIndex];
+
+    if (item.id == "sake_flask" && inv.sakeCharges > 0) {
+        AbilityHandler::execute(item, state->player);
+        inv.sakeCharges--;
+    }
+    /*else if (item.id == "whetstone" && inv.whetstones > 0) {
+        state->player.blade.upgradeStat();
+        inv.whetstones--;
+    }*/
+    else {
+        AbilityHandler::execute(item, state->player);//, //currentEnemy);
+        inv.items.erase(inv.items.begin() + itemIndex);
+    }
+}
+void GameController::handleInventoryMenu(int choice) {
+    if (choice == 0) {
+        state->currentMenu = MenuState::PLAYER_MENU;
     }
     else {
         TextView::showMessage(u8"Некорректный ввод");

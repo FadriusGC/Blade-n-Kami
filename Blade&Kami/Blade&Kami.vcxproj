@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbilityHandler.cpp" />
     <ClCompile Include="Blade&amp;Kami.cpp" />
     <ClCompile Include="CombatLogic.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
@@ -134,12 +135,15 @@
     <ClCompile Include="EnemyLoader.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemLoader.cpp" />
     <ClCompile Include="KuraiBlade.cpp" />
     <ClCompile Include="Location.cpp" />
     <ClCompile Include="LocationLoader.cpp" />
     <ClCompile Include="TextView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbilityHandler.h" />
     <ClInclude Include="CombatLogic.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="Enemy.h" />
@@ -148,6 +152,10 @@
     <ClInclude Include="EnemyLoader.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemFactory.h" />
+    <ClInclude Include="ItemLoader.h" />
     <ClInclude Include="KuraiBlade.h" />
     <ClInclude Include="Localisation.h" />
     <ClInclude Include="Location.h" />

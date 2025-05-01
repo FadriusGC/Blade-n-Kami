@@ -50,6 +50,8 @@ public:
         availablePoints--;
     }
 
-    void heal(double amount);
+    void heal(double amount) {
+        currentHealth += amount;
+    }
     void updateKi(int delta);
 };

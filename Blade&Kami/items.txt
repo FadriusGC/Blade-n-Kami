@@ -1,0 +1,15 @@
+[bomb]
+name=Бомбочка
+desc=Наносит взрывной урон
+cost=50
+ability=damage
+minPower=20
+maxPower=30
+
+[health_potion]
+name=Зелье здоровья
+desc=Восстанавливает здоровье
+cost=100
+ability=heal
+minPower=40
+maxPower=60
