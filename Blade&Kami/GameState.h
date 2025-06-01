@@ -27,6 +27,7 @@ public:
     std::vector<Item> itemTemplates;  // Библиотека всех предметов
     Location* currentLocation;
     Enemy* currentEnemy = nullptr;
+    Enemy* newEnemy = nullptr;
     Inventory playerInventory;
     Player player;
     MenuState currentMenu = MenuState::MAIN_MENU;

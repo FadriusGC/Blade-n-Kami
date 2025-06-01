@@ -122,7 +122,8 @@ int main() {
             case MenuState::COMBAT_MENU: {
                 // Инициализация боя при входе
                 if (!state.currentEnemy && state.currentLocation->enemyID != "") {
-                    state.currentEnemy = new Enemy(EnemyFactory::createEnemy(state, state.currentLocation->enemyID)); // <--- во тута ахуительная утечка памяти, потому что я не делитаю указатель, а ставлю его нуллптр. Не ебу как фикисть, осталю так
+                    state.newEnemy = new Enemy(EnemyFactory::createEnemy(state, state.currentLocation->enemyID));
+                    state.currentEnemy = state.newEnemy; //new Enemy(EnemyFactory::createEnemy(state, state.currentLocation->enemyID)); // <--- во тута ахуительная утечка памяти, потому что я не делитаю указатель, а ставлю его нуллптр. Не ебу как фикисть, осталю так
                 } // <- чисто в теории можно сделать еще один указатели типо темп_енеми который как раз будет присваиваться куррент энеми и уже темп энеми мы будем удалять полностью а куррент просто очищать
 
                 // Отображение интерфейса
@@ -159,6 +160,7 @@ int main() {
                     case CombatSystem::FLEE:
                         state.currentMenu = MenuState::GAME_MENU;
                         state.currentEnemy = nullptr;
+                        delete state.newEnemy;    
                         break;
                     }
                 }
