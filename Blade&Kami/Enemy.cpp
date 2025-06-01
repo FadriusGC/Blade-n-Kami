@@ -9,7 +9,12 @@ void Enemy::takeDamage(int damage) {
     data.currentHealth -= damage;
     if (data.currentHealth < 0) data.currentHealth = 0;
 }
-
+void Enemy::setHealth(double health) {
+	data.currentHealth = health;
+	if (data.currentHealth > data.maxHealth) {
+		data.currentHealth = data.maxHealth;
+	}
+}
 bool Enemy::isAlive() const {
     return data.currentHealth > 0;
 }

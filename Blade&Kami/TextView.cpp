@@ -2,7 +2,7 @@
 #include "TextView.h"
 #include <iostream>
 #include <cstdlib>
-
+#include "CombatLogic.h"
 void TextView::clearScreen() {
 #ifdef _WIN32
     system("cls");
@@ -116,8 +116,8 @@ void TextView::showCombatStats(const Player& player, const Enemy& enemy) {
         << u8"Точность врага: " << (enemy.data.accuracy * 100) << u8"%\n";
 }
 
-void TextView::showCombatMenu() {
-    std::cout << u8"===========\n[1] Атака\n[2] Использовать предмет\n[5] Бежать\n===========\nВыбор: ";
+void TextView::showCombatMenu(Player& player, Enemy& enemy) {
+    std::cout << u8"===========\n[1] Атака\n[2] Очищение (Шанс: " << CombatLogic::calculatePurificationChance(player, enemy) * 100 << "%)" << u8"\n[3] Использовать предмет\n[5] Бежать\n===========\nВыбор: ";
 }
 
 void TextView::showLevelUpMenu(const Player& player) {

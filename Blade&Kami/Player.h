@@ -6,9 +6,9 @@ public:
     int level = 1;
     int exp = 0;
     int requiredExp = 100 + 50 * level;
-    int strength = 10;
-    int agility = 10;
-    int spirit = 10;
+    int strength = 5;
+    int agility = 5;
+    int spirit = 5;
     double evasion = 0.1;
     double maxHealth = 100.0;
     double currentHealth = 100.0;
@@ -50,8 +50,11 @@ public:
         availablePoints--;
     }
 
-    void heal(double amount) {
-        currentHealth += amount;
-    }
+	void heal(double amount) {
+		currentHealth += amount;
+		if (currentHealth > maxHealth) {
+			currentHealth = maxHealth;
+		}
+	}
     void updateKi(int delta);
 };

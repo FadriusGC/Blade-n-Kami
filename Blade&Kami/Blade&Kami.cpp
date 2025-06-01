@@ -123,12 +123,12 @@ int main() {
                 // Инициализация боя при входе
                 if (!state.currentEnemy && state.currentLocation->enemyID != "") {
                     state.newEnemy = new Enemy(EnemyFactory::createEnemy(state, state.currentLocation->enemyID));
-                    state.currentEnemy = state.newEnemy; //new Enemy(EnemyFactory::createEnemy(state, state.currentLocation->enemyID)); // <--- во тута ахуительная утечка памяти, потому что я не делитаю указатель, а ставлю его нуллптр. Не ебу как фикисть, осталю так
-                } // <- чисто в теории можно сделать еще один указатели типо темп_енеми который как раз будет присваиваться куррент энеми и уже темп энеми мы будем удалять полностью а куррент просто очищать
+                    state.currentEnemy = state.newEnemy; 
+                } 
 
                 // Отображение интерфейса
                 TextView::showCombatStats(state.player, *state.currentEnemy);
-                TextView::showCombatMenu();
+                TextView::showCombatMenu(state.player, *state.currentEnemy);
 
                 // Ввод игрока
                 //std::string input;

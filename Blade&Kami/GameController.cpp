@@ -123,14 +123,16 @@ void GameController::handleKuraiMenu(int choice) {
 
 CombatSystem::CombatResult GameController::handleCombatMenu(int choice, Enemy& enemy) {
     switch (choice) {
-    case 1: // Атака
+    case 1:  // Атака
         CombatSystem::updateCombat(state->player, enemy, choice, *state);
         break;
-    case 2: { // Предметы
+	case 2:// Очищение
+		CombatSystem::updateCombat(state->player, enemy, choice, *state);
+		break;
+    case 3: // Предметы
         state->currentMenu = MenuState::INV_COMBAT_MENU;
         return CombatSystem::IN_PROGRESS;
         break;
-    }
     case 5: // Бежать
         // Возврат на предыдущую локацию
         for (auto& loc : state->locations) {

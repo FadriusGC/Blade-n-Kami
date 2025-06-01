@@ -18,7 +18,7 @@ public:
     static void showEnemyList(const std::vector<EnemyData>& enemies);
     static void showEnemyDetails(const Enemy& enemy);
     static void showCombatStats(const Player& player, const Enemy& enemy);
-    static void showCombatMenu();
+    static void showCombatMenu(Player& player, Enemy& enemy);
     static void showInventory(const Inventory& inv);
     static void showInventoryCombat(const Inventory& inv);
 };

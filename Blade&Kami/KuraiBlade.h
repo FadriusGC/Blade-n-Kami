@@ -9,7 +9,7 @@ public:
     int maxDamage = 10;
     double accuracy = 0.8;
     double critChance = 0.15;
-    int spiritCapacity = 20;
+    int spiritCapacity = 4;
 
     void upgradeStat(BladeStatType stat);
 };

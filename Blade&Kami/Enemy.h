@@ -26,6 +26,7 @@ public:
 
     Enemy(const EnemyData& baseData);
     void takeDamage(int damage);
+    void setHealth(double health);
     bool isAlive() const;
     void reset();
 };
