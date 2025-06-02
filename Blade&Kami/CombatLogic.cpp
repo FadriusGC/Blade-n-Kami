@@ -22,18 +22,17 @@ int CombatLogic::calculateDamage(int min, int max) {
     std::uniform_int_distribution<> dis(min, max);
     return dis(gen);
 }
-//todo: сделать все на double вместо float, чтобы не указывать тип деления и не было проблем с округлением а также приведением типов.
-float CombatLogic::calculatePurificationChance(Player& player, Enemy& enemy) { //ШОЧ = ((ДУХ_И * 2) + ДЁМ / 2) / 100 + (1 - (ОЗТ_В / ОЗ_В) / 2) * (1 - (ДУХ_В * 3) / 100)
-    float healthFactor = (1 - (enemy.data.currentHealth) / enemy.data.maxHealth);
-	std::cout << player.spirit << " " << player.blade.spiritCapacity << " " << enemy.data.spirit << std::endl; // Отладочная информация
-	float playerTotal = ((player.spirit / 20) * 0.5 + ((player.blade.spiritCapacity / 20) * 0.5));
-    std::cout << playerTotal << std::endl;// Дух игрока и меча
-    float spiritRatio = (playerTotal / (enemy.data.spirit));
-    std::cout << spiritRatio << spiritRatio * 0.4 << healthFactor << healthFactor * 0.6 << std::endl;// Отношение духа игрока к духу врага
-	float result = spiritRatio * 0.4 + healthFactor * 0.6; // 0.4 и 0.6 - веса для духа и здоровья соответственно
+
+double CombatLogic::calculatePurificationChance(Player& player, Enemy& enemy) {
+    double healthFactor = (1 - (enemy.data.currentHealth) / enemy.data.maxHealth);
+	//std::cout << player.spirit << " " << player.blade.spiritCapacity << " " << enemy.data.spirit << std::endl; // Отладочная информация
+    double playerTotal = ((player.spirit / 20.0) * 0.5 + ((player.blade.spiritCapacity / 20.0) * 0.5));
+   // std::cout << u8"player total: " << playerTotal << std::endl;
+    double spiritRatio = (playerTotal / (enemy.data.spirit));
+   // std::cout << spiritRatio << spiritRatio * 0.4 << healthFactor << healthFactor * 0.6 << std::endl;
+    double result = spiritRatio * 0.4 + healthFactor * 0.6; 
     return result;
-	//return floor(clamp((((player.spirit * 2) + player.blade.spiritCapacity / 2) / 100 + (1 - ((enemy.data.spirit * 3) / 100)) + (1 - (enemy.data.currentHealth / enemy.data.maxHealth) / 2)), 0.0f, 1.0f));
-    //return clamp(((player.spirit * 2) + player.blade.spiritCapacity / 2) / 100 + (1 - (enemy.data.spirit * 3) / 100), 0.0f, 1.0f);
+	
 }
 
 void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) {
@@ -53,7 +52,7 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
 		std::uniform_real_distribution<> dis(0.0, 1.0);
 		if (dis(gen) <= purificationChance) {
 			enemy.setHealth(0);
-			std::cout << purificationChance << std::endl;
+			//std::cout << purificationChance << std::endl; otladka
 			TextView::showMessage(u8"Вы успешно очистили " + enemy.data.name + u8"!");
 		}
 		else {

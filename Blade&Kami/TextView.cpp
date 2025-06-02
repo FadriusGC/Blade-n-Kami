@@ -117,7 +117,7 @@ void TextView::showCombatStats(const Player& player, const Enemy& enemy) {
 }
 
 void TextView::showCombatMenu(Player& player, Enemy& enemy) {
-    std::cout << u8"===========\n[1] Атака\n[2] Очищение (Шанс: " << CombatLogic::calculatePurificationChance(player, enemy) * 100 << "%)" << u8"\n[3] Использовать предмет\n[5] Бежать\n===========\nВыбор: ";
+    std::cout << u8"===========\n[1] Атака\n[2] Очищение (Шанс: " << floor(CombatLogic::calculatePurificationChance(player, enemy) * 100) << "%)" << u8"\n[3] Использовать предмет\n[5] Бежать\n===========\nВыбор: ";
 }
 
 void TextView::showLevelUpMenu(const Player& player) {
