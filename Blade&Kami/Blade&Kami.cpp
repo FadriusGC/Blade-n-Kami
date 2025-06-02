@@ -141,10 +141,10 @@ int main() {
                     // Обработка результатов
                     switch (result) {
                     case CombatSystem::PLAYER_WIN:
-                        TextView::showMessage(u8"Победа! Опыт +"
+                        /*TextView::showMessage(u8"Победа! Опыт +"
                             + std::to_string(state.currentEnemy->data.expReward));
 
-                        state.player.gainExp(state.currentEnemy->data.expReward);
+                        state.player.gainExp(state.currentEnemy->data.expReward);*/
                         //state.player.exp += currentEnemy->data.expReward;
                         state.currentEnemy = nullptr;
                         state.currentLocation->enemyID = "";

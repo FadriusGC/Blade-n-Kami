@@ -41,6 +41,9 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
             int dmg = calculateDamage(player.blade.minDamage, player.blade.maxDamage);
             enemy.takeDamage(dmg);
             TextView::showMessage(u8"Вы нанесли " + std::to_string(dmg) + u8" урона!");
+            if (!enemy.isAlive()) {
+				CombatLogic::onEnemyKilled(player, enemy);
+            }
         }
         else {
             TextView::showMessage(u8"Промах!");
@@ -53,7 +56,8 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
 		if (dis(gen) <= purificationChance) {
 			enemy.setHealth(0);
 			//std::cout << purificationChance << std::endl; otladka
-			TextView::showMessage(u8"Вы успешно очистили " + enemy.data.name + u8"!");
+			/*TextView::showMessage(u8"Вы успешно очистили " + enemy.data.name + u8"!");*/
+            CombatLogic::onEnemyPurified(player, enemy);
 		}
 		else {
 			TextView::showMessage(u8"Очищение не удалось.");
@@ -67,6 +71,7 @@ void CombatLogic::processEnemyAction(Player& player, Enemy& enemy) {
         player.takeDamage(dmg);
         TextView::showMessage(enemy.data.name + u8" наносит " + std::to_string(dmg) + u8" урона!");
         std::cin.ignore();
+
     }
     else {
         TextView::showMessage(enemy.data.name + u8" промахнулся!");
@@ -74,3 +79,20 @@ void CombatLogic::processEnemyAction(Player& player, Enemy& enemy) {
     }
 }
 
+void CombatLogic::onEnemyKilled(Player& player, Enemy& enemy) {
+    int kiLoss = 10 + (enemy.data.spirit / 2);
+    player.changeKi(-kiLoss);
+    TextView::showMessage(u8"\nПобеда!\nОпыт +"
+        + std::to_string(enemy.data.expReward) + u8"\nКи изменилось в негативную сторону на " + std::to_string(-kiLoss) + u8"\n[!]");
+
+    player.gainExp(enemy.data.expReward);
+}
+
+void  CombatLogic::onEnemyPurified(Player& player, Enemy& enemy) {
+    int kiGain = 15 + (enemy.data.spirit / 2);
+    player.changeKi(kiGain);
+    TextView::showMessage(u8"\nПобеда! Вы успешно провели ритуал Очищения на "+ enemy.data.name + u8"!" + u8"\nОпыт +" 
+        + std::to_string(enemy.data.expReward) + u8"\nКи изменилось в позитивную сторону на +" + std::to_string(kiGain) + u8"\n[!]");
+
+    player.gainExp(enemy.data.expReward);
+}

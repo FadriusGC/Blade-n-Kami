@@ -53,14 +53,61 @@ void TextView::showAvailableConnections(const GameState& state) {
 
 void TextView::showPlayerMenu(const Player& player) {
     std::cout << u8"\n=== ХАРАКТЕРИСТИКИ ИГРОКА ===\n"
-        << u8"🌟 Уровень: " << player.level << u8" Опыт: "<< player.exp << u8"/" << player.requiredExp << "\n"
+        << u8"🌟 Уровень: " << player.level << u8" Опыт: " << player.exp << u8"/" << player.requiredExp << "\n"
         << u8"❤️ Здоровье: " << player.currentHealth << "/" << player.maxHealth << "\n"
         << u8"🌀 Рейки: " << player.currentReiki << "/" << player.maxReiki << "\n"
         << u8"💪 Сила: " << player.strength << "\n"
         << u8"🏹 Ловкость: " << player.agility << "\n"
-        << u8"🧿 Дух: " << player.spirit << "\n"
-        << "=============================" << "\n"
+        << u8"🧿 Дух: " << player.spirit << "\n";
+    showKiBar(player.ki);
+    std::cout<< "=============================" << "\n"
         << u8"[1] Прокачка характеристик\n[2] Показать статы Курай\n[3] Инвентарь\n[0] Назад\n=============================\nВыбор: ";
+}
+
+void TextView::showKiBar(int kiValue) {
+    std::cout << u8"          🔥 Ки: " << kiValue << "\n";
+    std::cout << "-100 [" << generateKiBar(kiValue) << "] + 100" << std::endl;
+    //std::cout << u8"---------------------"
+    /*std::cout << u8" ^         |         ^\n";
+    std::cout << u8" -100    Нейтр    +100\n";*/
+}
+
+std::string TextView::generateKiBar(int kiValue) {
+    const int barWidth = 21;
+    const int centerPos = barWidth / 2;
+
+    std::string bar = "";
+
+    for (int i = 0; i < barWidth; i++) {
+        if (kiValue < 0) {
+            int fillPos = centerPos + (kiValue * centerPos / 100);
+            if (i >= fillPos && i <= centerPos) {
+                bar += "#"; // Заполненный блок
+            }
+            else {
+                bar += "-"; // Пустой блок
+            }
+        }
+        else if (kiValue > 0) {
+            int fillPos = centerPos + (kiValue * centerPos / 100);
+            if (i >= centerPos && i <= fillPos) {
+                bar += "#"; // Заполненный блок
+            }
+            else {
+                bar += "-"; // Пустой блок
+            }
+        }
+        else {
+            bar += "-";
+        }
+    }
+    std::string result = bar;
+    /*std::string result = u8"    Ки: " + std::to_string(kiValue) + u8"\n";
+    result += u8"-100 [" + bar + u8"] +100\n";
+    result += u8"      ^         |           ^\n";
+    result += u8"   Зло        Нейтр      Добро";*/
+
+    return result;
 }
 
 void TextView::showKuraiMenu(const KuraiBlade& blade) {

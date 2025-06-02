@@ -6,6 +6,7 @@ public:
     int level = 1;
     int exp = 0;
     int requiredExp = 100 + 50 * level;
+    int ki = 0;
     int strength = 5;
     int agility = 5;
     int spirit = 5;
@@ -56,5 +57,9 @@ public:
 			currentHealth = maxHealth;
 		}
 	}
-    void updateKi(int delta);
+    void changeKi(int delta) {
+        ki += delta;
+        if (ki > 100) ki = 100;
+        if (ki < -100) ki = -100;
+    }
 };

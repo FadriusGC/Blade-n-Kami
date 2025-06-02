@@ -12,6 +12,11 @@ public:
     static void showAvailableConnections(const GameState& state);
     static void showMessage(const std::string& msg);
     static void showPlayerMenu(const Player& player);
+
+    static void showKiBar(int kiValue);
+
+    static std::string generateKiBar(int kiValue);
+
     static void showKuraiMenu(const KuraiBlade& blade);
     static void showLevelUpMenu(const Player& player);
     static void showEnemyInfo(const Enemy& enemy);
