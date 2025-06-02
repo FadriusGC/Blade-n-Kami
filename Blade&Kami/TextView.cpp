@@ -65,8 +65,9 @@ void TextView::showPlayerMenu(const Player& player) {
 }
 
 void TextView::showKiBar(int kiValue) {
-    std::cout << u8"          🔥 Ки: " << kiValue << "\n";
-    std::cout << "-100 [" << generateKiBar(kiValue) << "] + 100" << std::endl;
+    std::cout << u8"=============================\n";
+    std::cout << u8"           ☯  Ки: " << kiValue << "\n";
+    std::cout << "-100 [" << generateKiBar(kiValue) << "] +100" << std::endl;
     //std::cout << u8"---------------------"
     /*std::cout << u8" ^         |         ^\n";
     std::cout << u8" -100    Нейтр    +100\n";*/
@@ -76,29 +77,38 @@ std::string TextView::generateKiBar(int kiValue) {
     const int barWidth = 21;
     const int centerPos = barWidth / 2;
 
-    std::string bar = "";
+    std::string bar = u8"";
 
     for (int i = 0; i < barWidth; i++) {
-        if (kiValue < 0) {
+        if (i == centerPos && kiValue < 0) {
+            bar += u8"←"; // Add "0" symbol in the middle
+        }
+        else if (i == centerPos && kiValue > 0) {
+            bar += u8"→"; // Add "0" symbol in the middle
+        }
+        else if (i == centerPos && kiValue == 0) {
+            bar += u8"0"; // Add "0" symbol in the middle
+        }
+        else if (kiValue < 0) {
             int fillPos = centerPos + (kiValue * centerPos / 100);
             if (i >= fillPos && i <= centerPos) {
-                bar += "#"; // Заполненный блок
+                bar += u8"░"; // Заполненный блок
             }
             else {
-                bar += "-"; // Пустой блок
+                bar += u8"-"; // Пустой блок
             }
         }
         else if (kiValue > 0) {
             int fillPos = centerPos + (kiValue * centerPos / 100);
             if (i >= centerPos && i <= fillPos) {
-                bar += "#"; // Заполненный блок
+                bar += u8"█"; // Заполненный блок
             }
             else {
-                bar += "-"; // Пустой блок
+                bar += u8"-"; // Пустой блок
             }
         }
         else {
-            bar += "-";
+            bar += u8"-";
         }
     }
     std::string result = bar;

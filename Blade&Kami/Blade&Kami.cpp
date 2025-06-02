@@ -40,7 +40,7 @@ int main() {
         TextView::showEnemyDetails(testEnemy);
         Enemy testEnemy2 = EnemyFactory::createEnemy(state, "goblin");
         TextView::showEnemyDetails(testEnemy2);
-
+        //state.player.changeKi(-34);
         while (isRunning) {
             std::cin.ignore();
             TextView::clearScreen();
