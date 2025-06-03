@@ -24,7 +24,7 @@ class GameState {
 public:
     std::vector<Location> locations;
     std::vector<EnemyData> enemyTemplates;
-    std::vector<Item> itemTemplates;  // Библиотека всех предметов
+    std::vector<Item> itemTemplates;  
     Location* currentLocation;
     Enemy* currentEnemy = nullptr;
     Enemy* newEnemy = nullptr;

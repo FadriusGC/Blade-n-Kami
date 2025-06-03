@@ -147,6 +147,7 @@ int main() {
                         state.player.gainExp(state.currentEnemy->data.expReward);*/
                         //state.player.exp += currentEnemy->data.expReward;
                         state.currentEnemy = nullptr;
+                        delete state.newEnemy;
                         state.currentLocation->enemyID = "";
                         std::cin.ignore();
                         state.currentMenu = MenuState::GAME_MENU;
