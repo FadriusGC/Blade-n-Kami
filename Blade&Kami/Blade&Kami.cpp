@@ -198,8 +198,13 @@ int main() {
             case MenuState::INV_COMBAT_MENU: {
                 TextView::showInventoryCombat(state.playerInventory);
                 std::cin >> input;
-                int choice = std::stoi(input);
-                controller.handleInventoryCombatMenu(choice);
+                try {
+                    int choice = std::stoi(input);
+                    controller.handleInventoryCombatMenu(choice);
+                }
+                catch (...) {
+                    TextView::showMessage(u8"Некорректный ввод!");
+                }
                 break;
             }
             }
