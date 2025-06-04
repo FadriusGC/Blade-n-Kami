@@ -10,6 +10,7 @@
 #include "AbilityHandler.h"
 #include "Inventory.h"
 #include "ItemFactory.h"
+#include "InputHandler.h"
 
 int main() {
     /*SetConsoleCP(1251);
@@ -47,14 +48,15 @@ int main() {
             switch (state.currentMenu) {
             case MenuState::MAIN_MENU: {
                 TextView::showMainMenu();
-                std::cin >> input;
-                try {
+               // std::cin >> input;
+                isRunning = controller.handleMainMenu(InputHandler::getIntInput());
+                /*try {
                     int choice = std::stoi(input);
                     isRunning = controller.handleMainMenu(choice);
                 }
                 catch (...) {
                     TextView::showMessage(u8"Некорректный ввод!");
-                }
+                }*/
                 break;
             }
 

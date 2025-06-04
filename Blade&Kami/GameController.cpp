@@ -10,7 +10,7 @@
 bool GameController::handleMainMenu(int choice) {
     switch (choice) {
     case 1: // Новая игра
-        std::cin.ignore();
+        //std::cin.ignore();
         state->currentMenu = MenuState::GAME_MENU;
         TextView::showMessage(u8"Новая игра начата!");
         return true;
@@ -21,7 +21,7 @@ bool GameController::handleMainMenu(int choice) {
     case 3: // Выход
         return false;
     default:
-        std::cin.ignore();
+        //std::cin.ignore();
         TextView::showMessage(u8"Неверный выбор!");
         return true;
     }
