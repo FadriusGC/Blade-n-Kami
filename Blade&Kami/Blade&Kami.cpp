@@ -48,16 +48,24 @@ int main() {
             switch (state.currentMenu) {
             case MenuState::MAIN_MENU: {
                 TextView::showMainMenu();
+               /* auto redrawMainMenu = []() {
+                    TextView::showMainMenu();
+                    };*/
                // std::cin >> input;
-                isRunning = controller.handleMainMenu(InputHandler::getIntInput());
-                /*try {
+                //int choice = InputHandler::NewInput();
+                isRunning = controller.handleMainMenu(InputHandler::NewInput());
+                break;
+               // isRunning = controller.handleMainMenu(InputHandler::getIntInput(redrawMainMenu));
+
+                /*std::cin >> input;
+                try {
                     int choice = std::stoi(input);
                     isRunning = controller.handleMainMenu(choice);
                 }
                 catch (...) {
                     TextView::showMessage(u8"Некорректный ввод!");
-                }*/
-                break;
+                }
+                break;*/
             }
 
             case MenuState::GAME_MENU: {
@@ -98,14 +106,19 @@ int main() {
 
             case MenuState::PLAYER_MENU: {
                 TextView::showPlayerMenu(state.player);
-                std::cin >> input;
+                auto redrawPlayerMenu = [&state]() {
+                    TextView::showPlayerMenu(state.player);
+                    };
+                controller.handlePlayerMenu(InputHandler::NewInput());
+                //controller.handlePlayerMenu(InputHandler::getIntInput(redrawPlayerMenu));
+                /*std::cin >> input;
                 try {
                     int choice = std::stoi(input);
                     controller.handlePlayerMenu(choice);
                 }
                 catch (...) {
                     TextView::showMessage(u8"Ошибка ввода!");
-                }
+                }*/
                 break;
             }
 
