@@ -23,7 +23,7 @@ bool GameController::handleMainMenu(int choice) {
     default:
         std::cin.ignore();
         TextView::showMessage(u8"Ќеверный выбор!");
-        return true;
+        return true;   //в целом дефолты можно переписать, просто оставив там std::cin.ignore() т.к. отображение ошибок делает getInput и дублировать по сути смысла нет.
     }
 }
 
