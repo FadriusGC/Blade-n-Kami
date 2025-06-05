@@ -13,11 +13,6 @@
 #include "InputHandler.h"
 
 int main() {
-    /*SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    setlocale(LC_ALL, "Russian");*/
-    //SetConsoleOutputCP(CP_UTF8);  // Устанавливаем UTF-8 для вывода
-    //SetConsoleCP(CP_UTF8);        // Устанавливаем UTF-8 для ввода
     localise();
     try {
         GameState state;
@@ -25,10 +20,9 @@ int main() {
         AbilityHandler::initAbilities();
         GameController controller(&state);
         Player player;
-        /*KuraiBlade blade;*/
         std::string input;
         bool isRunning = true;
-        //Enemy* currentEnemy = nullptr;
+
         TextView::showMessage(u8"Тест загрузки врагов:");
         TextView::showEnemyList(state.enemyTemplates);
 
@@ -42,96 +36,39 @@ int main() {
         Enemy testEnemy2 = EnemyFactory::createEnemy(state, "goblin");
         TextView::showEnemyDetails(testEnemy2);
         //state.player.changeKi(-34);
+
         while (isRunning) {
             std::cin.ignore();
             TextView::clearScreen();
             switch (state.currentMenu) {
             case MenuState::MAIN_MENU: {
                 TextView::showMainMenu();
-               /* auto redrawMainMenu = []() {
-                    TextView::showMainMenu();
-                    };*/
-               // std::cin >> input;
-                //int choice = InputHandler::NewInput();
-                isRunning = controller.handleMainMenu(InputHandler::NewInput());
+                isRunning = controller.handleMainMenu(InputHandler::getInput());
                 break;
-               // isRunning = controller.handleMainMenu(InputHandler::getIntInput(redrawMainMenu));
-
-                /*std::cin >> input;
-                try {
-                    int choice = std::stoi(input);
-                    isRunning = controller.handleMainMenu(choice);
-                }
-                catch (...) {
-                    TextView::showMessage(u8"Некорректный ввод!");
-                }
-                break;*/
             }
 
             case MenuState::GAME_MENU: {
                 TextView::showGameMenu();
-                std::cin >> input;
-                try {
-                    int choice = std::stoi(input);
-                    controller.handleGameMenu(choice);
-                }
-                catch (...) {
-                    TextView::showMessage(u8"Некорректный ввод!");
-                }
+                controller.handleGameMenu(InputHandler::getInput());
                 break;
             }
 
             case MenuState::MOVE_MENU: {
                 TextView::showLocation(*state.currentLocation);
                 TextView::showAvailableConnections(state);
-                std::cout << u8"[0] Вернуться в меню\nВведите ID локации или 0: ";
-
-                std::cin >> input;
-                if (input == "0") {
-                    state.currentMenu = MenuState::GAME_MENU;
-                    break;
-                }
-
-                try {
-                    int targetId = std::stoi(input);
-                    if (!controller.handleMovement(targetId)) {
-                        TextView::showMessage(u8"Неверный выбор локации!");
-                    }
-                }
-                catch (...) {
-                    TextView::showMessage(u8"Некорректный ввод!");
-                }
+                controller.handleMovement(InputHandler::getInput());
                 break;
             }
 
             case MenuState::PLAYER_MENU: {
                 TextView::showPlayerMenu(state.player);
-                auto redrawPlayerMenu = [&state]() {
-                    TextView::showPlayerMenu(state.player);
-                    };
-                controller.handlePlayerMenu(InputHandler::NewInput());
-                //controller.handlePlayerMenu(InputHandler::getIntInput(redrawPlayerMenu));
-                /*std::cin >> input;
-                try {
-                    int choice = std::stoi(input);
-                    controller.handlePlayerMenu(choice);
-                }
-                catch (...) {
-                    TextView::showMessage(u8"Ошибка ввода!");
-                }*/
+                controller.handlePlayerMenu(InputHandler::getInput());
                 break;
             }
 
             case MenuState::KURAI_MENU: {
                 TextView::showKuraiMenu(state.player.blade);
-                std::cin >> input;
-                try {
-                    int choice = std::stoi(input);
-                    controller.handleKuraiMenu(choice);
-                }
-                catch (...) {
-                    TextView::showMessage(u8"Ошибка ввода!");
-                }
+                controller.handleKuraiMenu(InputHandler::getInput());
                 break;
             }
             case MenuState::COMBAT_MENU: {
@@ -145,82 +82,45 @@ int main() {
                 TextView::showCombatStats(state.player, *state.currentEnemy);
                 TextView::showCombatMenu(state.player, *state.currentEnemy);
 
-                // Ввод игрока
-                //std::string input;
-                std::cin >> input;
+                auto result = controller.handleCombatMenu(InputHandler::getInput(), *state.currentEnemy);
 
-                try {
-                    int choice = std::stoi(input);
-                    auto result = controller.handleCombatMenu(choice, *state.currentEnemy);
+                // Обработка результатов
+                switch (result) {
+                case CombatSystem::PLAYER_WIN:
+                    state.currentEnemy = nullptr;
+                    delete state.newEnemy;
+                    state.currentLocation->enemyID = "";
+                    std::cin.ignore();
+                    state.currentMenu = MenuState::GAME_MENU;
+                    break;
 
-                    // Обработка результатов
-                    switch (result) {
-                    case CombatSystem::PLAYER_WIN:
-                        /*TextView::showMessage(u8"Победа! Опыт +"
-                            + std::to_string(state.currentEnemy->data.expReward));
+                case CombatSystem::ENEMY_WIN:
+                    TextView::showMessage(u8"Игрок погиб, игра окончена :(");
+                    std::cin.ignore();
+                    exit(0);
 
-                        state.player.gainExp(state.currentEnemy->data.expReward);*/
-                        //state.player.exp += currentEnemy->data.expReward;
-                        state.currentEnemy = nullptr;
-                        delete state.newEnemy;
-                        state.currentLocation->enemyID = "";
-                        std::cin.ignore();
-                        state.currentMenu = MenuState::GAME_MENU;
-                        break;
-
-                    case CombatSystem::ENEMY_WIN:
-                        TextView::showMessage(u8"Игрок погиб, игра окончена :(");
-                        std::cin.ignore();
-                        exit(0);
-
-                    case CombatSystem::FLEE:
-                        state.currentMenu = MenuState::GAME_MENU;
-                        state.currentEnemy = nullptr;
-                        delete state.newEnemy;    
-                        break;
-                    }
-                }
-                catch (...) {
-                    TextView::showMessage(u8"Ошибка ввода!");
+                case CombatSystem::FLEE:
+                    state.currentMenu = MenuState::GAME_MENU;
+                    state.currentEnemy = nullptr;
+                    delete state.newEnemy;    
+                    break;
                 }
                 break;
             }
+            
             case MenuState::LEVEL_UP_MENU: {
                 TextView::showLevelUpMenu(state.player);
-                //std::string input;
-                std::cin >> input;
-
-                try {
-                    int choice = std::stoi(input);
-                    controller.handleLevelUpMenu(choice);
-                }
-                catch (...) {
-                    TextView::showMessage(u8"Некорректный ввод!");
-                }
+                controller.handleLevelUpMenu(InputHandler::getInput());
                 break;
             }
             case MenuState::INVENTORY_MENU: {
                 TextView::showInventory(state.playerInventory);
-                std::cin >> input;
-                try {
-                    int choice = std::stoi(input);
-                    controller.handleInventoryMenu(choice);
-                }
-                catch (...) {
-                    TextView::showMessage(u8"Некорректный ввод!");
-                }
+                controller.handleInventoryMenu(InputHandler::getInput());
                 break;
             }
             case MenuState::INV_COMBAT_MENU: {
                 TextView::showInventoryCombat(state.playerInventory);
-                std::cin >> input;
-                try {
-                    int choice = std::stoi(input);
-                    controller.handleInventoryCombatMenu(choice);
-                }
-                catch (...) {
-                    TextView::showMessage(u8"Некорректный ввод!");
-                }
+                controller.handleInventoryCombatMenu(InputHandler::getInput());
                 break;
             }
             }

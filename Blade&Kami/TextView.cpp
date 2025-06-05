@@ -48,6 +48,7 @@ void TextView::showAvailableConnections(const GameState& state) {
             }
         }
     }
+    std::cout << u8"[0] Вернуться в меню\nВведите ID локации или 0: ";
     //std::cout << "\nВведите ID локации или 'q' для выхода: ";
 }
 

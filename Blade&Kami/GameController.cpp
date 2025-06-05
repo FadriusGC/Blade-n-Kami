@@ -50,7 +50,11 @@ bool GameController::handleGameMenu(int choice) {
 }
 
 bool GameController::handleMovement(int targetId) {
-    // Ваша существующая логика перемещения
+    if (targetId == 0) {
+        state->currentMenu = MenuState::GAME_MENU;
+        return true;
+    }
+
     for (auto& loc : state->locations) {
         if (loc.id == targetId) {
             for (int connId : state->currentLocation->connections) {
@@ -62,9 +66,13 @@ bool GameController::handleMovement(int targetId) {
                     return true;
                 }
             }
+            std::cin.ignore();
+            TextView::showMessage(u8"Неправильный выбор локации!");
             return false;
-        }
+		}
     }
+    std::cin.get();
+    //std::cin.ignore();
     return false;
 }
 
@@ -95,10 +103,12 @@ void GameController::handleKuraiMenu(int choice) {
         if (state->playerInventory.whetstones > 0) {
             state->player.blade.upgradeStat(BladeStatType::DAMAGE);
             state->playerInventory.whetstones--;
+            std::cin.ignore();
             TextView::showMessage(u8"Урон меча улучшен!");
             break;
         }
         else if (choice <= 2) {
+            std::cin.ignore();
             TextView::showMessage(u8"Не хватает точильных камней.");
             break;
         }
@@ -107,10 +117,12 @@ void GameController::handleKuraiMenu(int choice) {
         if (state->playerInventory.whetstones > 0) {
             state->player.blade.upgradeStat(BladeStatType::ACCURACY);
             state->playerInventory.whetstones--;
+            std::cin.ignore();
             TextView::showMessage(u8"Точность повышена!");
             break;
         }
         else if (choice <= 2) {
+            std::cin.ignore();
             TextView::showMessage(u8"Не хватает точильных камней.");
             break;
         }
@@ -159,8 +171,12 @@ void GameController::handleLevelUpMenu(int choice) {
         state->currentMenu = MenuState::PLAYER_MENU;
         return;
     }
-
     if (state->player.availablePoints > 0) {
+		if (choice < 1 || choice > 3) {
+			TextView::showMessage(u8"Некорректный выбор характеристики!");
+			std::cin.ignore();
+			return;
+		}
         state->player.increaseStat(choice);
         TextView::showMessage(u8"Характеристика улучшена!");
         std::cin.ignore();
@@ -202,7 +218,11 @@ void GameController::handleInventoryCombatMenu(int choice) {
 
 void GameController::handleItemUse(int itemIndex) {
     auto& inv = state->playerInventory;
-    if (itemIndex < 0 || itemIndex >= inv.items.size()) return;
+    if (itemIndex < 0 || itemIndex >= inv.items.size()) {
+        std::cin.ignore();
+        TextView::showMessage(u8"Такого предмета у вас нет!");
+        return;
+	}
 
     Item& item = inv.items[itemIndex];
 
