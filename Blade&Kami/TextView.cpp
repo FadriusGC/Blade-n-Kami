@@ -168,14 +168,16 @@ void TextView::showCombatStats(const Player& player, const Enemy& enemy) {
         << u8"Игрок: " << player.currentHealth << u8"/" << player.maxHealth << u8" HP\n"
         << u8"Урон: " << player.blade.minDamage << u8"-" << player.blade.maxDamage << "\n"
         << u8"Точность: " << (player.blade.accuracy * 100) << u8"%\n"
+        << u8"Уклонение: " << (player.evasion * 100) << u8"%\n"
         << u8"----vs.----\n" << u8"Враг (" << enemy.data.name << u8"): "
         << enemy.data.currentHealth << u8"/" << enemy.data.maxHealth << u8" HP\n"
         << u8"Урон врага: " << enemy.data.minDamage << u8"-" << enemy.data.maxDamage << u8"\n"
-        << u8"Точность врага: " << (enemy.data.accuracy * 100) << u8"%\n";
+        << u8"Точность врага: " << (enemy.data.accuracy * 100) << u8"%\n"
+        << u8"Уклонение врага: " << (enemy.data.evasion * 100) << u8"%\n";
 }
 
 void TextView::showCombatMenu(Player& player, Enemy& enemy) {
-    std::cout << u8"===========\n[1] Атака\n[2] Очищение (Шанс: " << floor(CombatLogic::calculatePurificationChance(player, enemy) * 100) << "%)" << u8"\n[3] Использовать предмет\n[5] Бежать\n===========\nВыбор: ";
+    std::cout << u8"===========\n[1] Атака (Шанс попадания: " << (player.blade.accuracy - enemy.data.evasion) * 100 << u8"%)" << u8"\n[2] Очищение (Шанс: " << floor(CombatLogic::calculatePurificationChance(player, enemy) * 100) << u8"%)" << u8"\n[3] Использовать предмет\n[5] Бежать\n===========\nВыбор: ";
 }
 
 void TextView::showLevelUpMenu(const Player& player) {
