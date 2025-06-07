@@ -1,4 +1,4 @@
-// AbilityHandler.cpp
+п»ї// AbilityHandler.cpp
 #include "AbilityHandler.h"
 #include "TextView.h"
 
@@ -13,13 +13,13 @@ void AbilityHandler::initAbilities() {
 void AbilityHandler::execute(const Item& item, Player& player, Enemy* enemy) {
     auto it = abilityMap.find(item.ability);
     if (it == abilityMap.end()) {
-        TextView::showMessage(u8"Неизвестная способность: " + item.ability);
+        TextView::showMessage(u8"РќРµРёР·РІРµСЃС‚РЅР°СЏ СЃРїРѕСЃРѕР±РЅРѕСЃС‚СЊ: " + item.ability);
         return;
     }
 
-    // Проверка контекста для способностей, требующих врага
+    // РџСЂРѕРІРµСЂРєР° РєРѕРЅС‚РµРєСЃС‚Р° РґР»СЏ СЃРїРѕСЃРѕР±РЅРѕСЃС‚РµР№, С‚СЂРµР±СѓСЋС‰РёС… РІСЂР°РіР°
     if (item.ability == "damage" && !enemy) {
-        TextView::showMessage(u8"Нет цели для атаки!");
+        TextView::showMessage(u8"РќРµС‚ С†РµР»Рё РґР»СЏ Р°С‚Р°РєРё!");
         return;
     }
 
@@ -30,12 +30,12 @@ void AbilityHandler::damage(Player& p, Enemy* e, int min, int max) {
     std::uniform_int_distribution<> dis(min, max);
     int damage = dis(gen);
     e->takeDamage(damage);
-    TextView::showMessage(u8"Нанесено " + std::to_string(damage) + u8" урона!");
+    TextView::showMessage(u8"рџ—ЎпёЏ РќР°РЅРµСЃРµРЅРѕ " + std::to_string(damage) + u8" СѓСЂРѕРЅР°!");
 }
 
 void AbilityHandler::heal(Player& p, Enemy* e, int min, int max) {
     std::uniform_int_distribution<> dis(min, max);
     int healValue = dis(gen);
     p.heal(healValue);
-    TextView::showMessage(u8"Восстановлено " + std::to_string(healValue) + u8" HP!");
+    TextView::showMessage(u8"рџ’љ Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРѕ " + std::to_string(healValue) + u8" Р·РґРѕСЂРѕРІСЊСЏ!");
 }

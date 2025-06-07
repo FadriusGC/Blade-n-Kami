@@ -33,6 +33,9 @@ void TextView::showGameMenu() {
 void TextView::showMessage(const std::string& msg) {
     std::cout << u8"\n[!] " << msg << "\n";
 }
+void TextView::showWinMessage(const std::string& msg) {
+    std::cout << u8"\n" << msg << "\n";
+}
 void TextView::showLocation(const Location& loc) {
     std::cout << u8"\n=== " << loc.name << " ===\n"
         << loc.description << "\n\n";
@@ -54,9 +57,10 @@ void TextView::showAvailableConnections(const GameState& state) {
 
 void TextView::showPlayerMenu(const Player& player) {
     std::cout << u8"\n=== ХАРАКТЕРИСТИКИ ИГРОКА ===\n"
-        << u8"🌟 Уровень: " << player.level << u8" Опыт: " << player.exp << u8"/" << player.requiredExp << "\n"
         << u8"❤️ Здоровье: " << player.currentHealth << "/" << player.maxHealth << "\n"
         << u8"🌀 Рейки: " << player.currentReiki << "/" << player.maxReiki << "\n"
+        << u8"🌟 Уровень: " << player.level << u8" Опыт: " << player.exp << u8"/" << player.requiredExp << "\n"
+        << u8"💰 Мон Души: " << player.gold << "\n"
         << u8"💪 Сила: " << player.strength << "\n"
         << u8"🏹 Ловкость: " << player.agility << "\n"
         << u8"🧿 Дух: " << player.spirit << "\n";
@@ -164,20 +168,22 @@ void TextView::showEnemyDetails(const Enemy& enemy) {
 }
 
 void TextView::showCombatStats(const Player& player, const Enemy& enemy) {
-    std::cout << u8"\n=== БОЙ ===\n"
-        << u8"Игрок: " << player.currentHealth << u8"/" << player.maxHealth << u8" HP\n"
-        << u8"Урон: " << player.blade.minDamage << u8"-" << player.blade.maxDamage << "\n"
-        << u8"Точность: " << (player.blade.accuracy * 100) << u8"%\n"
-        << u8"Уклонение: " << (player.evasion * 100) << u8"%\n"
-        << u8"----vs.----\n" << u8"Враг (" << enemy.data.name << u8"): "
-        << enemy.data.currentHealth << u8"/" << enemy.data.maxHealth << u8" HP\n"
-        << u8"Урон врага: " << enemy.data.minDamage << u8"-" << enemy.data.maxDamage << u8"\n"
-        << u8"Точность врага: " << (enemy.data.accuracy * 100) << u8"%\n"
-        << u8"Уклонение врага: " << (enemy.data.evasion * 100) << u8"%\n";
+    std::cout << u8"\n======= БОЙ =======\n"
+        << u8"🥷🏻 Игрок: \n"
+        << u8" ├❤️ Здоровье: " << player.currentHealth << u8"/" << player.maxHealth << u8"\n"
+        << u8" ├🌀 Рэйки: " << player.currentReiki << u8"/" << player.maxReiki << "\n"
+        << u8" ├💥 Урон: " << player.blade.minDamage << u8"-" << player.blade.maxDamage << "\n"
+        << u8" ├🎯 Точность: " << (player.blade.accuracy * 100) << u8"%\n"
+        << u8" └🍃 Уклонение: " << (player.evasion * 100) << u8"%\n"
+        << u8"-------- vs --------\n" << u8"👹 Враг (" << enemy.data.name << u8"): \n"
+        << u8" ├❤️ Здоровье врага: " << enemy.data.currentHealth << u8"/" << enemy.data.maxHealth << u8"\n"
+        << u8" ├💥 Урон врага: " << enemy.data.minDamage << u8"-" << enemy.data.maxDamage << u8"\n"
+        << u8" ├🎯 Точность врага: " << (enemy.data.accuracy * 100) << u8"%\n"
+        << u8" └🍃 Уклонение врага: " << (enemy.data.evasion * 100) << u8"%\n";
 }
 
 void TextView::showCombatMenu(Player& player, Enemy& enemy) {
-    std::cout << u8"===========\n[1] Атака (Шанс попадания: " << (player.blade.accuracy - enemy.data.evasion) * 100 << u8"%)" << u8"\n[2] Очищение (Шанс: " << floor(CombatLogic::calculatePurificationChance(player, enemy) * 100) << u8"%)" << u8"\n[3] Использовать предмет\n[5] Бежать\n===========\nВыбор: ";
+    std::cout << u8"==================\n[1] Атака (Шанс попадания: " << (player.blade.accuracy - enemy.data.evasion) * 100 << u8"%)" << u8"\n[2] Очищение (Шанс: " << floor(CombatLogic::calculatePurificationChance(player, enemy) * 100) << u8"%)" << u8"\n[3] Использовать предмет\n[5] Бежать\n==================\nВыбор: ";
 }
 
 void TextView::showLevelUpMenu(const Player& player) {

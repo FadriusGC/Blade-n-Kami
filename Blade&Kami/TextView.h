@@ -11,6 +11,7 @@ public:
     static void showLocation(const Location& loc);
     static void showAvailableConnections(const GameState& state);
     static void showMessage(const std::string& msg);
+    static void showWinMessage(const std::string& msg);
     static void showPlayerMenu(const Player& player);
 
     static void showKiBar(int kiValue);
