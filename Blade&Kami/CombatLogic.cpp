@@ -1,4 +1,4 @@
-// CombatLogic.cpp
+п»ї// CombatLogic.cpp
 #include "CombatLogic.h"
 #include "TextView.h"
 #include <random>
@@ -25,7 +25,7 @@ int CombatLogic::calculateDamage(int min, int max) {
 
 double CombatLogic::calculatePurificationChance(Player& player, Enemy& enemy) {
     double healthFactor = (1 - (enemy.data.currentHealth) / enemy.data.maxHealth);
-	//std::cout << player.spirit << " " << player.blade.spiritCapacity << " " << enemy.data.spirit << std::endl; // Отладочная информация
+	//std::cout << player.spirit << " " << player.blade.spiritCapacity << " " << enemy.data.spirit << std::endl; // РћС‚Р»Р°РґРѕС‡РЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ
     double playerTotal = ((player.spirit / 20.0) * 0.5 + ((player.blade.spiritCapacity / 20.0) * 0.5));
    // std::cout << u8"player total: " << playerTotal << std::endl;
     double spiritRatio = (playerTotal / (enemy.data.spirit));
@@ -36,17 +36,17 @@ double CombatLogic::calculatePurificationChance(Player& player, Enemy& enemy) {
 }
 
 void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) {
-    if (action == 1) { // Атака
+    if (action == 1) { // РђС‚Р°РєР°
         if (calculateHit(player.blade.accuracy, enemy.data.evasion)) {
             int dmg = calculateDamage(player.blade.minDamage, player.blade.maxDamage);
             enemy.takeDamage(dmg);
-            TextView::showMessage(u8"Вы нанесли " + std::to_string(dmg) + u8" урона!");
+            TextView::showMessage(u8"рџ—ЎпёЏ Р’С‹ РЅР°РЅРµСЃР»Рё " + std::to_string(dmg) + u8" СѓСЂРѕРЅР°!");
             if (!enemy.isAlive()) {
 				CombatLogic::onEnemyKilled(player, enemy);
             }
         }
         else {
-            TextView::showMessage(u8"Промах!");
+            TextView::showMessage(u8"рџ’Ё РџСЂРѕРјР°С…!");
         }
     }
     else if (action == 2) {
@@ -56,11 +56,11 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
 		if (dis(gen) <= purificationChance) {
 			enemy.setHealth(0);
 			//std::cout << purificationChance << std::endl; otladka
-			/*TextView::showMessage(u8"Вы успешно очистили " + enemy.data.name + u8"!");*/
+			/*TextView::showMessage(u8"Р’С‹ СѓСЃРїРµС€РЅРѕ РѕС‡РёСЃС‚РёР»Рё " + enemy.data.name + u8"!");*/
             CombatLogic::onEnemyPurified(player, enemy);
 		}
 		else {
-			TextView::showMessage(u8"Очищение не удалось.");
+			TextView::showMessage(u8"рџ–¤ РћС‡РёС‰РµРЅРёРµ РЅРµ СѓРґР°Р»РѕСЃСЊ.");
 		}
     }
 }
@@ -69,30 +69,34 @@ void CombatLogic::processEnemyAction(Player& player, Enemy& enemy) {
     if (calculateHit(enemy.data.accuracy, player.evasion)) {
         int dmg = calculateDamage(enemy.data.minDamage, enemy.data.maxDamage);
         player.takeDamage(dmg);
-        TextView::showMessage(enemy.data.name + u8" наносит " + std::to_string(dmg) + u8" урона!");
+        TextView::showMessage(u8"рџ—ЎпёЏ " + enemy.data.name + u8" РЅР°РЅРѕСЃРёС‚ " + std::to_string(dmg) + u8" СѓСЂРѕРЅР°!");
         std::cin.ignore();
 
     }
     else {
-        TextView::showMessage(enemy.data.name + u8" промахнулся!");
+        TextView::showMessage(u8"рџ’Ё " + enemy.data.name + u8" РїСЂРѕРјР°С…РЅСѓР»СЃСЏ!");
         std::cin.ignore();
     }
 }
 
 void CombatLogic::onEnemyKilled(Player& player, Enemy& enemy) {
     int kiLoss = 10 + (enemy.data.spirit / 2);
-    player.changeKi(-kiLoss);
-    TextView::showMessage(u8"\nПобеда!\nОпыт +"
-        + std::to_string(enemy.data.expReward) + u8"\nКи изменилось в негативную сторону на " + std::to_string(-kiLoss) + u8"\n[!]");
-
+    std::uniform_real_distribution<>randomReward(enemy.data.goldReward - enemy.data.goldReward * 0.2, enemy.data.goldReward * 1.2);
+    int goldReward = randomReward(gen);
+    player.changeKi(-kiLoss); 
+    TextView::showWinMessage(u8"====рџЏ†РџРѕР±РµРґР°рџЏ†====\nрџЊџ РћРїС‹С‚ +"
+        + std::to_string(enemy.data.expReward) + u8"\n" + u8"рџ’° РњРѕРЅ Р”СѓС€Рё: +" + std::to_string(goldReward) + u8"\nрџЊ‘ РљРё РёР·РјРµРЅРёР»РѕСЃСЊ РЅР° " + std::to_string(-kiLoss) + u8"\n==================");
     player.gainExp(enemy.data.expReward);
+    player.gainGold(goldReward);
 }
 
 void  CombatLogic::onEnemyPurified(Player& player, Enemy& enemy) {
     int kiGain = 15 + (enemy.data.spirit / 2);
+    std::uniform_real_distribution<>randomReward(enemy.data.goldReward - enemy.data.goldReward * 0.2, enemy.data.goldReward * 1.2);
+    int goldReward = randomReward(gen);
     player.changeKi(kiGain);
-    TextView::showMessage(u8"\nПобеда! Вы успешно провели ритуал Очищения на "+ enemy.data.name + u8"!" + u8"\nОпыт +" 
-        + std::to_string(enemy.data.expReward) + u8"\nКи изменилось в позитивную сторону на +" + std::to_string(kiGain) + u8"\n[!]");
-
+    TextView::showWinMessage(u8"====рџЏ†РџРѕР±РµРґР°рџЏ†====\nрџ¤Ќ Р’С‹ СѓСЃРїРµС€РЅРѕ РћС‡РёСЃС‚РёР»Рё "+ enemy.data.name + u8"!" + u8"\nрџЊџ РћРїС‹С‚ +"
+        + std::to_string(enemy.data.expReward) + u8"\n" + u8"рџ’° РњРѕРЅ Р”СѓС€Рё: +" + std::to_string(goldReward) + u8"\nрџЊ• РљРё РёР·РјРµРЅРёР»РѕСЃСЊ РЅР° +" + std::to_string(kiGain) + u8"\n==================");
     player.gainExp(enemy.data.expReward);
+    player.gainGold(goldReward);
 }

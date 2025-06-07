@@ -6,6 +6,7 @@ public:
     int level = 1;
     int exp = 0;
     int requiredExp = 100 + 50 * level;
+    int gold = 0;
     int ki = 0;
     int strength = 5;
     int agility = 5;
@@ -29,6 +30,10 @@ public:
     void gainExp(int amount) { // Модифицировано
         exp += amount;
         checkLevelUp();
+    }
+
+    void gainGold(int amount) {
+        gold += amount;
     }
 
     void checkLevelUp() {
@@ -62,4 +67,5 @@ public:
         if (ki > 100) ki = 100;
         if (ki < -100) ki = -100;
     }
+
 };

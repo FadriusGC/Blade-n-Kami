@@ -17,6 +17,7 @@ struct EnemyData {
     double maxHealth = 0;
     double currentHealth = 0;
     int expReward = 0;
+    int goldReward = 0;
     std::vector<std::string> abilities;
 };
 

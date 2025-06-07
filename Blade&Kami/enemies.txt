@@ -10,6 +10,7 @@ maxHealth=70
 minDamage=8
 maxDamage=12
 expReward=75
+goldReward=5
 abilities=bite,howl
 
 [goblin]
@@ -24,9 +25,5 @@ maxHealth=60
 minDamage=6
 maxDamage=9
 expReward=100
+goldReward=10
 abilities=throw_knife,escape
-
-spirEnemy = 0.2
-5/20 = 0.25
-4/20 = 0.2
-0.45/0.2 = 2.25
