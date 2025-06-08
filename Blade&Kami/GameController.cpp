@@ -30,7 +30,7 @@ bool GameController::handleMainMenu(int choice) {
 bool GameController::handleGameMenu(int choice) {
     switch (choice) {
     case 1: // Передвижение
-        state->currentMenu = MenuState::MOVE_MENU;
+        state->currentMenu = MenuState::LOCATION_MENU;
         return true;
     case 2: // Статы
         state->currentMenu = MenuState::PLAYER_MENU;
@@ -48,10 +48,45 @@ bool GameController::handleGameMenu(int choice) {
         return true;
     }
 }
+void GameController::handleLocationMenu(int choice) {
+    switch (choice) {
+    case 1: // Перемещение
+        state->currentMenu = MenuState::MOVE_MENU;
+        break;
+    case 2: // Осмотреться
+        handleLocationExplore();
+        break;
+    case 0: // Назад
+        state->currentMenu = MenuState::GAME_MENU;
+        break;
+    default:
+        std::cin.ignore();
+        TextView::showMessage(u8"Неверный выбор!");
+        break;
+    }
+}
+void GameController::handleLocationExplore() {
+    TextView::showLocationDetails(*state->currentLocation);
+    std::cin.ignore();
 
+    // Проверяем наличие объекта
+    if (!state->currentLocation->objectID.empty() && !state->currentLocation->objectUsed) {
+        if (state->currentLocation->objectID == "chest") {
+            int goldFound = 10 + state->player.level * 10;
+            state->player.gainGold(goldFound);
+
+            // Помечаем сундук как использованный
+            state->currentLocation->objectUsed = true;
+
+            TextView::showChestInteraction(goldFound);
+            std::cin.ignore();
+        }
+        // Здесь можно добавить обработку других объектов
+    }
+}
 bool GameController::handleMovement(int targetId) {
     if (targetId == 0) {
-        state->currentMenu = MenuState::GAME_MENU;
+        state->currentMenu = MenuState::LOCATION_MENU;
         return true;
     }
 

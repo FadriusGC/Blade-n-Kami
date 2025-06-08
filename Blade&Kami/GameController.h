@@ -11,6 +11,8 @@ public:
 
     bool handleMainMenu(int choice);
     bool handleGameMenu(int choice);
+    void handleLocationMenu(int choice);
+    void handleLocationExplore();
     bool handleMovement(int targetId);
     void handlePlayerMenu(int choice);
     void handleLevelUpMenu(int choice);

@@ -27,4 +27,8 @@ public:
     static void showCombatMenu(Player& player, Enemy& enemy);
     static void showInventory(const Inventory& inv);
     static void showInventoryCombat(const Inventory& inv);
+
+    static void showLocationMenu(const Location& loc);
+    static void showLocationDetails(const Location& loc);
+    static void showChestInteraction(int goldFound);
 };

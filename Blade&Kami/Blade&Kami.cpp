@@ -52,7 +52,11 @@ int main() {
                 controller.handleGameMenu(InputHandler::getInput());
                 break;
             }
-
+            case MenuState::LOCATION_MENU: {
+                TextView::showLocationMenu(*state.currentLocation);
+                controller.handleLocationMenu(InputHandler::getInput());
+                break;
+            }
             case MenuState::MOVE_MENU: {
                 TextView::showLocation(*state.currentLocation);
                 TextView::showAvailableConnections(state);
