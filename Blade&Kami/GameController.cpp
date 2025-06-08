@@ -79,7 +79,7 @@ void GameController::handleLocationExplore() {
             state->currentLocation->objectUsed = true;
 
             TextView::showChestInteraction(goldFound);
-            std::cin.ignore();
+            //std::cin.ignore();
         }
         // Здесь можно добавить обработку других объектов
     }
