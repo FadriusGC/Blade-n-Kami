@@ -98,6 +98,7 @@ bool GameController::handleMovement(int targetId) {
                         state->currentMenu = MenuState::COMBAT_MENU;
                     }
                     state->currentLocation = &loc;
+                    //state->currentMenu = MenuState::LOCATION_MENU;
                     return true;
                 }
             }

@@ -3,6 +3,10 @@
 #include <iostream>
 #include <cstdlib>
 #include "CombatLogic.h"
+#include <string>
+#include <sstream>
+//#include <thread>
+//#include <chrono>
 void TextView::clearScreen() {
 #ifdef _WIN32
     system("cls");
@@ -38,11 +42,11 @@ void TextView::showWinMessage(const std::string& msg) {
 }
 void TextView::showLocation(const Location& loc) {
     std::cout << u8"\n=== " << loc.name << " ===\n"
-        << loc.description << "\n\n";
+        << TextView::wrapText(loc.description, 50) << "\n\n";
 }
 
 void TextView::showAvailableConnections(const GameState& state) {
-    std::cout << u8"Доступные переходы:\n";
+    std::cout << u8"====== ПЕРЕХОДЫ ======\n";
     for (int connId : state.currentLocation->connections) {
         for (const auto& loc : state.locations) {
             if (loc.id == connId) {
@@ -51,7 +55,7 @@ void TextView::showAvailableConnections(const GameState& state) {
             }
         }
     }
-    std::cout << u8"[0] Вернуться в меню\nВведите ID локации или 0: ";
+    std::cout << u8"[0] Вернуться в меню\n======================\nВведите ID локации или 0: ";
     //std::cout << "\nВведите ID локации или 'q' для выхода: ";
 }
 
@@ -223,18 +227,23 @@ void TextView::showInventoryCombat(const Inventory& inv) {
 
 void TextView::showLocationMenu(const Location& loc) {
     std::cout << u8"\n=== " << loc.name << " ===\n"
-        << loc.description << "\n\n"
-        << u8"=== ДЕЙСТВИЯ ===\n"
+        << u8"" << TextView::wrapText(loc.description, 50) << "\n\n"
+        << u8"====== ДЕЙСТВИЯ ======\n"
         << u8"[1] Перемещение\n"
         << u8"[2] Осмотреться\n"
         << u8"[0] Вернуться в меню\n"
-        << u8"================\n"
+        << u8"======================\n"
         << u8"Выберите действие: ";
 }
 
 void TextView::showLocationDetails(const Location& loc) {
-    std::cout << u8"\n=== ОСМОТР ЛОКАЦИИ ===\n"
-        << loc.detailedDescription << "\n";
+    std::cout << u8"\n=== ОСМОТР ЛОКАЦИИ ===\n";
+    /*for (int i = 0; i < loc.detailedDescription.length(); i++) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        std::cout << loc.detailedDescription[i];
+    }
+    std::cout << "\n";*/
+    std::cout << TextView::wrapText(loc.detailedDescription) << "\n";
 
     if (!loc.objectID.empty() && !loc.objectUsed) {
         if (loc.objectID == "chest") {
@@ -254,4 +263,24 @@ void TextView::showChestInteraction(int goldFound) {
         << u8"✨ Внутри вы находите " << goldFound << u8" Мон Души!\n"
         << u8"💰 Монеты добавлены в ваш кошелек.\n"
         << u8"======================\n";
+}
+
+std::string TextView::wrapText(const std::string& text, int width) {
+    std::istringstream words(text);
+    std::ostringstream wrapped;
+    std::string word;
+    std::string line;
+
+    while (words >> word) {
+        if (line.length() + word.length() + 1 > width) { // +1 для пробела
+            wrapped << line << "\n";
+            line.clear();
+        }
+
+        if (!line.empty()) line += " ";
+        line += word;
+    }
+
+    if (!line.empty()) wrapped << line;
+    return wrapped.str();
 }

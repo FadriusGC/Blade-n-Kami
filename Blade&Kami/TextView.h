@@ -2,6 +2,7 @@
 #pragma once
 #include "GameState.h"
 #include <iostream>
+#include <string>
 
 class TextView {
 public:
@@ -31,4 +32,5 @@ public:
     static void showLocationMenu(const Location& loc);
     static void showLocationDetails(const Location& loc);
     static void showChestInteraction(int goldFound);
+    static std::string wrapText(const std::string& text, int width = 90);
 };
