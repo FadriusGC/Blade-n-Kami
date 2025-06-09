@@ -47,6 +47,9 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
         }
         else {
             TextView::showMessage(u8"💨 Промах!");
+            if (!enemy.isAlive()) {
+                CombatLogic::onEnemyKilled(player, enemy);
+            }
         }
     }
     else if (action == 2) {
