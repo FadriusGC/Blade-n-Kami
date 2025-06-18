@@ -83,10 +83,12 @@ void GameController::handleLocationExplore() {
         }
         else if (state->currentLocation->objectID == "altar") {
             // Алтарь Ками
-            state->currentAltarBlessings = BlessingSystem::getRandomBlessings(
-                state->blessingTemplates,
-                state->player.blessings,
-                3);
+            if (state->currentAltarBlessings.empty()) {
+                state->currentAltarBlessings = BlessingSystem::getRandomBlessings(
+                    state->blessingTemplates,
+                    state->player.blessings,
+                    3);
+            }
             TextView::showMessage(u8"🏛️ Вы обнаружили древний Алтарь Ками!");
             std::cin.ignore();
             state->currentMenu = MenuState::ALTAR_MENU;
@@ -132,6 +134,9 @@ void GameController::handlePlayerMenu(int choice) {
         break;
     case 3:
         state->currentMenu = MenuState::INVENTORY_MENU;
+        break;
+    case 4:
+        state->currentMenu = MenuState::BLESSING_MENU;
         break;
     case 0:
         state->currentMenu = MenuState::GAME_MENU;
@@ -327,7 +332,7 @@ void GameController::handleAltarMenu(int choice) {
 
             // Помечаем алтарь как использованный
             state->currentLocation->objectUsed = true;
-
+            state->currentAltarBlessings.clear();
             std::cin.ignore();
             state->currentMenu = MenuState::LOCATION_MENU;
         }
@@ -375,5 +380,13 @@ void GameController::handleBlessingCombatMenu(int choice) {
 }
 
 void GameController::handleBlessingMenu(int choice) {
-
+    if (choice == 0) {
+        state->currentMenu = MenuState::PLAYER_MENU;
+        return;
+    }
+    else {
+        std::cin.ignore();
+        TextView::showMessage(u8"Неверный выбор!");
+        return;
+    }
 }

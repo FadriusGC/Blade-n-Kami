@@ -34,7 +34,7 @@ public:
     static void showChestInteraction(int goldFound);
 
     static void showAltarMenu(const std::vector<Blessing>& availableBlessings);
-    static void showBlessingMenu(const std::vector<Blessing>& blessings);
+    static void showBlessingMenu(const std::vector<Blessing>& blessings, const Player& player);
     static void showBlessingDetails(const Blessing& blessing, const Player& player);
     static void showCombatBlessingsMenu(const std::vector<Blessing>& activeBlessings, const Player& player);
     static std::string wrapText(const std::string& text, int width = 90);

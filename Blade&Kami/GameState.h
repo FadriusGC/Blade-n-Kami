@@ -32,6 +32,7 @@ public:
     std::vector<EnemyData> enemyTemplates;
     std::vector<Item> itemTemplates;  
     std::vector<Blessing> blessingTemplates;
+    std::vector<Blessing> currentAltarBlessings;
     Location* currentLocation;
     Enemy* currentEnemy = nullptr;
     Enemy* newEnemy = nullptr;

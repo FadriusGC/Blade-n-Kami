@@ -77,6 +77,9 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
 			TextView::showMessage(u8"🖤 Очищение не удалось.");
 		}
     }
+    else if (action == 3) {
+
+    }
 }
 
 void CombatLogic::processEnemyAction(Player& player, Enemy& enemy) {

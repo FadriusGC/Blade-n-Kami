@@ -74,6 +74,6 @@ reikiCost=25
 name=Боевой Транс
 description=Комбинированный эффект: исцеление и урон
 type=active
-ability=heal
+ability=heal damage
 basePower=35
 reikiCost=30

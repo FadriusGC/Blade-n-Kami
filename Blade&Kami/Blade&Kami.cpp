@@ -128,19 +128,38 @@ int main() {
                 break;
             }
             case MenuState::ALTAR_MENU: {
-                auto availableBlessings = BlessingSystem::getRandomBlessings(
-                    state.blessingTemplates,
-                    state.player.blessings,
-                    3
-                );
+                // Проверка на доступные благословения
+                if (state.currentAltarBlessings.empty()) {
+                    TextView::showMessage(u8"Нет доступных благословений!");
+                    std::cin.ignore();
+                    state.currentMenu = MenuState::LOCATION_MENU;
+                    break;
+                }
 
-                // Отображаем меню алтаря
-                TextView::showAltarMenu(availableBlessings);
+                // Отображение меню алтаря
+                TextView::showAltarMenu(state.currentAltarBlessings);
+
                 controller.handleAltarMenu(InputHandler::getInput());
+
                 break;
             }
             case MenuState::BLESSING_MENU: {
+                TextView::showBlessingMenu(state.player.blessings, state.player);
+                controller.handleBlessingMenu(InputHandler::getInput());
 		    break;
+            }
+            case MenuState::BLESSING_COMBAT_MENU: {
+                // Получаем только активные благословения
+                std::vector<Blessing> activeBlessings;
+                for (const auto& blessing : state.player.blessings) {
+                    if (blessing.type == BlessingType::ACTIVE) {
+                        activeBlessings.push_back(blessing);
+                    }
+                }
+
+                TextView::showCombatBlessingsMenu(activeBlessings, state.player);
+                controller.handleBlessingCombatMenu(InputHandler::getInput());
+                break;
             }
             }
         }
