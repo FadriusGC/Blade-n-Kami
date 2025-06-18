@@ -309,82 +309,72 @@ void TextView::showAltarMenu(const std::vector<Blessing>& availableBlessings) {
 }
 
 void TextView::showBlessingMenu(const std::vector<Blessing>& blessings, const Player& player) {
-    std::cout << u8"\n";
-    std::cout << u8"╔══════════════════════════════════════╗\n";
-    std::cout << u8"║           ✨ БЛАГОСЛОВЕНИЯ           ║\n";
-    std::cout << u8"╠══════════════════════════════════════╣\n";
+    std::cout << u8"\n=== БЛАГОСЛОВЕНИЯ ===\n";
 
     if (blessings.empty()) {
-        std::cout << u8"║ У вас нет активных благословений     ║\n";
+        std::cout << u8"У вас нет благословений\n";
     }
     else {
         for (const auto& blessing : blessings) {
-            std::string typeIcon = (blessing.type == BlessingType::ACTIVE) ? u8"⚡" : u8"🔮";
-            std::cout << u8"║ " << typeIcon << u8" " << blessing.name << std::endl;
-            std::cout << u8"║   " << blessing.description << std::endl;
+            std::string type = (blessing.type == BlessingType::ACTIVE)
+                ? u8"⚡ АКТИВНОЕ"
+                : u8"🔮 ПАССИВНОЕ";
+
+            std::cout << u8"- " << blessing.name
+                << u8" (" << type << u8")\n"
+                << u8"  " << blessing.description << u8"\n";
 
             if (blessing.type == BlessingType::ACTIVE) {
-                std::cout << u8"║   Рэйки: " << blessing.reikiCost << u8" | Сила: "
-                    << BlessingSystem::calculateModifiedPower(blessing, player) << std::endl;
+                std::cout << u8"  Рэйки: " << blessing.reikiCost
+                    << u8" | Сила: " << BlessingSystem::calculateModifiedPower(blessing, player) << u8"\n";
             }
-            std::cout << u8"║                                      ║\n";
+            std::cout << u8"-----------------------\n";
         }
     }
 
-    std::cout << u8"╠══════════════════════════════════════╣\n";
-    std::cout << u8"║ Введите 0 для возвращения назад     ║\n";
-    std::cout << u8"╚══════════════════════════════════════╝\n";
+    std::cout << u8"======================\n"
+        << u8"Введите 0 для возвращения назад\n"
+        << u8"======================\n";
 }
 
 void TextView::showBlessingDetails(const Blessing& blessing, const Player& player) {
     int modifiedPower = BlessingSystem::calculateModifiedPower(blessing, player);
 
-    std::cout << u8"\n";
-    std::cout << u8"╔══════════════════════════════════════╗\n";
-    std::cout << u8"║        📜 ДЕТАЛИ БЛАГОСЛОВЕНИЯ        ║\n";
-    std::cout << u8"╠══════════════════════════════════════╣\n";
-    std::cout << u8"║ " << blessing.name.c_str() << std::endl;
-    std::cout << u8"║                                      ║\n";
-    std::cout << u8"║ " << blessing.description.c_str() << std::endl;
-    std::cout << u8"║                                      ║\n";
-    std::cout << u8"║ Тип: " << ((blessing.type == BlessingType::ACTIVE) ? u8"Активное" : u8"Пассивное") << std::endl;
-    std::cout << u8"║ Базовая сила: " << blessing.basePower << std::endl;
-    std::cout << u8"║ Модифицированная сила: " << modifiedPower << std::endl;
+    std::cout << u8"\n=== ДЕТАЛИ БЛАГОСЛОВЕНИЯ ===\n"
+        << u8"Название: " << blessing.name << u8"\n"
+        << u8"Описание: " << blessing.description << u8"\n"
+        << u8"Тип: " << ((blessing.type == BlessingType::ACTIVE) ? u8"Активное" : u8"Пассивное") << u8"\n"
+        << u8"Базовая сила: " << blessing.basePower << u8"\n"
+        << u8"Модифицированная сила: " << modifiedPower << u8"\n";
 
     if (blessing.type == BlessingType::ACTIVE) {
-        std::cout << u8"║ Стоимость Рэйки: " << blessing.reikiCost << std::endl;
+        std::cout << u8"Стоимость Рэйки: " << blessing.reikiCost << u8"\n";
     }
 
-    std::cout << u8"╠══════════════════════════════════════╣\n";
-    std::cout << u8"║ Нажмите Enter для продолжения...     ║\n";
-    std::cout << u8"╚══════════════════════════════════════╝\n";
+    std::cout << u8"=============================\n"
+        << u8"Нажмите Enter для продолжения...\n";
 }
 
 void TextView::showCombatBlessingsMenu(const std::vector<Blessing>& activeBlessings, const Player& player) {
-    std::cout << u8"\n";
-    std::cout << u8"╔══════════════════════════════════════╗\n";
-    std::cout << u8"║         ⚡ АКТИВНЫЕ БЛАГОСЛОВЕНИЯ      ║\n";
-    std::cout << u8"╠══════════════════════════════════════╣\n";
+    std::cout << u8"\n=== АКТИВНЫЕ БЛАГОСЛОВЕНИЯ ===\n";
 
     if (activeBlessings.empty()) {
-        std::cout << u8"║ Нет доступных активных благословений ║\n";
+        std::cout << u8"Нет доступных активных благословений\n";
     }
     else {
-        for (int i = 0; i < activeBlessings.size(); ++i) {
+        for (size_t i = 0; i < activeBlessings.size(); ++i) {
             const auto& blessing = activeBlessings[i];
             bool canUse = BlessingSystem::canUseBlessing(blessing, player);
-            std::string status = canUse ? u8"✓" : u8"✗";
+            std::string status = canUse ? u8"[ДОСТУПНО]" : u8"[НЕДОСТАТОЧНО РЭЙКИ]";
+            int power = BlessingSystem::calculateModifiedPower(blessing, player);
 
-            std::cout << u8"║ " << (i + 1) << u8". " << status.c_str() << u8" "
-                << blessing.name.c_str() << std::endl;
-            std::cout << u8"║    Рэйки: " << blessing.reikiCost << u8" | Сила: "
-                << BlessingSystem::calculateModifiedPower(blessing, player) << std::endl;
-            std::cout << u8"║                                      ║\n";
+            std::cout << u8"[" << (i + 1) << u8"] " << status << u8" " << blessing.name << u8"\n"
+                << u8"  Рэйки: " << blessing.reikiCost << u8" | Сила: " << power << u8"\n";
         }
     }
 
-    std::cout << u8"╠══════════════════════════════════════╣\n";
-    std::cout << u8"║ 0. Назад                             ║\n";
-    std::cout << u8"╚══════════════════════════════════════╝\n";
-    std::cout << u8"Выбор: ";
+    std::cout << u8"==============================\n"
+        << u8"[0] Назад\n"
+        << u8"==============================\n"
+        << u8"Выбор: ";
 }
