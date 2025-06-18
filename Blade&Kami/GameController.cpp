@@ -1,4 +1,4 @@
-// GameController.cpp
+п»ї// GameController.cpp
 #include "GameController.h"
 #include "TextView.h"
 #include "EnemyFactory.h"
@@ -6,62 +6,62 @@
 #include "CombatSystem.h"
 #include "AbilityHandler.h"
 #include "KuraiBlade.h"
-
+#include "InputHandler.h"
 bool GameController::handleMainMenu(int choice) {
     switch (choice) {
-    case 1: // Новая игра
+    case 1: // РќРѕРІР°СЏ РёРіСЂР°
         std::cin.ignore();
         state->currentMenu = MenuState::GAME_MENU;
-        TextView::showMessage(u8"Новая игра начата!");
+        TextView::showMessage(u8"РќРѕРІР°СЏ РёРіСЂР° РЅР°С‡Р°С‚Р°!");
         return true;
-    case 2: // Загрузить
+    case 2: // Р—Р°РіСЂСѓР·РёС‚СЊ
         std::cin.ignore();
-        TextView::showMessage(u8"Загрузка пока не реализована");
+        TextView::showMessage(u8"Р—Р°РіСЂСѓР·РєР° РїРѕРєР° РЅРµ СЂРµР°Р»РёР·РѕРІР°РЅР°");
         return true;
-    case 3: // Выход
+    case 3: // Р’С‹С…РѕРґ
         return false;
     default:
         std::cin.ignore();
-        TextView::showMessage(u8"Неверный выбор!");
-        return true;   //в целом дефолты можно переписать, просто оставив там std::cin.ignore() т.к. отображение ошибок делает getInput и дублировать по сути смысла нет.
+        TextView::showMessage(u8"РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ!");
+        return true;   //РІ С†РµР»РѕРј РґРµС„РѕР»С‚С‹ РјРѕР¶РЅРѕ РїРµСЂРµРїРёСЃР°С‚СЊ, РїСЂРѕСЃС‚Рѕ РѕСЃС‚Р°РІРёРІ С‚Р°Рј std::cin.ignore() С‚.Рє. РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ РѕС€РёР±РѕРє РґРµР»Р°РµС‚ getInput Рё РґСѓР±Р»РёСЂРѕРІР°С‚СЊ РїРѕ СЃСѓС‚Рё СЃРјС‹СЃР»Р° РЅРµС‚.
     }
 }
 
 bool GameController::handleGameMenu(int choice) {
     switch (choice) {
-    case 1: // Передвижение
+    case 1: // РџРµСЂРµРґРІРёР¶РµРЅРёРµ
         state->currentMenu = MenuState::LOCATION_MENU;
         return true;
-    case 2: // Статы
+    case 2: // РЎС‚Р°С‚С‹
         state->currentMenu = MenuState::PLAYER_MENU;
         return true;
-    case 3: // Сохранить
+    case 3: // РЎРѕС…СЂР°РЅРёС‚СЊ
         std::cin.ignore();
-        TextView::showMessage(u8"Сохранение пока не реализовано");
+        TextView::showMessage(u8"РЎРѕС…СЂР°РЅРµРЅРёРµ РїРѕРєР° РЅРµ СЂРµР°Р»РёР·РѕРІР°РЅРѕ");
         return true;
-    case 4: // Главное меню
+    case 4: // Р“Р»Р°РІРЅРѕРµ РјРµРЅСЋ
         state->currentMenu = MenuState::MAIN_MENU;
         return true;
     default:
         std::cin.ignore();
-        TextView::showMessage(u8"Неверный выбор!");
+        TextView::showMessage(u8"РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ!");
         return true;
     }
 }
 void GameController::handleLocationMenu(int choice) {
     switch (choice) {
-    case 1: // Перемещение
+    case 1: // РџРµСЂРµРјРµС‰РµРЅРёРµ
         state->currentMenu = MenuState::MOVE_MENU;
         break;
-    case 2: // Осмотреться
+    case 2: // РћСЃРјРѕС‚СЂРµС‚СЊСЃСЏ
         handleLocationExplore();
         break;
-    case 0: // Назад
+    case 0: // РќР°Р·Р°Рґ
         state->currentMenu = MenuState::GAME_MENU;
         break;
     default:
         std::cin.ignore();
-        TextView::showMessage(u8"Неверный выбор!");
+        TextView::showMessage(u8"РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ!");
         break;
     }
 }
@@ -69,19 +69,29 @@ void GameController::handleLocationExplore() {
     TextView::showLocationDetails(*state->currentLocation);
     std::cin.ignore();
 
-    // Проверяем наличие объекта
+    // РџСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡РёРµ РѕР±СЉРµРєС‚Р°
     if (!state->currentLocation->objectID.empty() && !state->currentLocation->objectUsed) {
         if (state->currentLocation->objectID == "chest") {
             int goldFound = 10 + state->player.level * 10;
             state->player.gainGold(goldFound);
 
-            // Помечаем сундук как использованный
+            // РџРѕРјРµС‡Р°РµРј СЃСѓРЅРґСѓРє РєР°Рє РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹Р№
             state->currentLocation->objectUsed = true;
 
             TextView::showChestInteraction(goldFound);
             //std::cin.ignore();
         }
-        // Здесь можно добавить обработку других объектов
+        else if (state->currentLocation->objectID == "altar") {
+            // РђР»С‚Р°СЂСЊ РљР°РјРё
+            state->currentAltarBlessings = BlessingSystem::getRandomBlessings(
+                state->blessingTemplates,
+                state->player.blessings,
+                3);
+            TextView::showMessage(u8"рџЏ›пёЏ Р’С‹ РѕР±РЅР°СЂСѓР¶РёР»Рё РґСЂРµРІРЅРёР№ РђР»С‚Р°СЂСЊ РљР°РјРё!");
+            std::cin.ignore();
+            state->currentMenu = MenuState::ALTAR_MENU;
+            return;
+        }
     }
 }
 bool GameController::handleMovement(int targetId) {
@@ -103,7 +113,7 @@ bool GameController::handleMovement(int targetId) {
                 }
             }
             std::cin.ignore();
-            TextView::showMessage(u8"Неправильный выбор локации!");
+            TextView::showMessage(u8"РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ РІС‹Р±РѕСЂ Р»РѕРєР°С†РёРё!");
             return false;
 		}
     }
@@ -128,7 +138,7 @@ void GameController::handlePlayerMenu(int choice) {
         break;
     default:
         std::cin.ignore();
-        TextView::showMessage(u8"Неверный выбор!");
+        TextView::showMessage(u8"РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ!");
         break;
     }
 }
@@ -140,12 +150,12 @@ void GameController::handleKuraiMenu(int choice) {
             state->player.blade.upgradeStat(BladeStatType::DAMAGE);
             state->playerInventory.whetstones--;
             std::cin.ignore();
-            TextView::showMessage(u8"Урон меча улучшен!");
+            TextView::showMessage(u8"РЈСЂРѕРЅ РјРµС‡Р° СѓР»СѓС‡С€РµРЅ!");
             break;
         }
         else if (choice <= 2) {
             std::cin.ignore();
-            TextView::showMessage(u8"Не хватает точильных камней.");
+            TextView::showMessage(u8"РќРµ С…РІР°С‚Р°РµС‚ С‚РѕС‡РёР»СЊРЅС‹С… РєР°РјРЅРµР№.");
             break;
         }
         break;
@@ -154,12 +164,12 @@ void GameController::handleKuraiMenu(int choice) {
             state->player.blade.upgradeStat(BladeStatType::ACCURACY);
             state->playerInventory.whetstones--;
             std::cin.ignore();
-            TextView::showMessage(u8"Точность повышена!");
+            TextView::showMessage(u8"РўРѕС‡РЅРѕСЃС‚СЊ РїРѕРІС‹С€РµРЅР°!");
             break;
         }
         else if (choice <= 2) {
             std::cin.ignore();
-            TextView::showMessage(u8"Не хватает точильных камней.");
+            TextView::showMessage(u8"РќРµ С…РІР°С‚Р°РµС‚ С‚РѕС‡РёР»СЊРЅС‹С… РєР°РјРЅРµР№.");
             break;
         }
         break;
@@ -168,25 +178,29 @@ void GameController::handleKuraiMenu(int choice) {
         break;
     default:
         std::cin.ignore();
-        TextView::showMessage(u8"Неверный выбор!");
+        TextView::showMessage(u8"РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ!");
         break;
     }
  }
 
 CombatSystem::CombatResult GameController::handleCombatMenu(int choice, Enemy& enemy) {
     switch (choice) {
-    case 1:  // Атака
+    case 1:  // РђС‚Р°РєР°
         CombatSystem::updateCombat(state->player, enemy, choice, *state);
         break;
-	case 2:// Очищение
+	case 2:// РћС‡РёС‰РµРЅРёРµ
 		CombatSystem::updateCombat(state->player, enemy, choice, *state);
 		break;
-    case 3: // Предметы
+    case 3: // РџСЂРµРґРјРµС‚С‹
         state->currentMenu = MenuState::INV_COMBAT_MENU;
         return CombatSystem::IN_PROGRESS;
         break;
-    case 5: // Бежать
-        // Возврат на предыдущую локацию
+    case 4:  // Р‘Р»Р°РіРѕСЃР»РѕРІРµРЅРёСЏ (РЅРѕРІС‹Р№ РїСѓРЅРєС‚)
+        state->currentMenu = MenuState::BLESSING_COMBAT_MENU;
+        return CombatSystem::IN_PROGRESS;
+        break;
+    case 5: // Р‘РµР¶Р°С‚СЊ
+        // Р’РѕР·РІСЂР°С‚ РЅР° РїСЂРµРґС‹РґСѓС‰СѓСЋ Р»РѕРєР°С†РёСЋ
         for (auto& loc : state->locations) {
             if (loc.id == state->currentLocation->id - 1) {
                 state->currentLocation = &loc;
@@ -197,7 +211,7 @@ CombatSystem::CombatResult GameController::handleCombatMenu(int choice, Enemy& e
 
     default:
         std::cin.ignore();
-        TextView::showMessage(u8"Неверный выбор!");
+        TextView::showMessage(u8"РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ!");
         return CombatSystem::IN_PROGRESS;
     }
 }
@@ -209,20 +223,20 @@ void GameController::handleLevelUpMenu(int choice) {
     }
     if (state->player.availablePoints > 0) {
 		if (choice < 1 || choice > 3) {
-			TextView::showMessage(u8"Некорректный выбор характеристики!");
+			TextView::showMessage(u8"РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РІС‹Р±РѕСЂ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё!");
 			std::cin.ignore();
 			return;
 		}
         state->player.increaseStat(choice);
-        TextView::showMessage(u8"Характеристика улучшена!");
+        TextView::showMessage(u8"РҐР°СЂР°РєС‚РµСЂРёСЃС‚РёРєР° СѓР»СѓС‡С€РµРЅР°!");
         std::cin.ignore();
     }
     else if (choice <=3) {
-        TextView::showMessage(u8"Нет очков прокачки!");
+        TextView::showMessage(u8"РќРµС‚ РѕС‡РєРѕРІ РїСЂРѕРєР°С‡РєРё!");
         std::cin.ignore();
     }
     else {
-        TextView::showMessage(u8"Некорректный ввод");
+        TextView::showMessage(u8"РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РІРІРѕРґ");
         std::cin.ignore();
     }
 }
@@ -232,7 +246,7 @@ void GameController::handleInventoryMenu(int choice) {
         state->currentMenu = MenuState::PLAYER_MENU;
     }
     else {
-        TextView::showMessage(u8"Некорректный ввод");
+        TextView::showMessage(u8"РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РІРІРѕРґ");
         std::cin.ignore();
     }
 }
@@ -248,7 +262,7 @@ void GameController::handleInventoryCombatMenu(int choice) {
         this->handleItemUse(itemIndex);
     }
     catch (...) {
-        TextView::showMessage(u8"Ошибка использования предмета!");
+        TextView::showMessage(u8"РћС€РёР±РєР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РїСЂРµРґРјРµС‚Р°!");
     }
 }
 
@@ -256,18 +270,18 @@ void GameController::handleItemUse(int itemIndex) {
     auto& inv = state->playerInventory;
     if (itemIndex < 0 || itemIndex >= inv.items.size()) {
         std::cin.ignore();
-        TextView::showMessage(u8"Такого предмета у вас нет!");
+        TextView::showMessage(u8"РўР°РєРѕРіРѕ РїСЂРµРґРјРµС‚Р° Сѓ РІР°СЃ РЅРµС‚!");
         return;
 	}
 
     Item& item = inv.items[itemIndex];
 
     try {
-        TextView::showMessage(u8"Использован предмет: [" + item.name + u8"]" + u8"!");
-        // Для способностей, требующих врага
+        TextView::showMessage(u8"РСЃРїРѕР»СЊР·РѕРІР°РЅ РїСЂРµРґРјРµС‚: [" + item.name + u8"]" + u8"!");
+        // Р”Р»СЏ СЃРїРѕСЃРѕР±РЅРѕСЃС‚РµР№, С‚СЂРµР±СѓСЋС‰РёС… РІСЂР°РіР°
         AbilityHandler::execute(item, state->player, state->currentEnemy);
         std::cin.ignore();
-        // Удаление расходуемых предметов
+        // РЈРґР°Р»РµРЅРёРµ СЂР°СЃС…РѕРґСѓРµРјС‹С… РїСЂРµРґРјРµС‚РѕРІ
         if (item.id != "sake_flask") {
             inv.items.erase(inv.items.begin() + itemIndex);
         }
@@ -275,4 +289,91 @@ void GameController::handleItemUse(int itemIndex) {
     catch (const std::exception& e) {
         TextView::showMessage(e.what());
     }
+}
+
+void GameController::handleAltarMenu(int choice) {
+    if (choice == 0) {
+        state->currentMenu = MenuState::LOCATION_MENU;
+        return;
+    }
+
+    // РџРѕР»СѓС‡Р°РµРј СЃР»СѓС‡Р°Р№РЅС‹Рµ Р±Р»Р°РіРѕСЃР»РѕРІРµРЅРёСЏ
+    auto& availableBlessings = state->currentAltarBlessings;
+
+    if (availableBlessings.empty()) {
+        TextView::showMessage(u8"РЈ РІР°СЃ СѓР¶Рµ РµСЃС‚СЊ РІСЃРµ РґРѕСЃС‚СѓРїРЅС‹Рµ Р±Р»Р°РіРѕСЃР»РѕРІРµРЅРёСЏ!");
+        std::cin.ignore();
+        state->currentMenu = MenuState::LOCATION_MENU;
+        return;
+    }
+
+    if (choice > 0 && choice <= availableBlessings.size()) {
+        Blessing selectedBlessing = availableBlessings[choice - 1];
+
+        // РџРѕРєР°Р·С‹РІР°РµРј РґРµС‚Р°Р»Рё Р±Р»Р°РіРѕСЃР»РѕРІРµРЅРёСЏ
+        TextView::showBlessingDetails(selectedBlessing, state->player);
+        std::cin.ignore();
+
+        // РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РІС‹Р±РѕСЂР°
+        TextView::showMessage(u8"РџРѕР»СѓС‡РёС‚СЊ СЌС‚Рѕ Р±Р»Р°РіРѕСЃР»РѕРІРµРЅРёРµ? (1 - Р”Р°, 0 - РќРµС‚): ");
+        int confirm = InputHandler::getInput();
+
+        if (confirm == 1) {
+            state->player.addBlessing(selectedBlessing);
+            TextView::showMessage(u8"вњЁ Р’С‹ РїРѕР»СѓС‡РёР»Рё Р±Р»Р°РіРѕСЃР»РѕРІРµРЅРёРµ: " + selectedBlessing.name);
+
+            // РџСЂРёРјРµРЅСЏРµРј РїР°СЃСЃРёРІРЅС‹Рµ СЌС„С„РµРєС‚С‹
+            BlessingSystem::applyPassiveBlessings(state->player, { selectedBlessing });
+
+            // РџРѕРјРµС‡Р°РµРј Р°Р»С‚Р°СЂСЊ РєР°Рє РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹Р№
+            state->currentLocation->objectUsed = true;
+
+            std::cin.ignore();
+            state->currentMenu = MenuState::LOCATION_MENU;
+        }
+        else {
+            state->currentMenu = MenuState::ALTAR_MENU;
+        }
+    }
+    else {
+        TextView::showMessage(u8"РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РІС‹Р±РѕСЂ!");
+        std::cin.ignore();
+    }
+}
+
+void GameController::handleBlessingCombatMenu(int choice) {
+    if (choice == 0) {
+        state->currentMenu = MenuState::COMBAT_MENU;
+        return;
+    }
+
+    // РџРѕР»СѓС‡Р°РµРј С‚РѕР»СЊРєРѕ Р°РєС‚РёРІРЅС‹Рµ Р±Р»Р°РіРѕСЃР»РѕРІРµРЅРёСЏ
+    std::vector<Blessing> activeBlessings;
+    for (const auto& blessing : state->player.blessings) {
+        if (blessing.type == BlessingType::ACTIVE) {
+            activeBlessings.push_back(blessing);
+        }
+    }
+
+    if (choice > 0 && choice <= activeBlessings.size()) {
+        Blessing& selectedBlessing = activeBlessings[choice - 1];
+
+        if (BlessingSystem::canUseBlessing(selectedBlessing, state->player)) {
+            BlessingSystem::executeBlessing(selectedBlessing, state->player, state->currentEnemy);
+            std::cin.ignore();
+            state->currentMenu = MenuState::COMBAT_MENU;
+        }
+        else {
+            TextView::showMessage(u8"рџЊЂ РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р СЌР№РєРё РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ Р±Р»Р°РіРѕСЃР»РѕРІРµРЅРёСЏ!");
+            std::cin.ignore();
+        }
+    }
+    else {
+        TextView::showMessage(u8"РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РІС‹Р±РѕСЂ!");
+        std::cin.ignore();
+    }
+}
+
+void GameController::handleBlessingMenu(int choice) {
+
 }

@@ -127,6 +127,21 @@ int main() {
                 controller.handleInventoryCombatMenu(InputHandler::getInput());
                 break;
             }
+            case MenuState::ALTAR_MENU: {
+                auto availableBlessings = BlessingSystem::getRandomBlessings(
+                    state.blessingTemplates,
+                    state.player.blessings,
+                    3
+                );
+
+                // Отображаем меню алтаря
+                TextView::showAltarMenu(availableBlessings);
+                controller.handleAltarMenu(InputHandler::getInput());
+                break;
+            }
+            case MenuState::BLESSING_MENU: {
+		    break;
+            }
             }
         }
     }

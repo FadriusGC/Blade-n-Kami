@@ -2,6 +2,7 @@
 #pragma once
 #include "GameState.h"
 #include "CombatSystem.h"
+#include "BlessingSystem.h"
 
 class GameController {
     GameState* state;
@@ -21,4 +22,7 @@ public:
     void handleItemUse(int itemIndex);
     void handleInventoryMenu(int choice);
     void handleInventoryCombatMenu(int choice);
+	void handleAltarMenu(int choice);
+    void handleBlessingCombatMenu(int choice);
+    void handleBlessingMenu(int choice);
 };

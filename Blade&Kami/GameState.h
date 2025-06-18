@@ -20,7 +20,10 @@ enum class MenuState {
     LEVEL_UP_MENU,
     INVENTORY_MENU,
     INV_COMBAT_MENU,
-    LOCATION_MENU
+    LOCATION_MENU,
+    ALTAR_MENU,
+    BLESSING_MENU,
+    BLESSING_COMBAT_MENU,
 };
 
 class GameState {
@@ -36,5 +39,5 @@ public:
     Player player;
     MenuState currentMenu = MenuState::MAIN_MENU;
 
-    void initialize(const std::string& locationsFile, const std::string& enemiesFile, const std::string& itemsFile);
+    void initialize(const std::string& locationsFile, const std::string& enemiesFile, const std::string& itemsFile, const std::string& blessingsFile);
 };

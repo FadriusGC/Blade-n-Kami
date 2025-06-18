@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+#include "BlessingSystem.h"
 float clamp(float value, float min, float max) {
 	return std::max(min, std::min(value, max));
 }
@@ -37,13 +38,23 @@ double CombatLogic::calculatePurificationChance(Player& player, Enemy& enemy) {
 
 void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) {
     if (action == 1) { // Атака
+        int bonusDamage = 0;
+        for (const auto& blessing : player.blessings) {
+            if (blessing.ability == "damage_boost" && blessing.type == BlessingType::PASSIVE) {
+                bonusDamage += BlessingSystem::calculateModifiedPower(blessing, player);
+            }
+        }
         if (calculateHit(player.blade.accuracy, enemy.data.evasion)) {
             int dmg = calculateDamage(player.blade.minDamage, player.blade.maxDamage);
             enemy.takeDamage(dmg);
             TextView::showMessage(u8"🗡️ Вы нанесли " + std::to_string(dmg) + u8" урона!");
+            if (bonusDamage > 0) {
+                TextView::showMessage(u8"✨ Ваши Благословения усилили удар на " + std::to_string(bonusDamage) + u8" урона!");
+            }
             if (!enemy.isAlive()) {
 				CombatLogic::onEnemyKilled(player, enemy);
             }
+
         }
         else {
             TextView::showMessage(u8"💨 Промах!");
@@ -69,10 +80,21 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
 }
 
 void CombatLogic::processEnemyAction(Player& player, Enemy& enemy) {
+    double damageReduction = 0.0;
+    for (const auto& blessing : player.blessings) {
+        if (blessing.ability == "damage_reduction" && blessing.type == BlessingType::PASSIVE) {
+            damageReduction += BlessingSystem::calculateModifiedPower(blessing, player) / 100.0;
+        }
+    }
     if (calculateHit(enemy.data.accuracy, player.evasion)) {
-        int dmg = calculateDamage(enemy.data.minDamage, enemy.data.maxDamage);
-        player.takeDamage(dmg);
-        TextView::showMessage(u8"🗡️ " + enemy.data.name + u8" наносит " + std::to_string(dmg) + u8" урона!");
+        int baseDmg = calculateDamage(enemy.data.minDamage, enemy.data.maxDamage);
+        int finalDmg = static_cast<int>(baseDmg * (1.0 - damageReduction));
+        player.takeDamage(finalDmg);
+        TextView::showMessage(u8"🗡️ " + enemy.data.name + u8" наносит " + std::to_string(finalDmg) + u8" урона!");
+        if (damageReduction > 0.0) {
+            TextView::showMessage(u8"🛡️ Благословение уменьшило урон на " +
+                std::to_string(baseDmg - finalDmg) + u8" единиц!");
+        }
         std::cin.ignore();
 
     }

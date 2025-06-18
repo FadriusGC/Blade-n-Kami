@@ -16,4 +16,5 @@ void GameState::initialize(const std::string& locationsFile, const std::string& 
         "Восстанавливает здоровье", 0, "heal", 30, 30);
     itemTemplates.emplace_back("whetstone", "Точильный Камень",
         "Улучшает меч", 0, "upgrade", 1, 1);
+    blessingTemplates = BlessingLoader::loadFromFile(blessingsFile);
 }
