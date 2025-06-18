@@ -16,7 +16,7 @@ int main() {
     localise();
     try {
         GameState state;
-        state.initialize("locations.txt", "enemies.txt", "items.txt");
+        state.initialize("locations.txt", "enemies.txt", "items.txt", "blessings.txt");
         AbilityHandler::initAbilities();
         GameController controller(&state);
         Player player;

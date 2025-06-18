@@ -6,7 +6,7 @@ enum class BlessingType {
     PASSIVE   // Постоянный эффект
 };
 
-class Blessing {
+struct Blessing {
     std::string id;
     std::string name;
     std::string description;

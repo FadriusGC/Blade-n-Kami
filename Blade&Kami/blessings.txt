@@ -1,0 +1,79 @@
+[divine_heal]
+name=Благословение Исцеления
+description=Мощное исцеление силой божественной энергии
+type=active
+ability=heal
+basePower=60
+reikiCost=20
+
+[spirit_strike]
+name=Духовный Удар
+description=Наносит урон духовной энергией
+type=active
+ability=damage
+basePower=45
+reikiCost=15
+
+[eternal_vigor]
+name=Вечная Выносливость
+description=Постоянно увеличивает максимальное здоровье
+type=passive
+ability=health_boost
+basePower=50
+reikiCost=0
+
+[inner_peace]
+name=Внутренний Покой
+description=Увеличивает максимальное количество Рэйки
+type=passive
+ability=reiki_boost
+basePower=30
+reikiCost=0
+
+[divine_strength]
+name=Божественная Мощь
+description=Постоянно увеличивает силу
+type=passive
+ability=strength_boost
+basePower=20
+reikiCost=0
+
+[wind_grace]
+name=Благодать Ветра
+description=Постоянно увеличивает ловкость
+type=passive
+ability=agility_boost
+basePower=20
+reikiCost=0
+
+[soul_connection]
+name=Связь с Душой
+description=Постоянно увеличивает дух
+type=passive
+ability=spirit_boost
+basePower=20
+reikiCost=0
+
+[reiki_surge]
+name=Всплеск Рэйки
+description=Восстанавливает Рэйки в бою
+type=active
+ability=reiki_restore
+basePower=40
+reikiCost=10
+
+[purification_power]
+name=Сила Очищения
+description=Увеличивает шанс успешного очищения
+type=active
+ability=purification_boost
+basePower=25
+reikiCost=25
+
+[battle_trance]
+name=Боевой Транс
+description=Комбинированный эффект: исцеление и урон
+type=active
+ability=heal
+basePower=35
+reikiCost=30

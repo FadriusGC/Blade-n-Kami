@@ -1,5 +1,8 @@
 #pragma once
 #include "KuraiBlade.h"
+#include "Blessing.h"
+#include <vector>
+
 
 class Player {
 public:
@@ -18,6 +21,7 @@ public:
     double currentReiki = 50.0;
     int availablePoints = 0;
     KuraiBlade blade;
+    std::vector<Blessing> blessings;
 
     bool isAlive() const {
         return currentHealth > 0;
@@ -66,6 +70,40 @@ public:
         ki += delta;
         if (ki > 100) ki = 100;
         if (ki < -100) ki = -100;
+    }
+
+    // Методы для работы с благословениями
+    void addBlessing(const Blessing& blessing) {
+        blessings.push_back(blessing);
+    }
+
+    void removeBlessing(const std::string& blessingId) {
+        blessings.erase(
+            std::remove_if(blessings.begin(), blessings.end(),
+                [&blessingId](const Blessing& blessing) {
+                    return blessing.id == blessingId;
+                }),
+            blessings.end()
+        );
+    }
+
+    bool hasBlessing(const std::string& blessingId) const {
+        for (const auto& blessing : blessings) {
+            if (blessing.id == blessingId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    std::vector<Blessing> getActiveBlessings() const {
+        std::vector<Blessing> activeBlessings;
+        for (const auto& blessing : blessings) {
+            if (blessing.type == BlessingType::ACTIVE) {
+                activeBlessings.push_back(blessing);
+            }
+        }
+        return activeBlessings;
     }
 
 };

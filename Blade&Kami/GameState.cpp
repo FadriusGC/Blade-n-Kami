@@ -2,7 +2,7 @@
 #include "LocationLoader.h"
 #include "EnemyLoader.h"
 
-void GameState::initialize(const std::string& locationsFile, const std::string& enemiesFile, const std::string& itemsFile) {
+void GameState::initialize(const std::string& locationsFile, const std::string& enemiesFile, const std::string& itemsFile, const std::string& blessingsFile) {
     locations = LocationLoader::loadFromFile(locationsFile);
     if (!locations.empty()) {
         currentLocation = &locations[0];

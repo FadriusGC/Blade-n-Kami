@@ -7,6 +7,8 @@
 #include <string>
 #include "Inventory.h"
 #include "ItemLoader.h"
+#include "Blessing.h"
+#include "BlessingLoader.h"
 
 enum class MenuState {
     MAIN_MENU,
@@ -26,6 +28,7 @@ public:
     std::vector<Location> locations;
     std::vector<EnemyData> enemyTemplates;
     std::vector<Item> itemTemplates;  
+    std::vector<Blessing> blessingTemplates;
     Location* currentLocation;
     Enemy* currentEnemy = nullptr;
     Enemy* newEnemy = nullptr;
