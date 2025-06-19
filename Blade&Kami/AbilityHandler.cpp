@@ -8,6 +8,8 @@ std::mt19937 AbilityHandler::gen(std::random_device{}());
 void AbilityHandler::initAbilities() {
     abilityMap["damage"] = &damage;
     abilityMap["heal"] = &heal;
+
+
 }
 
 void AbilityHandler::execute(const Item& item, Player& player, Enemy* enemy) {

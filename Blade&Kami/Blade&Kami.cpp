@@ -18,6 +18,7 @@ int main() {
         GameState state;
         state.initialize("locations.txt", "enemies.txt", "items.txt", "blessings.txt");
         AbilityHandler::initAbilities();
+        BlessingSystem::initBlessings();
         GameController controller(&state);
         Player player;
         std::string input;
@@ -137,7 +138,7 @@ int main() {
                 }
 
                 // Отображение меню алтаря
-                TextView::showAltarMenu(state.currentAltarBlessings);
+                TextView::showAltarMenu(state.currentAltarBlessings, state.player);
 
                 controller.handleAltarMenu(InputHandler::getInput());
 

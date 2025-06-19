@@ -286,18 +286,20 @@ std::string TextView::wrapText(const std::string& text, int width) {
     return wrapped.str();
 }
 
-void TextView::showAltarMenu(const std::vector<Blessing>& availableBlessings) {
+void TextView::showAltarMenu(const std::vector<Blessing>& availableBlessings, const Player& player) {
     std::cout << u8"=== АЛТАРЬ КАМИ ===\n-------------------";
     for (size_t i = 0; i < availableBlessings.size(); ++i) {
         const auto& blessing = availableBlessings[i];
         std::string type = (blessing.type == BlessingType::ACTIVE)
             ? u8"⚡ АКТИВНОЕ"
             : u8"🔮 ПАССИВНОЕ";
+        ModifiedPower power = BlessingSystem::calculateModifiedPower(blessing, player);
+        std::string powerDesc = TextView::generatePowerDescription(blessing.ability, power.min, power.max);
 
         std::cout << u8"\n[" << i + 1 << u8"] " << blessing.name
             << u8"\n   " << type
             << u8"\n   " << TextView::wrapText(blessing.description, 80)
-            << u8"\n   Сила: " << blessing.basePower;
+            << u8"\n   Сила: " << powerDesc;
 
         if (blessing.type == BlessingType::ACTIVE) {
             std::cout << u8" | Рэйки: " << blessing.reikiCost;
@@ -311,6 +313,7 @@ void TextView::showAltarMenu(const std::vector<Blessing>& availableBlessings) {
 }
 
 void TextView::showBlessingMenu(const std::vector<Blessing>& blessings, const Player& player) {
+
     std::cout << u8"\n=== БЛАГОСЛОВЕНИЯ ===\n";
 
     if (blessings.empty()) {
@@ -318,6 +321,9 @@ void TextView::showBlessingMenu(const std::vector<Blessing>& blessings, const Pl
     }
     else {
         for (const auto& blessing : blessings) {
+            ModifiedPower power = BlessingSystem::calculateModifiedPower(blessing, player);
+            std::string powerDesc = TextView::generatePowerDescription(blessing.ability, power.min, power.max);
+
             std::string type = (blessing.type == BlessingType::ACTIVE)
                 ? u8"⚡ АКТИВНОЕ"
                 : u8"🔮 ПАССИВНОЕ";
@@ -328,7 +334,7 @@ void TextView::showBlessingMenu(const std::vector<Blessing>& blessings, const Pl
 
             if (blessing.type == BlessingType::ACTIVE) {
                 std::cout << u8"  Рэйки: " << blessing.reikiCost
-                    << u8" | Сила: " << BlessingSystem::calculateModifiedPower(blessing, player) << u8"\n";
+                    << u8" | Сила: " << powerDesc << u8"\n";
             }
             std::cout << u8"-----------------------\n";
         }
@@ -340,7 +346,8 @@ void TextView::showBlessingMenu(const std::vector<Blessing>& blessings, const Pl
 }
 
 void TextView::showBlessingDetails(const Blessing& blessing, const Player& player) {
-    int modifiedPower = BlessingSystem::calculateModifiedPower(blessing, player);
+    ModifiedPower power = BlessingSystem::calculateModifiedPower(blessing, player);
+    std::string powerDesc = TextView::generatePowerDescription(blessing.ability, power.min, power.max);
 
     std::cout << u8"\n=== ДЕТАЛИ БЛАГОСЛОВЕНИЯ ===\n"
         << u8"Название: " << blessing.name << u8"\n"
@@ -349,8 +356,7 @@ void TextView::showBlessingDetails(const Blessing& blessing, const Player& playe
         << u8"Описание: " << TextView::wrapText(blessing.description, 80) << u8"\n"
         << u8"----------------------------\n"
         << u8"Тип: " << ((blessing.type == BlessingType::ACTIVE) ? u8"Активное" : u8"Пассивное") << u8"\n"
-        << u8"Базовая сила: " << blessing.basePower << u8"\n"
-        << u8"Модифицированная сила: " << modifiedPower << u8"\n";
+        << u8"Power desc: " << powerDesc << u8"\n";
 
     if (blessing.type == BlessingType::ACTIVE) {
         std::cout << u8"Стоимость Рэйки: " << blessing.reikiCost << u8"\n";
@@ -371,10 +377,12 @@ void TextView::showCombatBlessingsMenu(const std::vector<Blessing>& activeBlessi
             const auto& blessing = activeBlessings[i];
             bool canUse = BlessingSystem::canUseBlessing(blessing, player);
             std::string status = canUse ? u8"[ДОСТУПНО]" : u8"[НЕДОСТАТОЧНО РЭЙКИ]";
-            int power = BlessingSystem::calculateModifiedPower(blessing, player);
+            ModifiedPower power = BlessingSystem::calculateModifiedPower(blessing, player);
+            std::string powerDesc = TextView::generatePowerDescription(blessing.ability, power.min, power.max);
+            //int power = BlessingSystem::calculateModifiedPower(blessing, player);
 
             std::cout << u8"[" << (i + 1) << u8"] " << status << u8" " << blessing.name << u8"\n"
-                << u8"  Рэйки: " << blessing.reikiCost << u8" | Сила: " << power << u8"\n";
+                << u8"  Рэйки: " << blessing.reikiCost << u8" | Сила: " << powerDesc << u8"\n";
         }
     }
 
@@ -382,4 +390,46 @@ void TextView::showCombatBlessingsMenu(const std::vector<Blessing>& activeBlessi
         << u8"[0] Назад\n"
         << u8"==============================\n"
         << u8"Выбор: ";
+}
+
+std::string TextView::generatePowerDescription(const std::string& ability, int minPower, int maxPower) {
+    if (ability == "heal") {
+        return u8"Восстанавливает " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) + u8" здоровья";
+    }
+    else if (ability == "damage") {
+        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) + u8" урона";
+    }
+    else if (ability == "sun_strike") {
+        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+            u8" урона + 10% от макс. здоровья";
+    }
+    else if (ability == "touch_of_death") {
+        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+            u8" урона + 30% от недостающего здоровья врага";
+    }
+    else if (ability == "ravens_feast") {
+        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+            u8" урона и исцеляет на 30% от нанесенного урона";
+    }
+    else if (ability == "ruthless_cuts") {
+        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+            u8" урона + 20% от вашего недостающего здоровья";
+    }
+    else if (ability == "dragon_technique_calm") {
+        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+            u8" урона + 0.5 за каждую потраченную единицу Рэйки";
+    }
+    else if (ability == "lunar_dance") {
+        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+            u8" урона + 20% от вашей максимальной Рэйки";
+    }
+    else if (ability == "reiki_restore") {
+        return u8"Восстанавливает " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) + u8" Рэйки";
+    }
+    else if (ability == "purification_boost") {
+        return u8"Увеличивает шанс очищения на 50%";
+    }
+    // Добавьте другие способности по аналогии
+
+    return u8"Сила: " + std::to_string(minPower) + u8"-" + std::to_string(maxPower);
 }

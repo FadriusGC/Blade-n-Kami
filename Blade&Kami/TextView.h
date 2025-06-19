@@ -33,11 +33,11 @@ public:
     static void showLocationDetails(const Location& loc);
     static void showChestInteraction(int goldFound);
 
-    static void showAltarMenu(const std::vector<Blessing>& availableBlessings);
+    static void showAltarMenu(const std::vector<Blessing>& availableBlessings, const Player& player);
     static void showBlessingMenu(const std::vector<Blessing>& blessings, const Player& player);
     static void showBlessingDetails(const Blessing& blessing, const Player& player);
     static void showCombatBlessingsMenu(const std::vector<Blessing>& activeBlessings, const Player& player);
     static std::string wrapText(const std::string& text, int width = 90);
 
-
+    static std::string generatePowerDescription(const std::string& ability, int minPower, int maxPower);
 };

@@ -39,11 +39,11 @@ double CombatLogic::calculatePurificationChance(Player& player, Enemy& enemy) {
 void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) {
     if (action == 1) { // Атака
         int bonusDamage = 0;
-        for (const auto& blessing : player.blessings) {
+        /*for (const auto& blessing : player.blessings) {
             if (blessing.ability == "damage_boost" && blessing.type == BlessingType::PASSIVE) {
                 bonusDamage += BlessingSystem::calculateModifiedPower(blessing, player);
             }
-        }
+        }*/
         if (calculateHit(player.blade.accuracy, enemy.data.evasion)) {
             int dmg = calculateDamage(player.blade.minDamage, player.blade.maxDamage) + bonusDamage;
             enemy.takeDamage(dmg);
@@ -86,11 +86,11 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
 
 void CombatLogic::processEnemyAction(Player& player, Enemy& enemy) {
     double damageReduction = 0.0;
-    for (const auto& blessing : player.blessings) {
+   /* for (const auto& blessing : player.blessings) {
         if (blessing.ability == "damage_reduction" && blessing.type == BlessingType::PASSIVE) {
             damageReduction += BlessingSystem::calculateModifiedPower(blessing, player) / 100.0;
         }
-    }
+    }*/
     if (calculateHit(enemy.data.accuracy, player.evasion)) {
         int baseDmg = calculateDamage(enemy.data.minDamage, enemy.data.maxDamage);
         int finalDmg = static_cast<int>(baseDmg * (1.0 - damageReduction));
