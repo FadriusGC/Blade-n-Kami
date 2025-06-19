@@ -298,17 +298,17 @@ void TextView::showAltarMenu(const std::vector<Blessing>& availableBlessings, co
 
         std::cout << u8"\n[" << i + 1 << u8"] " << blessing.name
             << u8"\n   " << type
-            << u8"\n   " << TextView::wrapText(blessing.description, 80)
-            << u8"\n   " << powerDesc;
-
+            << u8"\n   " << TextView::wrapText(blessing.description, 80);
         if (blessing.type == BlessingType::ACTIVE) {
-            std::cout << u8" | Рэйки: " << blessing.reikiCost;
+            std::cout << u8"\n   Рэйки: " << blessing.reikiCost;
         }
+        std::cout << u8"\n   " << TextView::wrapText(powerDesc, 80);
+
         std::cout << "\n-------------------";
                      
     }
     std::cout << u8"\n[0] Уйти от алтаря"
-        << u8"\n======================"
+        << u8"\n==================="
         << u8"\nВыберите благословение: ";
 }
 
@@ -362,8 +362,7 @@ void TextView::showBlessingDetails(const Blessing& blessing, const Player& playe
         std::cout << u8"Стоимость Рэйки: " << blessing.reikiCost << u8"\n";
     }
 
-    std::cout << u8"=============================\n"
-        << u8"Нажмите Enter для продолжения...\n";
+    std::cout << u8"============================\n";
 }
 
 void TextView::showCombatBlessingsMenu(const std::vector<Blessing>& activeBlessings, const Player& player) {
