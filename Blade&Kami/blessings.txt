@@ -1,79 +1,209 @@
-[divine_heal]
-name=Благословение Исцеления
-description=Мощное исцеление силой божественной энергии
+[dawn_heal]
+name=Свет зари
+description=Первые лучи рассвета пронзают тьму, затягивая раны. Восстаналивает здоровье.
+kami=Аматерасу
+kamiType=good
 type=active
 ability=heal
-basePower=60
-reikiCost=20
-
-[spirit_strike]
-name=Духовный Удар
-description=Наносит урон духовной энергией
-type=active
-ability=damage
-basePower=45
-reikiCost=15
-
-[eternal_vigor]
-name=Вечная Выносливость
-description=Постоянно увеличивает максимальное здоровье
-type=passive
-ability=health_boost
-basePower=50
-reikiCost=0
-
-[inner_peace]
-name=Внутренний Покой
-description=Увеличивает максимальное количество Рэйки
-type=passive
-ability=reiki_boost
-basePower=30
-reikiCost=0
-
-[divine_strength]
-name=Божественная Мощь
-description=Постоянно увеличивает силу
-type=passive
-ability=strength_boost
-basePower=20
-reikiCost=0
-
-[wind_grace]
-name=Благодать Ветра
-description=Постоянно увеличивает ловкость
-type=passive
-ability=agility_boost
-basePower=20
-reikiCost=0
-
-[soul_connection]
-name=Связь с Душой
-description=Постоянно увеличивает дух
-type=passive
-ability=spirit_boost
-basePower=20
-reikiCost=0
-
-[reiki_surge]
-name=Всплеск Рэйки
-description=Восстанавливает Рэйки в бою
-type=active
-ability=reiki_restore
-basePower=40
+basePower=15
 reikiCost=10
 
-[purification_power]
-name=Сила Очищения
-description=Увеличивает шанс успешного очищения
-type=active
-ability=purification_boost
-basePower=25
-reikiCost=25
+[unquenchable_light]
+name=Неугасимый свет
+description=Даже в кромешной тьме ваше сердце горит, как солнце. В конце каждого боевого хода Исцеляет вас.
+kami=Аматэрасу
+kamiType=good
+type=passive
+ability=regeneration
+basePower=2
+reikiCost=0
 
-[battle_trance]
-name=Боевой Транс
-description=Комбинированный эффект: исцеление и урон
+[sun_strike]
+name=Удар солнца
+description=Солнечный свет обрамляет ваш клинок. Наносит врагу Урон, также наносит дополнительный урон в зависимости от максимума вашего Здоровья. 
+kami=Аматэрасу
+kamiType=good
 type=active
-ability=heal damage
-basePower=35
-reikiCost=30
+ability=sun_strike
+basePower=10
+reikiCost=15
+
+[golden_grace]
+name=Золотая благодать
+description=Свет Аматэрасу наполняет вас жизненной силой. Увеличивает максимальный запас Здоровья и Рэйки.
+kami=Аматэрасу
+kamiType=good
+type=passive
+ability=golden_grace
+basePower=10
+reikiCost=0
+
+[sun_strength]
+name=Сила солнца
+description=Солнечная энергия укрепляет ваши мышцы. Увеличивает Силу.
+kami=Аматэрасу
+kamiType=good
+type=passive
+ability=sun_strength
+basePower=3
+reikiCost=0
+
+[touch_of_death]
+name=Прикосновение смерти
+description=Пальцы тени сжимают сердце врага. Наносит врагу Урон, также наносит доплнительный Урон, в зависимости от недостающего у врага Здоровья.
+kami=Идзанами
+kamiType=evil
+type=active
+ability=touch_of_death
+basePower=6
+reikiCost=8
+
+[ravens_feast]
+name=Пиршество ворона
+description=Вы пьёте жизнь врагов, как нектар. Наносит врагу Урон, Исцеляет вас на долю от нанесенного урона. 
+kami=Идзанами
+kamiType=evil
+type=active
+ability=ravens_feast
+basePower=15
+reikiCost=15
+
+[ruthless_cuts]
+name=Безжалостные разрезы
+description=Стремительные серии ударов пожирают тех, кто смеет стоять на вашем пути. Наносит Урон врагу, наносит врагу дополнительный урон от недостающего у вас здоровья.
+kami=Идзанами
+kamiType=evil
+type=active
+ability=ruthless_cuts
+basePower=15
+reikiCost=10
+
+[dark_ascension]
+name=Темное вознесение
+description=Кто сражается с чудовищами, тому следует остерегаться, чтобы самому при этом не стать чудовищем... Снижает ваш Дух, увеличивает вашу Силу и Ловкость.
+kami=Идзанами
+kamiType=evil
+type=passive
+ability=dark_ascension
+basePower=5
+reikiCost=0
+
+[piercing_stare]
+name=Пронзительный взгляд
+description=...И если ты долго смотришь в бездну, то бездна тоже смотрит в тебя. Снижает максимум Здоровья, навсегда увеличивает урон меча Курай.
+kami=Идзанами
+kamiType=evil
+type=passive
+ability=piercing_stare
+basePower=10
+reikiCost=0
+
+[sea_grace]
+name=Морская благодать
+description=Морской бриз направляет вас. Увеличивает Ловкость.
+kami=Рюдзин
+kamiType=good
+type=passive
+ability=agility_boost
+basePower=3
+reikiCost=0
+
+[dragon_eye]
+name=Око дракона
+description=Вы предвидите действия врага. Увеличивает ваше Уклонение, а также Точность меча Курай.
+kami=Рюдзин
+kamiType=good
+type=passive
+ability=dragon_eye
+basePower=3
+reikiCost=0
+
+[dragon_protection]
+name=Драконий надзор
+description=Рюдзин старательно оберегает вас. В бою часть получаемого вами Урона Блокируется.
+kami=Рюдзин
+kamiType=good
+type=passive
+ability=damage_reduction
+basePower=3
+reikiCost=0
+
+[dragon_technique_water_cut]
+name=Драконья Техника: Разрез водной глади
+description=Простой, но до ужаса точный разрез с элегантностью морской волны. Наносит Урон.
+kami=Рюдзин
+kamiType=good
+type=active
+ability=damage
+basePower=15
+reikiCost=15
+
+[dragon_technique_calm]
+name=Драконья Техника: Штиль
+description=Вы максимально концентрируете все свои силы, нанося мощный удар быстрым, почти незаметным движением меча. Помимо базового расхода, также расходует ВСЁ оставшееся Рэйки. Наносит Урон, наносит дополнительный Урон за каждую единицу потраченного Рэйки.
+kami=Рюдзин
+kamiType=good
+type=active
+ability=dragon_technique_calm
+basePower=40
+reikiCost=20
+
+[dragon_spirit]
+name=Драконий дух
+description=Присутствие Рюдзина повышает вашу концентрацию. Увеличивает Дух.
+kami=Рюдзин
+kamiType=good
+type=passive
+ability=spirit_boost
+basePower=3
+reikiCost=0
+
+[dragon_wisdom]
+name=Драконья мудрость
+description=Дракон делится с вами тайным знанием. Увеличивает максимум Рэйки.
+kami=Рюдзин
+kamiType=good
+type=passive
+ability=reiki_boost
+basePower=20
+reikiCost=0
+
+[dragon_technique_sacrificial_tide]
+name=Драконья Техника: Жертвенный прилив
+description=Дракон научил вас преобразовывать жизненную силу в духовную. Жертвуете частью Здоровья, восстанавлия Рэйки.
+kami=Рюдзин
+kamiType=good
+type=active
+ability=sacrificial_tide
+basePower=20
+reikiCost=10
+
+[lunar_strikes]
+name=Лунные разрезы
+description=Ваш клинок светится лунным светом. Все ваши Атаки наносят дополнительный Урон.
+kami=Цукиёми
+kamiType=evil
+type=passive
+ability=damage_boost
+basePower=3
+reikiCost=0
+
+[lunar_dance]
+name=Танец луны
+description=Вы кружитесь в танце отблескивающих лунным светом ударов. Наносит Урон, наносит дополнительный Урон от вашего максимального Рэйки.
+kami=Цукиёми
+kamiType=evil
+type=active
+ability=lunar_dance
+basePower=10
+reikiCost=15
+
+[full_moon]
+name=Полнолуние
+description=Над лесом восходит полная луна. В конце каждого хода в бою вы восстанавливаете немного Рэйки.
+kami=Цукиёми
+kamiType=evil
+type=passive
+ability=full_moon
+basePower=2
+reikiCost=0

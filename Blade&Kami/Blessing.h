@@ -10,6 +10,8 @@ struct Blessing {
     std::string id;
     std::string name;
     std::string description;
+    std::string kami;
+    std::string kamiType;
     BlessingType type;
     std::string ability;     // Название способности для AbilityHandler
     int basePower;          // Базовая сила (модифицируется Ки/Духом)
@@ -18,8 +20,8 @@ struct Blessing {
     Blessing() = default;
 
     Blessing(const std::string& id, const std::string& name,
-        const std::string& desc, BlessingType type,
+        const std::string& desc, const std::string& kami, const std::string kamiType, BlessingType type,
         const std::string& ability, int basePower, int reikiCost)
-        : id(id), name(name), description(desc), type(type),
+        : id(id), name(name), description(desc), kami(kami), kamiType(kamiType), type(type),
         ability(ability), basePower(basePower), reikiCost(reikiCost) {}
 };

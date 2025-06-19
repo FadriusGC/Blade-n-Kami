@@ -45,11 +45,13 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
             }
         }
         if (calculateHit(player.blade.accuracy, enemy.data.evasion)) {
-            int dmg = calculateDamage(player.blade.minDamage, player.blade.maxDamage);
+            int dmg = calculateDamage(player.blade.minDamage, player.blade.maxDamage) + bonusDamage;
             enemy.takeDamage(dmg);
-            TextView::showMessage(u8"🗡️ Вы нанесли " + std::to_string(dmg) + u8" урона!");
             if (bonusDamage > 0) {
-                TextView::showMessage(u8"✨ Ваши Благословения усилили удар на " + std::to_string(bonusDamage) + u8" урона!");
+                TextView::showMessage(u8"🗡️ Вы нанесли " + std::to_string(dmg) + " (" + std::to_string(bonusDamage) + u8" от Благословений)" + u8" урона!");
+            }
+            else {
+                TextView::showMessage(u8"🗡️ Вы нанесли " + std::to_string(dmg) + u8" урона!");
             }
             if (!enemy.isAlive()) {
 				CombatLogic::onEnemyKilled(player, enemy);
@@ -93,10 +95,14 @@ void CombatLogic::processEnemyAction(Player& player, Enemy& enemy) {
         int baseDmg = calculateDamage(enemy.data.minDamage, enemy.data.maxDamage);
         int finalDmg = static_cast<int>(baseDmg * (1.0 - damageReduction));
         player.takeDamage(finalDmg);
-        TextView::showMessage(u8"🗡️ " + enemy.data.name + u8" наносит " + std::to_string(finalDmg) + u8" урона!");
+        //TextView::showMessage(u8"🗡️ " + enemy.data.name + u8" наносит " + std::to_string(baseDmg) + " (" + std::to_string(finalDmg - baseDmg) + u8" ур. заблокировано) " + u8" урона!");
         if (damageReduction > 0.0) {
-            TextView::showMessage(u8"🛡️ Благословение уменьшило урон на " +
-                std::to_string(baseDmg - finalDmg) + u8" единиц!");
+            TextView::showMessage(u8"🗡️ " + enemy.data.name + u8" наносит " + std::to_string(finalDmg) + "/" + std::to_string(baseDmg) + u8" (🛡️ " + std::to_string(baseDmg - finalDmg) + u8" ед. заблокировано) " + u8" урона!");
+            /*TextView::showMessage(u8"🛡️ Благословения уменьшили урон на " +
+                std::to_string(baseDmg - finalDmg) + u8" единиц!");*/
+        }
+        else {
+            TextView::showMessage(u8"🗡️ " + enemy.data.name + u8" наносит " + std::to_string(finalDmg) + u8" урона!");
         }
         std::cin.ignore();
 

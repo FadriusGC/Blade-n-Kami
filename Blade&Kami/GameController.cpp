@@ -90,7 +90,7 @@ void GameController::handleLocationExplore() {
                     3);
             }
             TextView::showMessage(u8"🏛️ Вы обнаружили древний Алтарь Ками!");
-            std::cin.ignore();
+            //std::cin.ignore();
             state->currentMenu = MenuState::ALTAR_MENU;
             return;
         }

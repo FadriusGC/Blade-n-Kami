@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="AbilityHandler.cpp" />
     <ClCompile Include="Blade&amp;Kami.cpp" />
+    <ClCompile Include="BlessingAbilityHandler.cpp" />
     <ClCompile Include="BlessingLoader.cpp" />
     <ClCompile Include="BlessingSystem.cpp" />
     <ClCompile Include="CombatLogic.cpp" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="AbilityHandler.h" />
     <ClInclude Include="Blessing.h" />
+    <ClInclude Include="BlessingAbilityHandler.h" />
     <ClInclude Include="BlessingLoader.h" />
     <ClInclude Include="BlessingSystem.h" />
     <ClInclude Include="CombatLogic.h" />

@@ -11,6 +11,8 @@ private:
 
 public:
     static void initBlessings();
+
+    static std::string getKamiType(const Blessing& blessing);
     static std::vector<Blessing> getRandomBlessings(const std::vector<Blessing>& allBlessings,
         const std::vector<Blessing>& playerBlessings,
         int count = 3);

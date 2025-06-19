@@ -11,6 +11,16 @@ void BlessingSystem::initBlessings() {
     // Можно добавить специфичные для благословений способности
 }
 
+
+std::string BlessingSystem::getKamiType(const Blessing& blessing) {
+    if (blessing.kamiType == u8"good") {
+        return u8"Свет";
+    }
+    else if (blessing.kamiType == u8"evil") {
+        return u8"Тьма";
+    }
+}
+
 std::vector<Blessing> BlessingSystem::getRandomBlessings(const std::vector<Blessing>& allBlessings,
     const std::vector<Blessing>& playerBlessings,
     int count) {
@@ -117,13 +127,13 @@ void BlessingSystem::applyPassiveBlessings(Player& player, const std::vector<Ble
                 player.currentReiki += modifiedPower;
             }
             else if (blessing.ability == "strength_boost") {
-                player.strength += modifiedPower / 10;  // Деление для баланса
+                player.strength += modifiedPower;
             }
             else if (blessing.ability == "agility_boost") {
-                player.agility += modifiedPower / 10;
+                player.agility += modifiedPower;
             }
             else if (blessing.ability == "spirit_boost") {
-                player.spirit += modifiedPower / 10;
+                player.spirit += modifiedPower;
             }
         }
     }

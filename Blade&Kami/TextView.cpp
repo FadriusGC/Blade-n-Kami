@@ -287,7 +287,7 @@ std::string TextView::wrapText(const std::string& text, int width) {
 }
 
 void TextView::showAltarMenu(const std::vector<Blessing>& availableBlessings) {
-    std::cout << u8"\n\n=== АЛТАРЬ КАМИ ===";
+    std::cout << u8"=== АЛТАРЬ КАМИ ===\n-------------------";
     for (size_t i = 0; i < availableBlessings.size(); ++i) {
         const auto& blessing = availableBlessings[i];
         std::string type = (blessing.type == BlessingType::ACTIVE)
@@ -296,12 +296,14 @@ void TextView::showAltarMenu(const std::vector<Blessing>& availableBlessings) {
 
         std::cout << u8"\n[" << i + 1 << u8"] " << blessing.name
             << u8"\n   " << type
-            << u8"\n   " << blessing.description
+            << u8"\n   " << TextView::wrapText(blessing.description, 80)
             << u8"\n   Сила: " << blessing.basePower;
 
         if (blessing.type == BlessingType::ACTIVE) {
             std::cout << u8" | Рэйки: " << blessing.reikiCost;
         }
+        std::cout << "\n-------------------";
+                     
     }
     std::cout << u8"\n[0] Уйти от алтаря"
         << u8"\n======================"
@@ -322,7 +324,7 @@ void TextView::showBlessingMenu(const std::vector<Blessing>& blessings, const Pl
 
             std::cout << u8"- " << blessing.name
                 << u8" (" << type << u8")\n"
-                << u8"  " << blessing.description << u8"\n";
+                << u8"  " << TextView::wrapText(blessing.description, 80) << u8"\n";
 
             if (blessing.type == BlessingType::ACTIVE) {
                 std::cout << u8"  Рэйки: " << blessing.reikiCost
@@ -342,7 +344,10 @@ void TextView::showBlessingDetails(const Blessing& blessing, const Player& playe
 
     std::cout << u8"\n=== ДЕТАЛИ БЛАГОСЛОВЕНИЯ ===\n"
         << u8"Название: " << blessing.name << u8"\n"
-        << u8"Описание: " << blessing.description << u8"\n"
+        << u8"Ками: " << blessing.kami <<u8", " << BlessingSystem::getKamiType(blessing) << u8"\n"
+        << u8"----------------------------\n"
+        << u8"Описание: " << TextView::wrapText(blessing.description, 80) << u8"\n"
+        << u8"----------------------------\n"
         << u8"Тип: " << ((blessing.type == BlessingType::ACTIVE) ? u8"Активное" : u8"Пассивное") << u8"\n"
         << u8"Базовая сила: " << blessing.basePower << u8"\n"
         << u8"Модифицированная сила: " << modifiedPower << u8"\n";
