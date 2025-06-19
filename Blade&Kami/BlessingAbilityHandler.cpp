@@ -102,6 +102,7 @@ void BlessingAbilityHandler::dragonTechniqueCalm(Player& p, Enemy* e, int minPow
 
 void BlessingAbilityHandler::sacrificialTide(Player& p, Enemy* e, int minPower, int maxPower) {
     double healthCost = p.currentHealth * 0.1;
+    static_cast<int>(healthCost);
     p.currentHealth -= healthCost;
     std::uniform_int_distribution<> dis(minPower, maxPower);
     int reikiGain = dis(gen);
