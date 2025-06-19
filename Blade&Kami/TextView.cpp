@@ -299,7 +299,7 @@ void TextView::showAltarMenu(const std::vector<Blessing>& availableBlessings, co
         std::cout << u8"\n[" << i + 1 << u8"] " << blessing.name
             << u8"\n   " << type
             << u8"\n   " << TextView::wrapText(blessing.description, 80)
-            << u8"\n   Сила: " << powerDesc;
+            << u8"\n   " << powerDesc;
 
         if (blessing.type == BlessingType::ACTIVE) {
             std::cout << u8" | Рэйки: " << blessing.reikiCost;
@@ -334,7 +334,7 @@ void TextView::showBlessingMenu(const std::vector<Blessing>& blessings, const Pl
 
             if (blessing.type == BlessingType::ACTIVE) {
                 std::cout << u8"  Рэйки: " << blessing.reikiCost
-                    << u8" | Сила: " << powerDesc << u8"\n";
+                    << u8" | " << powerDesc << u8"\n";
             }
             std::cout << u8"-----------------------\n";
         }
@@ -356,7 +356,7 @@ void TextView::showBlessingDetails(const Blessing& blessing, const Player& playe
         << u8"Описание: " << TextView::wrapText(blessing.description, 80) << u8"\n"
         << u8"----------------------------\n"
         << u8"Тип: " << ((blessing.type == BlessingType::ACTIVE) ? u8"Активное" : u8"Пассивное") << u8"\n"
-        << u8"Power desc: " << powerDesc << u8"\n";
+        << u8"" << powerDesc << u8"\n";
 
     if (blessing.type == BlessingType::ACTIVE) {
         std::cout << u8"Стоимость Рэйки: " << blessing.reikiCost << u8"\n";
@@ -382,7 +382,7 @@ void TextView::showCombatBlessingsMenu(const std::vector<Blessing>& activeBlessi
             //int power = BlessingSystem::calculateModifiedPower(blessing, player);
 
             std::cout << u8"[" << (i + 1) << u8"] " << status << u8" " << blessing.name << u8"\n"
-                << u8"  Рэйки: " << blessing.reikiCost << u8" | Сила: " << powerDesc << u8"\n";
+                << u8"  Рэйки: " << blessing.reikiCost << u8" | " << powerDesc << u8"\n";
         }
     }
 
@@ -394,42 +394,42 @@ void TextView::showCombatBlessingsMenu(const std::vector<Blessing>& activeBlessi
 
 std::string TextView::generatePowerDescription(const std::string& ability, int minPower, int maxPower) {
     if (ability == "heal") {
-        return u8"Восстанавливает " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) + u8" здоровья";
+        return u8"Эффект: Восстанавливает " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) + u8" здоровья";
     }
     else if (ability == "damage") {
-        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) + u8" урона";
+        return u8"Эффект: Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) + u8" урона";
     }
     else if (ability == "sun_strike") {
-        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+        return u8"Эффект: Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
             u8" урона + 10% от макс. здоровья";
     }
     else if (ability == "touch_of_death") {
-        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+        return u8"Эффект: Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
             u8" урона + 30% от недостающего здоровья врага";
     }
     else if (ability == "ravens_feast") {
-        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+        return u8"Эффект: Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
             u8" урона и исцеляет на 30% от нанесенного урона";
     }
     else if (ability == "ruthless_cuts") {
-        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+        return u8"Эффект: Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
             u8" урона + 20% от вашего недостающего здоровья";
     }
     else if (ability == "dragon_technique_calm") {
-        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+        return u8"Эффект: Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
             u8" урона + 0.5 за каждую потраченную единицу Рэйки";
     }
     else if (ability == "lunar_dance") {
-        return u8"Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
+        return u8"Эффект: Наносит " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) +
             u8" урона + 20% от вашей максимальной Рэйки";
     }
     else if (ability == "reiki_restore") {
-        return u8"Восстанавливает " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) + u8" Рэйки";
+        return u8"Эффект: Восстанавливает " + std::to_string(minPower) + u8"-" + std::to_string(maxPower) + u8" Рэйки";
     }
     else if (ability == "purification_boost") {
-        return u8"Увеличивает шанс очищения на 50%";
+        return u8"Эффект: Увеличивает шанс очищения на 50%";
     }
     // Добавьте другие способности по аналогии
 
-    return u8"Сила: " + std::to_string(minPower) + u8"-" + std::to_string(maxPower);
+    return u8"Сила/Увеличение параметров: " + std::to_string(minPower) + u8"-" + std::to_string(maxPower);
 }
