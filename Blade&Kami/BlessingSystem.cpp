@@ -116,12 +116,12 @@ void BlessingSystem::applyPassiveBlessings(Player& player, const std::vector<Ble
             if (blessing.ability == "health_boost") {
                 player.maxHealth += avgPower;
                 player.currentHealth += avgPower;
-                TextView::showMessage(u8"🤍 Максимальное здоровье увеличено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"Текущее здоровье: " + std::to_string(static_cast<int>(player.currentHealth)) + "/" + std::to_string(static_cast<int>(player.maxHealth)));
+                TextView::showMessage(u8"❤️ Максимальное здоровье увеличено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"       Текущее здоровье: " + std::to_string(static_cast<int>(player.currentHealth)) + "/" + std::to_string(static_cast<int>(player.maxHealth)));
             }
             else if (blessing.ability == "reiki_boost") {
                 player.maxReiki += avgPower;
                 player.currentReiki += avgPower;
-                TextView::showMessage(u8"🌀 Максимальное Рэйки увеличено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"Текущее Рэйки: " + std::to_string(static_cast<int>(player.currentReiki)) + "/" + std::to_string(static_cast<int>(player.maxReiki)));
+                TextView::showMessage(u8"🌀 Максимальное Рэйки увеличено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"       Текущее Рэйки: " + std::to_string(static_cast<int>(player.currentReiki)) + "/" + std::to_string(static_cast<int>(player.maxReiki)));
             }
             else if (blessing.ability == "strength_boost") {
                 player.strength += avgPower;
@@ -138,10 +138,10 @@ void BlessingSystem::applyPassiveBlessings(Player& player, const std::vector<Ble
             else if (blessing.ability == "golden_grace") {
                 player.maxHealth += avgPower;
                 player.currentHealth += avgPower;
-                TextView::showMessage(u8"🤍 Максимальное здоровье увеличено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"Текущее здоровье: " + std::to_string(static_cast<int>(player.currentHealth)) + "/" + std::to_string(static_cast<int>(player.maxHealth)));
+                TextView::showMessage(u8"❤️ Максимальное здоровье увеличено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"       Текущее здоровье: " + std::to_string(static_cast<int>(player.currentHealth)) + "/" + std::to_string(static_cast<int>(player.maxHealth)));
                 player.maxReiki += avgPower;
                 player.currentReiki += avgPower;
-                TextView::showMessage(u8"🌀 Максимальное Рэйки увеличено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"Текущее Рэйки: " + std::to_string(static_cast<int>(player.currentReiki)) + "/" + std::to_string(static_cast<int>(player.maxReiki)));
+                TextView::showMessage(u8"🌀 Максимальное Рэйки увеличено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"       Текущее Рэйки: " + std::to_string(static_cast<int>(player.currentReiki)) + "/" + std::to_string(static_cast<int>(player.maxReiki)));
 
             }
             else if (blessing.ability == "dark_ascension") {
@@ -157,11 +157,11 @@ void BlessingSystem::applyPassiveBlessings(Player& player, const std::vector<Ble
                 player.maxHealth -= avgPower;
                 if (player.currentHealth > player.maxHealth)
                     player.currentHealth = player.maxHealth;
-                TextView::showMessage(u8"💔 Максимальное здоровье уменьшено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"Текущее здоровье: " + std::to_string(static_cast<int>(player.currentHealth)) + "/" + std::to_string(static_cast<int>(player.maxHealth)));
+                TextView::showMessage(u8"💔 Максимальное здоровье уменьшено на " + std::to_string(static_cast<int>(avgPower)) + "!\n" + u8"       Текущее здоровье: " + std::to_string(static_cast<int>(player.currentHealth)) + "/" + std::to_string(static_cast<int>(player.maxHealth)));
 
                 player.blade.minDamage += static_cast<int>(avgPower * 0.5);
                 player.blade.maxDamage += avgPower;
-                TextView::showMessage(u8"🔪 Минимальный урон Меча увеличен на " + std::to_string(static_cast<int>(avgPower * 0.5)) + "," + u8" Максимальный урон Меча увеличен на " + std::to_string(static_cast<int>(avgPower)) + "!");
+                TextView::showMessage(u8"🔪 Минимальный урон Меча увеличен на " + std::to_string(static_cast<int>(avgPower * 0.5)) + ",\n" + u8"       Максимальный урон Меча увеличен на " + std::to_string(static_cast<int>(avgPower)) + "!");
 
                 if (player.currentHealth <= 0) {
                     player.currentHealth = 1;

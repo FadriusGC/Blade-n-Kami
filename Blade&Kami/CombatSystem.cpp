@@ -10,6 +10,10 @@ CombatSystem::CombatResult CombatSystem::updateCombat(Player& player, Enemy& ene
     // Обработка действия врага
     CombatLogic::processEnemyAction(player, enemy);
     if (!player.isAlive()) return ENEMY_WIN;
-  
+
+    CombatLogic::processEndOfTurnEffects(player);
+    if (!enemy.isAlive()) return PLAYER_WIN;
+    if (!player.isAlive()) return ENEMY_WIN;
+
     return IN_PROGRESS;
 }

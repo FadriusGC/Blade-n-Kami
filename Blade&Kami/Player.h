@@ -66,6 +66,12 @@ public:
 			currentHealth = maxHealth;
 		}
 	}
+    void restoreReiki(double amount) {
+        currentReiki += amount;
+        if (currentReiki > maxReiki) {
+            currentReiki = maxReiki;
+        }
+    }
     void changeKi(int delta) {
         ki += delta;
         if (ki > 100) ki = 100;

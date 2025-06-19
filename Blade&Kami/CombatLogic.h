@@ -16,4 +16,6 @@ public:
     static void onEnemyKilled(Player& player, Enemy& enemy);
 
     static void onEnemyPurified(Player& player, Enemy& enemy);
+    
+    static void processEndOfTurnEffects(Player& player);
 };

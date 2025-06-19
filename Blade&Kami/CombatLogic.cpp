@@ -39,11 +39,15 @@ double CombatLogic::calculatePurificationChance(Player& player, Enemy& enemy) {
 void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) {
     if (action == 1) { // Атака
         int bonusDamage = 0;
-        /*for (const auto& blessing : player.blessings) {
+        for (const auto& blessing : player.blessings) {
             if (blessing.ability == "damage_boost" && blessing.type == BlessingType::PASSIVE) {
-                bonusDamage += BlessingSystem::calculateModifiedPower(blessing, player);
+                ModifiedPower power = BlessingSystem::calculateModifiedPower(blessing, player);
+                int minPower = power.min;
+                int maxPower = power.max;
+                std::uniform_int_distribution<> dis(minPower, maxPower);
+                bonusDamage += dis(gen);
             }
-        }*/
+        }
         if (calculateHit(player.blade.accuracy, enemy.data.evasion)) {
             int dmg = calculateDamage(player.blade.minDamage, player.blade.maxDamage) + bonusDamage;
             enemy.takeDamage(dmg);
@@ -86,11 +90,15 @@ void CombatLogic::processPlayerAction(Player& player, Enemy& enemy, int action) 
 
 void CombatLogic::processEnemyAction(Player& player, Enemy& enemy) {
     double damageReduction = 0.0;
-   /* for (const auto& blessing : player.blessings) {
+    for (const auto& blessing : player.blessings) {
         if (blessing.ability == "damage_reduction" && blessing.type == BlessingType::PASSIVE) {
-            damageReduction += BlessingSystem::calculateModifiedPower(blessing, player) / 100.0;
+            ModifiedPower power = BlessingSystem::calculateModifiedPower(blessing, player);
+            int minPower = power.min;
+            int maxPower = power.max;
+            std::uniform_int_distribution<> dis(minPower, maxPower);
+            damageReduction += dis(gen) / 100.0;
         }
-    }*/
+    }
     if (calculateHit(enemy.data.accuracy, player.evasion)) {
         int baseDmg = calculateDamage(enemy.data.minDamage, enemy.data.maxDamage);
         int finalDmg = static_cast<int>(baseDmg * (1.0 - damageReduction));
@@ -133,4 +141,32 @@ void  CombatLogic::onEnemyPurified(Player& player, Enemy& enemy) {
         + std::to_string(enemy.data.expReward) + u8"\n" + u8"💰 Мон Души: +" + std::to_string(goldReward) + u8"\n🌕 Ки изменилось на +" + std::to_string(kiGain) + u8"\n==================");
     player.gainExp(enemy.data.expReward);
     player.gainGold(goldReward);
+}
+
+void CombatLogic::processEndOfTurnEffects(Player& player) {
+    for (const auto& blessing : player.blessings) {
+        if (blessing.type == BlessingType::PASSIVE) {
+            
+            if (blessing.ability == "regeneration") {
+                ModifiedPower power = BlessingSystem::calculateModifiedPower(blessing, player);
+                int minPower = power.min;
+                int maxPower = power.max;
+                std::uniform_int_distribution<> dis(minPower, maxPower);
+                int healValue = dis(gen);
+                player.heal(healValue);
+                TextView::showMessage(u8"🌞 Неугасимый свет: восстановлено " +
+                    std::to_string(healValue) + u8" здоровья.");
+            }
+            else if (blessing.ability == "full_moon") {
+                ModifiedPower power = BlessingSystem::calculateModifiedPower(blessing, player);
+                int minPower = power.min;
+                int maxPower = power.max;
+                std::uniform_int_distribution<> dis(minPower, maxPower);
+                int restoreValue = dis(gen);
+                player.restoreReiki(restoreValue);
+                TextView::showMessage(u8"🌕 Полнолуние: восстановлено " +
+                    std::to_string(restoreValue) + u8" Рэйки.");
+            }
+        }
+    }
 }
