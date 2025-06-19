@@ -329,7 +329,7 @@ void TextView::showBlessingMenu(const std::vector<Blessing>& blessings, const Pl
                 : u8"🔮 ПАССИВНОЕ";
 
             std::cout << u8"- " << blessing.name
-                << u8" (" << type << u8")\n"
+                << u8"\n  " << type << u8"\n"
                 << u8"  " << TextView::wrapText(blessing.description, 80) << u8"\n";
 
             if (blessing.type == BlessingType::ACTIVE) {
