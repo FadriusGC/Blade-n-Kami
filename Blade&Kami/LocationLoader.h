@@ -1,9 +1,10 @@
 #pragma once
-#include "Location.h"
-#include <vector>
 #include <fstream>
+#include <vector>
+
+#include "Location.h"
 
 class LocationLoader {
-public:
-    static std::vector<Location> loadFromFile(const std::string& filename);
+ public:
+  static std::vector<Location> loadFromFile(const std::string& filename);
 };

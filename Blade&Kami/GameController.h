@@ -1,28 +1,28 @@
 // GameController.h
 #pragma once
-#include "GameState.h"
-#include "CombatSystem.h"
 #include "BlessingSystem.h"
+#include "CombatSystem.h"
+#include "GameState.h"
 
 class GameController {
-    GameState* state;
+  GameState* state;
 
-public:
-    explicit GameController(GameState* state) : state(state) {}
+ public:
+  explicit GameController(GameState* state) : state(state) {}
 
-    bool handleMainMenu(int choice);
-    bool handleGameMenu(int choice);
-    void handleLocationMenu(int choice);
-    void handleLocationExplore();
-    bool handleMovement(int targetId);
-    void handlePlayerMenu(int choice);
-    void handleLevelUpMenu(int choice);
-    void handleKuraiMenu(int choice);
-    CombatSystem::CombatResult handleCombatMenu(int choice, Enemy& enemy);
-    void handleItemUse(int itemIndex);
-    void handleInventoryMenu(int choice);
-    void handleInventoryCombatMenu(int choice);
-	void handleAltarMenu(int choice);
-    void handleBlessingCombatMenu(int choice);
-    void handleBlessingMenu(int choice);
+  bool handleMainMenu(int choice);
+  bool handleGameMenu(int choice);
+  void handleLocationMenu(int choice);
+  void handleLocationExplore();
+  bool handleMovement(int targetId);
+  void handlePlayerMenu(int choice);
+  void handleLevelUpMenu(int choice);
+  void handleKuraiMenu(int choice);
+  CombatSystem::CombatResult handleCombatMenu(int choice, Enemy& enemy);
+  void handleItemUse(int itemIndex);
+  void handleInventoryMenu(int choice);
+  void handleInventoryCombatMenu(int choice);
+  void handleAltarMenu(int choice);
+  void handleBlessingCombatMenu(int choice);
+  void handleBlessingMenu(int choice);
 };

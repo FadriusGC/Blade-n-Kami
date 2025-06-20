@@ -142,7 +142,6 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Inventory.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemFactory.cpp" />
     <ClCompile Include="ItemLoader.cpp" />
     <ClCompile Include="KuraiBlade.cpp" />

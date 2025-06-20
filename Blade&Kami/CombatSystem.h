@@ -1,12 +1,13 @@
 // CombatSystem.h
 #pragma once
-#include "Player.h"
 #include "Enemy.h"
 #include "GameState.h"
+#include "Player.h"
 
 class CombatSystem {
-public:
-    enum CombatResult { IN_PROGRESS, PLAYER_WIN, ENEMY_WIN, FLEE };
+ public:
+  enum CombatResult { IN_PROGRESS, PLAYER_WIN, ENEMY_WIN, FLEE };
 
-    static CombatResult updateCombat(Player& player, Enemy& enemy, int playerAction, GameState& state);
+  static CombatResult updateCombat(Player& player, Enemy& enemy,
+                                   int playerAction, GameState& state);
 };

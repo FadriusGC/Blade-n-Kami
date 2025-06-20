@@ -1,10 +1,11 @@
 #pragma once
-#include "Blessing.h"
-#include <vector>
-#include <string>
 #include <fstream>
+#include <string>
+#include <vector>
+
+#include "Blessing.h"
 
 class BlessingLoader {
-public:
-    static std::vector<Blessing> loadFromFile(const std::string& filename);
+ public:
+  static std::vector<Blessing> loadFromFile(const std::string& filename);
 };

@@ -44,7 +44,7 @@ description=Солнечная энергия укрепляет ваши мыш
 kami=Аматэрасу
 kamiType=good
 type=passive
-ability=sun_strength
+ability=strength_boost
 basePower=3
 reikiCost=0
 

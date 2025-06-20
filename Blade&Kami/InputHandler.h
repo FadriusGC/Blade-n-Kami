@@ -1,8 +1,8 @@
 #pragma once
-#include <string>
 #include <functional>
+#include <string>
 
 class InputHandler {
-public:
-    static int getInput();
+ public:
+  static int getInput();
 };

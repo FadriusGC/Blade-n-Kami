@@ -48,9 +48,6 @@
     <ClCompile Include="CombatLogic.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="ItemLoader.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
