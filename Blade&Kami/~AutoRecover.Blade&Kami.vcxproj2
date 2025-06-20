@@ -129,7 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AbilityHandler.cpp" />
+    <ClCompile Include="ability_handler.cpp" />
     <ClCompile Include="Blade&amp;Kami.cpp" />
     <ClCompile Include="BlessingAbilityHandler.cpp" />
     <ClCompile Include="BlessingLoader.cpp" />
@@ -142,7 +142,6 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Inventory.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemFactory.cpp" />
     <ClCompile Include="ItemLoader.cpp" />
     <ClCompile Include="KuraiBlade.cpp" />
@@ -151,8 +150,8 @@
     <ClCompile Include="TextView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbilityHandler.h" />
-    <ClInclude Include="Blessing.h" />
+    <ClInclude Include="ability_handler.h" />
+    <ClInclude Include="blessing.h" />
     <ClInclude Include="BlessingAbilityHandler.h" />
     <ClInclude Include="BlessingLoader.h" />
     <ClInclude Include="BlessingSystem.h" />
@@ -172,7 +171,6 @@
     <ClInclude Include="KuraiBlade.h" />
     <ClInclude Include="Localisation.h" />
     <ClInclude Include="Location.h" />
-    <ClInclude Include="LocationData.h" />
     <ClInclude Include="LocationLoader.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="TextView.h" />

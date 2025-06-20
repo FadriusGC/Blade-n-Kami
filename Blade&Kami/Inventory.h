@@ -1,18 +1,21 @@
-// Inventory.h
-#pragma once
+#ifndef INVENTORY_H_
+#define INVENTORY_H_
+
 #include <string>
 #include <vector>
 
-#include "Item.h"
+#include "item.h"
 
 class GameState;  // Предварительное объявление
 
 class Inventory {
  public:
-  std::vector<Item> items;
-  int sakeCharges = 2;
-  int whetstones = 100;
+  std::vector<Item> items_;
+  int sake_charges_ = 2;
+  int whetstones_ = 100;
 
-  void addItem(const std::string& itemId, const GameState& state);
-  void removeItem(const std::string& itemId);
+  void AddItem(const std::string& item_id, const GameState& state);
+  void RemoveItem(const std::string& item_id);
 };
+
+#endif  // INVENTORY_H_

@@ -1,9 +1,11 @@
-#pragma once
+#ifndef BLESSING_H_
+#define BLESSING_H_
+
 #include <string>
 
 enum class BlessingType {
-  ACTIVE,  // Требует активации в бою
-  PASSIVE  // Постоянный эффект
+  kActive,  // Требует активации в бою
+  kPassive  // Постоянный эффект
 };
 
 struct Blessing {
@@ -11,25 +13,27 @@ struct Blessing {
   std::string name;
   std::string description;
   std::string kami;
-  std::string kamiType;
+  std::string kami_type;
   BlessingType type;
   std::string ability;  // Название способности для AbilityHandler
-  int basePower;        // Базовая сила (модифицируется Ки/Духом)
-  int reikiCost;        // Стоимость в Рэйки (0 для пассивных)
+  int base_power;       // Базовая сила (модифицируется Ки/Духом)
+  int reiki_cost;       // Стоимость в Рэйки (0 для пассивных)
 
   Blessing() = default;
 
   Blessing(const std::string& id, const std::string& name,
            const std::string& desc, const std::string& kami,
-           const std::string kamiType, BlessingType type,
-           const std::string& ability, int basePower, int reikiCost)
+           const std::string kami_type, BlessingType type,
+           const std::string& ability, int base_power, int reiki_cost)
       : id(id),
         name(name),
         description(desc),
         kami(kami),
-        kamiType(kamiType),
+        kami_type(kami_type),
         type(type),
         ability(ability),
-        basePower(basePower),
-        reikiCost(reikiCost) {}
+        base_power(base_power),
+        reiki_cost(reiki_cost) {}
 };
+
+#endif  // BLESSING_H_

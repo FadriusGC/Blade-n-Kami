@@ -1,5 +1,6 @@
-// Item.h
-#pragma once
+#ifndef ITEM_H_
+#define ITEM_H_
+
 #include <string>
 
 struct Item {
@@ -8,17 +9,19 @@ struct Item {
   std::string desc;
   int cost = 0;
   std::string ability;
-  int minPower = 0;
-  int maxPower = 0;
+  int min_power = 0;
+  int max_power = 0;
 
   Item() = default;
   Item(const std::string& id, const std::string& name, const std::string& desc,
-       int cost, const std::string& ability, int minP, int maxP)
+       int cost, const std::string& ability, int min_p, int max_p)
       : id(id),
         name(name),
         desc(desc),
         cost(cost),
         ability(ability),
-        minPower(minP),
-        maxPower(maxP) {}
+        min_power(min_p),
+        max_power(max_p) {}
 };
+
+#endif  // ITEM_H_

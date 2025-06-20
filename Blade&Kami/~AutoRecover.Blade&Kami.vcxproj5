@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -144,10 +144,10 @@
     <ClCompile Include="inventory.cc" />
     <ClCompile Include="item_factory.cc" />
     <ClCompile Include="item_loader.cc" />
-    <ClCompile Include="kurai_blade.cc" />
-    <ClCompile Include="location.cc" />
-    <ClCompile Include="location_loader.cc" />
-    <ClCompile Include="text_view.cc" />
+    <ClCompile Include="kurai_blade.cpp" />
+    <ClCompile Include="location.cpp" />
+    <ClCompile Include="location_loader.cpp" />
+    <ClCompile Include="text_view.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ability_handler.h" />

@@ -15,138 +15,135 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Blade&amp;Kami.cpp">
+    <ClCompile Include="blade_n_kami.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Location.cpp">
+    <ClCompile Include="location.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="LocationLoader.cpp">
+    <ClCompile Include="location_loader.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
+    <ClCompile Include="game_state.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="TextView.cpp">
+    <ClCompile Include="text_view.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="GameController.cpp">
+    <ClCompile Include="game_controller.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="KuraiBlade.cpp">
+    <ClCompile Include="kurai_blade.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="enemy.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyLoader.cpp">
+    <ClCompile Include="enemy_loader.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CombatSystem.cpp">
+    <ClCompile Include="combat_system.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CombatLogic.cpp">
+    <ClCompile Include="combat_logic.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="ItemLoader.cpp">
+    <ClCompile Include="item_loader.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="AbilityHandler.cpp">
+    <ClCompile Include="ability_handler.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="ItemFactory.cpp">
+    <ClCompile Include="item_factory.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Inventory.cpp">
+    <ClCompile Include="inventory.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="InputHandler.cpp">
+    <ClCompile Include="input_handler.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="BlessingLoader.cpp">
+    <ClCompile Include="blessing_loader.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="BlessingSystem.cpp">
+    <ClCompile Include="blessing_system.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="BlessingAbilityHandler.cpp">
+    <ClCompile Include="blessing_ability_handler.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TextView.h">
+    <ClInclude Include="text_view.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="GameController.h">
+    <ClInclude Include="game_controller.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="LocationLoader.h">
+    <ClInclude Include="location_loader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="LocationData.h">
+    <ClInclude Include="location.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Location.h">
+    <ClInclude Include="game_state.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
+    <ClInclude Include="enemy_data.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyData.h">
+    <ClInclude Include="player.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="kurai_blade.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="KuraiBlade.h">
+    <ClInclude Include="enemy.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
+    <ClInclude Include="enemy_loader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyLoader.h">
+    <ClInclude Include="enemy_factory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyFactory.h">
+    <ClInclude Include="localisation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Localisation.h">
+    <ClInclude Include="combat_system.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CombatSystem.h">
+    <ClInclude Include="combat_logic.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CombatLogic.h">
+    <ClInclude Include="item.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
+    <ClInclude Include="inventory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Inventory.h">
+    <ClInclude Include="item_loader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ItemLoader.h">
+    <ClInclude Include="ability_handler.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="AbilityHandler.h">
+    <ClInclude Include="item_factory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ItemFactory.h">
+    <ClInclude Include="input_handler.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="InputHandler.h">
+    <ClInclude Include="blessing.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Blessing.h">
+    <ClInclude Include="blessing_loader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="BlessingLoader.h">
+    <ClInclude Include="blessing_system.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="BlessingSystem.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="BlessingAbilityHandler.h">
+    <ClInclude Include="blessing_ability_handler.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

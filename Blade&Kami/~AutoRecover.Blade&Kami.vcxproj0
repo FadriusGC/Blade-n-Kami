@@ -171,7 +171,6 @@
     <ClInclude Include="KuraiBlade.h" />
     <ClInclude Include="Localisation.h" />
     <ClInclude Include="Location.h" />
-    <ClInclude Include="LocationData.h" />
     <ClInclude Include="LocationLoader.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="TextView.h" />
