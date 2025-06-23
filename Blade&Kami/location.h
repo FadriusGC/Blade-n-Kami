@@ -9,11 +9,11 @@ class Location {
   int id_;
   std::string name_;
   std::string description_;
-  std::string detailed_description_;  // Подробное описание для "Осмотреться"
+  std::string detailed_description_;  // ГЏГ®Г¤Г°Г®ГЎГ­Г®ГҐ Г®ГЇГЁГ±Г Г­ГЁГҐ Г¤Г«Гї "ГЋГ±Г¬Г®ГІГ°ГҐГІГјГ±Гї"
   std::vector<int> connections_;
   std::string enemy_id_;
-  std::string object_id_;  // ID объекта в локации (chest, merchant, altar)
-  bool object_used_;       // Флаг использования объекта (для сундуков)
+  std::string object_id_;  // ID Г®ГЎГєГҐГЄГІГ  Гў Г«Г®ГЄГ Г¶ГЁГЁ (chest, merchant, altar)
+  bool object_used_;       // Г”Г«Г ГЈ ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГї Г®ГЎГєГҐГЄГІГ  (Г¤Г«Гї Г±ГіГ­Г¤ГіГЄГ®Гў)
   Location(int id, const std::string& name, const std::string& desc,
            const std::string& detailed_desc, const std::vector<int>& conn,
            const std::string& enemy_id, const std::string& object_id = "");
