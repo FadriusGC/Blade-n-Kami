@@ -31,15 +31,6 @@ int main() {
     TextView::ShowEnemyList(state.enemy_templates_);
 
     state.player_inventory_.AddItem("health_potion", state);
-    state.player_inventory_.AddItem("bomb", state);
-    state.player_inventory_.AddItem("health_potion", state);
-
-    // Создайте тестового врага
-    Enemy testEnemy = EnemyFactory::CreateEnemy(state, "wolf");
-    TextView::ShowEnemyDetails(testEnemy);
-    Enemy testEnemy2 = EnemyFactory::CreateEnemy(state, "goblin");
-    TextView::ShowEnemyDetails(testEnemy2);
-    // state.player.changeKi(-34);
 
     while (isRunning) {
       std::cin.ignore();
@@ -135,6 +126,12 @@ int main() {
 
           TextView::ShowCombatBlessingsMenu(activeBlessings, state.player_);
           controller.HandleBlessingCombatMenu(InputHandler::GetInput());
+          break;
+        }
+        case MenuState::kEndingMenu: {
+          GameController::HandleGameEnding(state.ending_, state);
+          std::cin.ignore();
+          return 0;
           break;
         }
       }

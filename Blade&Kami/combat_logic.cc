@@ -139,7 +139,9 @@ void CombatLogic::OnEnemyKilled(Player& player, Enemy& enemy,
       enemy.data_.gold_reward - enemy.data_.gold_reward * 0.2,
       enemy.data_.gold_reward * 1.2);
   int gold_reward = random_reward(gen);
-  player.ChangeKi(-ki_loss);
+  if (enemy.data_.id != "yamato_no_orochi") {
+    player.ChangeKi(-ki_loss);
+  }
   TextView::ShowWinMessage(u8"====🏆Победа🏆====\n🌟 Опыт +" +
                            std::to_string(enemy.data_.exp_reward) + u8"\n" +
                            u8"💰 Мон Души: +" + std::to_string(gold_reward) +
@@ -157,7 +159,9 @@ void CombatLogic::OnEnemyPurified(Player& player, Enemy& enemy,
       enemy.data_.gold_reward - enemy.data_.gold_reward * 0.2,
       enemy.data_.gold_reward * 1.2);
   int gold_reward = random_reward(gen);
-  player.ChangeKi(ki_gain);
+  if (enemy.data_.id != "yamato_no_orochi") {
+    player.ChangeKi(ki_gain);
+  }
   TextView::ShowWinMessage(u8"====🏆Победа🏆====\n🤍 Вы успешно Очистили " +
                            enemy.data_.name + u8"!" + u8"\n🌟 Опыт +" +
                            std::to_string(enemy.data_.exp_reward) + u8"\n" +
@@ -217,7 +221,7 @@ void CombatLogic::ProcessItemDrop(Player& player, Enemy& enemy,
       int random_index = item_dis(gen);
 
       const Item& dropped_item = state.item_templates_[random_index];
-     
+
       state.player_inventory_.AddItem(dropped_item.id, state);
 
       TextView::ShowMessage(u8"📦 Найден предмет: " + dropped_item.name +

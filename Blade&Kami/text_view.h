@@ -48,6 +48,10 @@ class TextView {
 
   static std::string GeneratePowerDescription(const std::string& ability,
                                               int min_power, int max_power);
+
+  static void ShowEvilEnding(GameState& state);
+  static void ShowGoodEnding(GameState& state);
+  static void ShowBloodAndSakeEnding(GameState& state);
 };
 
 #endif  // TEXTVIEW_H_

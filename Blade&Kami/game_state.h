@@ -26,7 +26,10 @@ enum class MenuState {
   kAltarMenu,
   kBlessingMenu,
   kBlessingCombatMenu,
+  kEndingMenu,
 };
+
+enum class GameEnding { kEvil, kGood, kBloodAndSake, kNone };
 
 class GameState {
  public:
@@ -41,7 +44,7 @@ class GameState {
   Inventory player_inventory_;
   Player player_;
   MenuState current_menu_ = MenuState::kMainMenu;
-
+  GameEnding ending_ = GameEnding::kNone;
   void Initialize(const std::string& locations_file,
                   const std::string& enemies_file,
                   const std::string& items_file,

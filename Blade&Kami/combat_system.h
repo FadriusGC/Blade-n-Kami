@@ -13,8 +13,6 @@ class CombatSystem {
                                    int player_action, GameState& state);
 
   static void InitializeCombat(GameState& state);
-  static void CleanupCombat(GameState& state);
-  static CombatResult ProcessCombatTurn(GameState& state, int player_input);
   static void HandleCombatResult(CombatResult result, GameState& state);
 };
 

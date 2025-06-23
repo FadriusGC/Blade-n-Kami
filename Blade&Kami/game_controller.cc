@@ -212,6 +212,7 @@ void GameController::HandleKuraiMenu(int choice) {
         TextView::ShowMessage(u8"Не хватает точильных камней.");
         break;
       }
+      break;
     case 3:
       if (state_->player_inventory_.whetstones_ > 0) {
         state_->player_.blade_.upgradeStat(BladeStatType::kCrit);
@@ -224,6 +225,7 @@ void GameController::HandleKuraiMenu(int choice) {
         TextView::ShowMessage(u8"Не хватает точильных камней.");
         break;
       }
+      break;
     case 4:
       if (state_->player_inventory_.whetstones_ > 0) {
         state_->player_.blade_.upgradeStat(BladeStatType::kCapacity);
@@ -236,6 +238,7 @@ void GameController::HandleKuraiMenu(int choice) {
         TextView::ShowMessage(u8"Не хватает точильных камней.");
         break;
       }
+      break;
     case 0:
       state_->current_menu_ = MenuState::kPlayerMenu;
       break;
@@ -437,5 +440,25 @@ void GameController::HandleBlessingMenu(int choice) {
     std::cin.ignore();
     TextView::ShowMessage(u8"Неверный выбор!");
     return;
+  }
+}
+
+GameEnding GameController::DetermineEnding(GameState& state) {
+  if (state.player_.blessings_.empty()) {
+    return GameEnding::kBloodAndSake;
+  }
+  if (state.player_.ki_ <= 0) {
+    return GameEnding::kEvil;
+  }
+  return GameEnding::kGood;
+}
+
+void GameController::HandleGameEnding(GameEnding& ending, GameState& state) {
+  if (ending == GameEnding::kEvil) {
+    TextView::ShowEvilEnding(state);
+  } else if (ending == GameEnding::kGood) {
+    TextView::ShowGoodEnding(state);
+  } else if (ending == GameEnding::kBloodAndSake) {
+    TextView::ShowBloodAndSakeEnding(state);
   }
 }

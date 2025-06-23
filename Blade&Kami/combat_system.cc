@@ -2,6 +2,7 @@
 
 #include "combat_logic.h"
 #include "enemy_factory.h"
+#include "game_controller.h"
 #include "game_state.h"
 #include "text_view.h"
 
@@ -41,15 +42,22 @@ void CombatSystem::InitializeCombat(GameState& state) {
 }
 
 void CombatSystem::HandleCombatResult(CombatResult result, GameState& state) {
+  bool ending_proc = state.current_enemy_->data_.id == "yamato_no_orochi";
   switch (result) {
     case CombatSystem::kPlayerWin:
       state.current_enemy_ = nullptr;
       delete state.new_enemy_;
       state.current_location_->enemy_id_ = "";
-      std::cin.ignore();
-      state.current_menu_ = MenuState::kGameMenu;
+      if (result == CombatSystem::kPlayerWin && ending_proc == true) {
+        state.ending_ = GameController::DetermineEnding(state);
+        std::cin.ignore();
+        state.current_menu_ = MenuState::kEndingMenu;
+        return;
+      } else {
+        std::cin.ignore();
+        state.current_menu_ = MenuState::kGameMenu;
+      }
       break;
-
     case CombatSystem::kEnemyWin:
       TextView::ShowMessage(u8"Игрок погиб, игра окончена :(");
       std::cin.ignore();
