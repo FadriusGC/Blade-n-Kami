@@ -6,7 +6,7 @@
 
 #include "item.h"
 
-class GameState;  // Предварительное объявление
+class GameState;  // ГЏГ°ГҐГ¤ГўГ Г°ГЁГІГҐГ«ГјГ­Г®ГҐ Г®ГЎГєГїГўГ«ГҐГ­ГЁГҐ
 
 class Inventory {
  public:
