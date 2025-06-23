@@ -68,7 +68,7 @@ void TextView::ShowPlayerMenu(const Player& player) {
             << u8"❤️ Здоровье: " << player.current_health_ << "/"
             << player.max_health_ << "\n"
             << u8"🌀 Рейки: " << player.current_reiki_ << "/"
-            << player.max_reiki_ << "\n"
+            << player.base_reiki_ << "\n"
             << u8"🌟 Уровень: " << player.level_ << u8" Опыт: " << player.exp_
             << u8"/" << player.required_exp_ << "\n"
             << u8"💰 Мон Души: " << player.gold_ << "\n"
@@ -128,9 +128,11 @@ void TextView::ShowKuraiMenu(const KuraiBlade& blade) {
             << u8"Урон: " << blade.min_damage_ << "-" << blade.max_damage_
             << "\n"
             << u8"Точность: " << blade.accuracy_ << "\n"
-            << u8"Крит: " << blade.crit_chance_ << "\n"
+            << u8"Шанс крита: " << blade.crit_chance_ * 100 << "%\n"
+            << u8"Духовная ёмкость: " << blade.spirit_capacity_ << "\n"
             << u8"=================" << "\n"
-            << u8"[1] Улучшить урон\n[2] Улучшить точность\n[0] Назад\n"
+            << u8"[1] Улучшить урон\n[2] Улучшить точность\n[3] Улучшить шанс "
+               u8"крита\n[4] Улучшить духовную ёмкость\n[0] Назад\n"
             << "=================\n"
             << u8"Выбор: ";
 }
@@ -178,9 +180,9 @@ void TextView::ShowCombatStats(const Player& player, const Enemy& enemy) {
             << player.max_health_ << u8"\n"
             << u8" ├🌀 Рэйки: " << player.current_reiki_ << u8"/"
             << player.max_reiki_ << "\n"
-            << u8" ├💥 Урон: " << player.blade_.min_damage_ << u8"-"
-            << player.blade_.max_damage_ << "\n"
-            << u8" ├🎯 Точность: " << (player.blade_.accuracy_ * 100) << u8"%\n"
+            << u8" ├💥 Урон: " << player.GetMinDamage() << u8"-"
+            << player.GetMaxDamage() << "\n"
+            << u8" ├🎯 Точность: " << (player.GetAccuracy() * 100) << u8"%\n"
             << u8" └🍃 Уклонение: " << (player.evasion_ * 100) << u8"%\n"
             << u8"-------- vs --------\n"
             << u8"👹 Враг (" << enemy.data_.name << u8"): \n"

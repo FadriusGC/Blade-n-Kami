@@ -8,14 +8,14 @@
 #include "blessing_system.h"
 #include "game_state.h"
 #include "text_view.h"
-float clamp(float value, float min, float max) {
+float clamp(double value, double min, double max) {
   return std::max(min, std::min(value, max));
 }
 namespace {
 std::mt19937 gen(std::random_device{}());
 }
 
-bool CombatLogic::CalculateHit(float acc, float eva) {
+bool CombatLogic::CalculateHit(double acc, double eva) {
   std::uniform_real_distribution<> dis(0.0, 1.0);
   return (dis(gen) <= (acc - eva));
 }
@@ -39,6 +39,10 @@ void CombatLogic::ProcessPlayerAction(Player& player, Enemy& enemy,
                                       int action) {
   if (action == 1) {  // Атака
     int bonus_damage = 0;
+
+    double player_accuracy = player.GetAccuracy();
+    double enemy_evasion = enemy.data_.evasion;
+
     for (const auto& blessing : player.blessings_) {
       if (blessing.ability == "damage_boost" &&
           blessing.type == BlessingType::kPassive) {
@@ -50,11 +54,14 @@ void CombatLogic::ProcessPlayerAction(Player& player, Enemy& enemy,
         bonus_damage += dis(gen);
       }
     }
-    if (CalculateHit(player.blade_.accuracy_, enemy.data_.evasion)) {
-      int dmg = CalculateDamage(player.blade_.min_damage_,
-                                player.blade_.max_damage_) +
-                bonus_damage;
-      enemy.TakeDamage(dmg);
+    if (CalculateHit(player_accuracy, enemy_evasion)) {
+      int dmg = CalculateDamage(player.GetMinDamage(), player.GetMaxDamage());
+      std::uniform_real_distribution<> crit_dis(0.0, 1.0);
+      if (crit_dis(gen) <= player.blade_.crit_chance_) {
+        dmg = static_cast<int>(dmg * 1.5);
+        TextView::ShowMessage(u8"💥 Критический удар!");
+      }
+      enemy.TakeDamage(dmg + bonus_damage);
       if (bonus_damage > 0) {
         TextView::ShowMessage(u8"🗡️ Вы нанесли " + std::to_string(dmg) + " (" +
                               std::to_string(bonus_damage) +
@@ -88,6 +95,9 @@ void CombatLogic::ProcessPlayerAction(Player& player, Enemy& enemy,
 
 void CombatLogic::ProcessEnemyAction(Player& player, Enemy& enemy) {
   double damage_reduction = 0.0;
+  double enemy_accuracy = enemy.data_.accuracy;
+  double player_evasion = player.GetEvasion();
+
   for (const auto& blessing : player.blessings_) {
     if (blessing.ability == "damage_reduction" &&
         blessing.type == BlessingType::kPassive) {
@@ -99,7 +109,7 @@ void CombatLogic::ProcessEnemyAction(Player& player, Enemy& enemy) {
       damage_reduction += dis(gen) / 100.0;
     }
   }
-  if (CalculateHit(enemy.data_.accuracy, player.evasion_)) {
+  if (CalculateHit(enemy.data_.accuracy, player_evasion)) {
     int base_dmg =
         CalculateDamage(enemy.data_.min_damage, enemy.data_.max_damage);
     int final_dmg = static_cast<int>(base_dmg * (1.0 - damage_reduction));
@@ -192,7 +202,7 @@ void CombatLogic::ProcessItemDrop(Player& player, Enemy& enemy,
                                   const std::string& kill_type) {
   // Базовый шанс дропа 25% для убийства, 35% для очищения (награда за
   // добродетель)
-  double drop_chance = (kill_type == "purify") ? 0.35 : 0.25;
+  double drop_chance = (kill_type == "purify") ? 1 : 1;
 
   // Бонус к шансу дропа в зависимости от уровня врага
   drop_chance +=
@@ -207,6 +217,7 @@ void CombatLogic::ProcessItemDrop(Player& player, Enemy& enemy,
       int random_index = item_dis(gen);
 
       const Item& dropped_item = state.item_templates_[random_index];
+     
       state.player_inventory_.AddItem(dropped_item.id, state);
 
       TextView::ShowMessage(u8"📦 Найден предмет: " + dropped_item.name +

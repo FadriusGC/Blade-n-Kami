@@ -119,7 +119,7 @@ void GameController::HandleLocationExplore() {
 
         TextView::ShowChestInteraction(gold_found, dropped_item.name);
       } else {
-          TextView::ShowChestInteraction(gold_found, "");
+        TextView::ShowChestInteraction(gold_found, "");
       }
 
     } else if (state_->current_location_->object_id_ == "altar") {
@@ -194,7 +194,7 @@ void GameController::HandleKuraiMenu(int choice) {
         std::cin.ignore();
         TextView::ShowMessage(u8"Урон меча улучшен!");
         break;
-      } else if (choice <= 2) {
+      } else if (choice <= 4) {
         std::cin.ignore();
         TextView::ShowMessage(u8"Не хватает точильных камней.");
         break;
@@ -207,12 +207,35 @@ void GameController::HandleKuraiMenu(int choice) {
         std::cin.ignore();
         TextView::ShowMessage(u8"Точность повышена!");
         break;
-      } else if (choice <= 2) {
+      } else if (choice <= 4) {
         std::cin.ignore();
         TextView::ShowMessage(u8"Не хватает точильных камней.");
         break;
       }
-      break;
+    case 3:
+      if (state_->player_inventory_.whetstones_ > 0) {
+        state_->player_.blade_.upgradeStat(BladeStatType::kCrit);
+        state_->player_inventory_.whetstones_--;
+        std::cin.ignore();
+        TextView::ShowMessage(u8"Крит повышен!");
+        break;
+      } else if (choice <= 4) {
+        std::cin.ignore();
+        TextView::ShowMessage(u8"Не хватает точильных камней.");
+        break;
+      }
+    case 4:
+      if (state_->player_inventory_.whetstones_ > 0) {
+        state_->player_.blade_.upgradeStat(BladeStatType::kCapacity);
+        state_->player_inventory_.whetstones_--;
+        std::cin.ignore();
+        TextView::ShowMessage(u8"Духовная ёмкость повышена!");
+        break;
+      } else if (choice <= 4) {
+        std::cin.ignore();
+        TextView::ShowMessage(u8"Не хватает точильных камней.");
+        break;
+      }
     case 0:
       state_->current_menu_ = MenuState::kPlayerMenu;
       break;

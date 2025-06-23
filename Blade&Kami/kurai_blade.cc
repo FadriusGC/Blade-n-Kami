@@ -14,7 +14,7 @@ void KuraiBlade::upgradeStat(BladeStatType stat) {
       break;
 
     case BladeStatType::kCrit:
-      crit_chance_ = std::min(0.35, crit_chance_ + 0.05);
+      crit_chance_ = std::min(0.50, crit_chance_ + 0.02);
       break;
 
     case BladeStatType::kCapacity:

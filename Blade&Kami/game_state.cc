@@ -18,10 +18,11 @@ void GameState::Initialize(const std::string& locations_file,
   }
   enemy_templates_ = EnemyLoader::LoadFromFile(enemies_file);
   item_templates_ = ItemLoader::LoadFromFile(items_file);
-  item_templates_.emplace_back("sake_flask", "Фляга Сакэ",
-                               "Восстанавливает здоровье", 0, "heal", 30, 30);
-  item_templates_.emplace_back("whetstone", "Точильный Камень", "Улучшает меч",
-                               0, "upgrade", 1, 1);
+  /*item_templates_.emplace_back("sake_flask", "Фляга Сакэ",
+                                                           "Восстанавливает
+     здоровье", 0, "heal", 30, 30);*/
+  item_templates_.emplace_back(u8"whetstone", u8"Точильный камень",
+                               u8"Улучшает меч", 0, u8"upgrade", 1, 1);
   blessing_templates_ = BlessingLoader::LoadFromFile(blessings_file);
 }
 
@@ -41,8 +42,10 @@ void GameState::SaveToFile(const std::string& filename) {
   out << "agility=" << player_.agility_ << "\n";
   out << "spirit=" << player_.spirit_ << "\n";
   out << "evasion=" << player_.evasion_ << "\n";
+  out << "base_health=" << player_.base_health_ << "\n";
   out << "max_health=" << player_.max_health_ << "\n";
   out << "current_health=" << player_.current_health_ << "\n";
+  out << "base_reiki=" << player_.base_reiki_ << "\n";
   out << "max_reiki=" << player_.max_reiki_ << "\n";
   out << "current_reiki=" << player_.current_reiki_ << "\n";
   out << "available_points=" << player_.available_points_ << "\n";
@@ -136,10 +139,14 @@ void GameState::LoadFromFile(const std::string& filename) {
         player_.spirit_ = std::stoi(value);
       else if (key == "evasion")
         player_.evasion_ = std::stod(value);
+      else if (key == "base_health")
+        player_.base_health_ = std::stod(value);
       else if (key == "max_health")
         player_.max_health_ = std::stod(value);
       else if (key == "current_health")
         player_.current_health_ = std::stod(value);
+      else if (key == "base_reiki")
+        player_.base_reiki_ = std::stod(value);
       else if (key == "max_reiki")
         player_.max_reiki_ = std::stod(value);
       else if (key == "current_reiki")
