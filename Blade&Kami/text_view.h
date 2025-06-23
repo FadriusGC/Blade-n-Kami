@@ -33,7 +33,8 @@ class TextView {
 
   static void ShowLocationMenu(const Location& loc);
   static void ShowLocationDetails(const Location& loc);
-  static void ShowChestInteraction(int gold_found);
+  static void ShowChestInteraction(int gold_found,
+                                   const std::string dropped_item);
 
   static void ShowAltarMenu(const std::vector<Blessing>& available_blessings,
                             const Player& player);

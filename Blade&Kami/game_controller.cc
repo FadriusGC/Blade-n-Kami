@@ -9,6 +9,11 @@
 #include "input_handler.h"
 #include "kurai_blade.h"
 #include "text_view.h"
+
+namespace {
+std::mt19937 gen(std::random_device{}());
+}
+
 bool GameController::HandleMainMenu(int choice) {
   switch (choice) {
     case 1:
@@ -98,7 +103,25 @@ void GameController::HandleLocationExplore() {
 
       state_->current_location_->object_used_ = true;
 
-      TextView::ShowChestInteraction(gold_found);
+      std::uniform_real_distribution<> chest_drop_chance(0.0, 1.0);
+      double drop_probability =
+          0.4 + (state_->player_.level_ - 1) *
+                    0.05;  // 40% базовый шанс + 5% за уровень
+
+      if (chest_drop_chance(gen) <= drop_probability &&
+          !state_->item_templates_.empty()) {
+        std::uniform_int_distribution<> item_dis(
+            0, state_->item_templates_.size() - 1);
+        int random_index = item_dis(gen);
+
+        const Item& dropped_item = state_->item_templates_[random_index];
+        state_->player_inventory_.AddItem(dropped_item.id, *state_);
+
+        TextView::ShowChestInteraction(gold_found, dropped_item.name);
+      } else {
+          TextView::ShowChestInteraction(gold_found, "");
+      }
+
     } else if (state_->current_location_->object_id_ == "altar") {
       // Алтарь Ками
       if (state_->current_altar_blessings_.empty()) {
