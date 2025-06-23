@@ -5,6 +5,7 @@
 
 #include "enemy.h"
 #include "player.h"
+#include "game_state.h"
 
 class CombatLogic {
  public:
@@ -15,11 +16,14 @@ class CombatLogic {
   static bool CalculateHit(float attacker_accuracy, float target_evasion);
   static int CalculateDamage(int min_dmg, int max_dmg);
 
-  static void OnEnemyKilled(Player& player, Enemy& enemy);
+  static void OnEnemyKilled(Player& player, Enemy& enemy, GameState& state);
 
-  static void OnEnemyPurified(Player& player, Enemy& enemy);
+  static void OnEnemyPurified(Player& player, Enemy& enemy, GameState& state);
 
   static void ProcessEndOfTurnEffects(Player& player);
+
+  static void ProcessItemDrop(Player& player, Enemy& enemy, GameState& state,
+                              const std::string& kill_type);
 };
 
 #endif  // COMBAT_LOGIC_H_

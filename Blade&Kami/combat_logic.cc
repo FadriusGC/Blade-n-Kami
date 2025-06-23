@@ -6,6 +6,7 @@
 #include <random>
 
 #include "blessing_system.h"
+#include "game_state.h"
 #include "text_view.h"
 float clamp(float value, float min, float max) {
   return std::max(min, std::min(value, max));
@@ -62,22 +63,22 @@ void CombatLogic::ProcessPlayerAction(Player& player, Enemy& enemy,
         TextView::ShowMessage(u8"🗡️ Вы нанесли " + std::to_string(dmg) +
                               u8" урона!");
       }
-      if (!enemy.IsAlive()) {
+      /*if (!enemy.IsAlive()) {
         CombatLogic::OnEnemyKilled(player, enemy);
-      }
+      }*/
 
     } else {
       TextView::ShowMessage(u8"💨 Промах!");
-      if (!enemy.IsAlive()) {
+      /*if (!enemy.IsAlive()) {
         CombatLogic::OnEnemyKilled(player, enemy);
-      }
+      }*/
     }
   } else if (action == 2) {
     float purification_chance = CalculatePurificationChance(player, enemy);
     std::uniform_real_distribution<> dis(0.0, 1.0);
     if (dis(gen) <= purification_chance) {
       enemy.SetHealth(0);
-      CombatLogic::OnEnemyPurified(player, enemy);
+      /*CombatLogic::OnEnemyPurified(player, enemy);*/
     } else {
       TextView::ShowMessage(u8"🖤 Очищение не удалось.");
     }
@@ -121,7 +122,8 @@ void CombatLogic::ProcessEnemyAction(Player& player, Enemy& enemy) {
   }
 }
 
-void CombatLogic::OnEnemyKilled(Player& player, Enemy& enemy) {
+void CombatLogic::OnEnemyKilled(Player& player, Enemy& enemy,
+                                GameState& state) {
   int ki_loss = 10 + (enemy.data_.spirit / 2);
   std::uniform_real_distribution<> random_reward(
       enemy.data_.gold_reward - enemy.data_.gold_reward * 0.2,
@@ -133,11 +135,13 @@ void CombatLogic::OnEnemyKilled(Player& player, Enemy& enemy) {
                            u8"💰 Мон Души: +" + std::to_string(gold_reward) +
                            u8"\n🌑 Ки изменилось на " +
                            std::to_string(-ki_loss) + u8"\n==================");
+  ProcessItemDrop(player, enemy, state, "kill");
   player.GainExp(enemy.data_.exp_reward);
   player.GainGold(gold_reward);
 }
 
-void CombatLogic::OnEnemyPurified(Player& player, Enemy& enemy) {
+void CombatLogic::OnEnemyPurified(Player& player, Enemy& enemy,
+                                  GameState& state) {
   int ki_gain = 15 + (enemy.data_.spirit / 2);
   std::uniform_real_distribution<> random_reward(
       enemy.data_.gold_reward - enemy.data_.gold_reward * 0.2,
@@ -150,6 +154,7 @@ void CombatLogic::OnEnemyPurified(Player& player, Enemy& enemy) {
                            u8"💰 Мон Души: +" + std::to_string(gold_reward) +
                            u8"\n🌕 Ки изменилось на +" +
                            std::to_string(ki_gain) + u8"\n==================");
+  ProcessItemDrop(player, enemy, state, "purify");
   player.GainExp(enemy.data_.exp_reward);
   player.GainGold(gold_reward);
 }
@@ -178,6 +183,34 @@ void CombatLogic::ProcessEndOfTurnEffects(Player& player) {
         TextView::ShowMessage(u8"🌕 Полнолуние: восстановлено " +
                               std::to_string(restore_value) + u8" Рэйки.");
       }
+    }
+  }
+}
+
+void CombatLogic::ProcessItemDrop(Player& player, Enemy& enemy,
+                                  GameState& state,
+                                  const std::string& kill_type) {
+  // Базовый шанс дропа 25% для убийства, 35% для очищения (награда за
+  // добродетель)
+  double drop_chance = (kill_type == "purify") ? 0.35 : 0.25;
+
+  // Бонус к шансу дропа в зависимости от уровня врага
+  drop_chance +=
+      (enemy.data_.level - 1) * 0.05;  // +5% за каждый уровень выше 1
+
+  std::uniform_real_distribution<> chance_dis(0.0, 1.0);
+  if (chance_dis(gen) <= drop_chance) {
+    // Выбираем случайный предмет из шаблонов
+    if (!state.item_templates_.empty()) {
+      std::uniform_int_distribution<> item_dis(
+          0, state.item_templates_.size() - 1);
+      int random_index = item_dis(gen);
+
+      const Item& dropped_item = state.item_templates_[random_index];
+      state.player_inventory_.AddItem(dropped_item.id, state);
+
+      TextView::ShowMessage(u8"📦 Найден предмет: " + dropped_item.name +
+                            u8"!");
     }
   }
 }
