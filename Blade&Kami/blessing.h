@@ -4,8 +4,8 @@
 #include <string>
 
 enum class BlessingType {
-  kActive,  // Требует активации в бою
-  kPassive  // Постоянный эффект
+  kActive,  // Г’Г°ГҐГЎГіГҐГІ Г ГЄГІГЁГўГ Г¶ГЁГЁ Гў ГЎГ®Гѕ
+  kPassive  // ГЏГ®Г±ГІГ®ГїГ­Г­Г»Г© ГЅГґГґГҐГЄГІ
 };
 
 struct Blessing {
@@ -15,9 +15,9 @@ struct Blessing {
   std::string kami;
   std::string kami_type;
   BlessingType type;
-  std::string ability;  // Название способности для AbilityHandler
-  int base_power;       // Базовая сила (модифицируется Ки/Духом)
-  int reiki_cost;       // Стоимость в Рэйки (0 для пассивных)
+  std::string ability;  // ГЌГ Г§ГўГ Г­ГЁГҐ Г±ГЇГ®Г±Г®ГЎГ­Г®Г±ГІГЁ Г¤Г«Гї AbilityHandler
+  int base_power;       // ГЃГ Г§Г®ГўГ Гї Г±ГЁГ«Г  (Г¬Г®Г¤ГЁГґГЁГ¶ГЁГ°ГіГҐГІГ±Гї ГЉГЁ/Г„ГіГµГ®Г¬)
+  int reiki_cost;       // Г‘ГІГ®ГЁГ¬Г®Г±ГІГј Гў ГђГЅГ©ГЄГЁ (0 Г¤Г«Гї ГЇГ Г±Г±ГЁГўГ­Г»Гµ)
 
   Blessing() = default;
 
