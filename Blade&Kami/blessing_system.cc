@@ -68,46 +68,58 @@ void BlessingSystem::ApplyPassiveBlessings(
       int avg_power = (power.min + power.max) / 2;
 
       if (blessing.ability == "health_boost") {
-        player.max_health_ += avg_power;
+        player.base_health_ += avg_power;
         player.current_health_ += avg_power;
+        player.RecalculateStats();
         TextView::ShowMessage(
             u8"❤️ Максимальное здоровье увеличено на " +
             std::to_string(static_cast<int>(avg_power)) + "!\n" +
             u8"       Текущее здоровье: " +
             std::to_string(static_cast<int>(player.current_health_)) + "/" +
             std::to_string(static_cast<int>(player.max_health_)));
+
       } else if (blessing.ability == "reiki_boost") {
-        player.max_reiki_ += avg_power;
+        player.base_reiki_ += avg_power;
         player.current_reiki_ += avg_power;
+        player.RecalculateStats();
         TextView::ShowMessage(
             u8"🌀 Максимальное Рэйки увеличено на " +
             std::to_string(static_cast<int>(avg_power)) + "!\n" +
             u8"       Текущее Рэйки: " +
             std::to_string(static_cast<int>(player.current_reiki_)) + "/" +
             std::to_string(static_cast<int>(player.max_reiki_)));
+
       } else if (blessing.ability == "strength_boost") {
         player.strength_ += avg_power;
         TextView::ShowMessage(u8"💪 Сила увеличена на " +
                               std::to_string(avg_power) + "!");
+        player.RecalculateStats();
+
       } else if (blessing.ability == "agility_boost") {
         player.agility_ += avg_power;
         TextView::ShowMessage(u8"🏹 Ловкость увеличена на " +
                               std::to_string(avg_power) + "!");
+        player.RecalculateStats();
+
       } else if (blessing.ability == "spirit_boost") {
         player.spirit_ += avg_power;
         TextView::ShowMessage(u8"🧿 Дух увеличен на " +
                               std::to_string(avg_power) + "!");
+        player.RecalculateStats();
+
       } else if (blessing.ability == "golden_grace") {
-        player.max_health_ += avg_power;
+        player.base_health_ += avg_power;
         player.current_health_ += avg_power;
+        player.RecalculateStats();
         TextView::ShowMessage(
             u8"❤️ Максимальное здоровье увеличено на " +
             std::to_string(static_cast<int>(avg_power)) + "!\n" +
             u8"       Текущее здоровье: " +
             std::to_string(static_cast<int>(player.current_health_)) + "/" +
             std::to_string(static_cast<int>(player.max_health_)));
-        player.max_reiki_ += avg_power;
+        player.base_reiki_ += avg_power;
         player.current_reiki_ += avg_power;
+        player.RecalculateStats();
         TextView::ShowMessage(
             u8"🌀 Максимальное Рэйки увеличено на " +
             std::to_string(static_cast<int>(avg_power)) + "!\n" +
@@ -125,11 +137,14 @@ void BlessingSystem::ApplyPassiveBlessings(
                               std::to_string(avg_power) + "!");
         TextView::ShowMessage(u8"🧿 Дух уменьшен на " +
                               std::to_string(avg_power) + "!");
+        player.RecalculateStats();
 
       } else if (blessing.ability == "piercing_stare") {
-        player.max_health_ -= avg_power;
-        if (player.current_health_ > player.max_health_)
+        player.base_health_ -= avg_power;
+        player.RecalculateStats();
+        if (player.current_health_ > player.max_health_) {
           player.current_health_ = player.max_health_;
+        }
         TextView::ShowMessage(
             u8"💔 Максимальное здоровье уменьшено на " +
             std::to_string(static_cast<int>(avg_power)) + "!\n" +

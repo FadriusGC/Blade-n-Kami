@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "enemy.h"
+#include "game_state.h"
 #include "player.h"
 
 class CombatLogic {
@@ -12,14 +13,17 @@ class CombatLogic {
   static void ProcessEnemyAction(Player& player, Enemy& enemy);
 
   static double CalculatePurificationChance(Player& player, Enemy& enemy);
-  static bool CalculateHit(float attacker_accuracy, float target_evasion);
+  static bool CalculateHit(double attacker_accuracy, double target_evasion);
   static int CalculateDamage(int min_dmg, int max_dmg);
 
-  static void OnEnemyKilled(Player& player, Enemy& enemy);
+  static void OnEnemyKilled(Player& player, Enemy& enemy, GameState& state);
 
-  static void OnEnemyPurified(Player& player, Enemy& enemy);
+  static void OnEnemyPurified(Player& player, Enemy& enemy, GameState& state);
 
   static void ProcessEndOfTurnEffects(Player& player);
+
+  static void ProcessItemDrop(Player& player, Enemy& enemy, GameState& state,
+                              const std::string& kill_type);
 };
 
 #endif  // COMBAT_LOGIC_H_

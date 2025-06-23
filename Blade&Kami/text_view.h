@@ -33,7 +33,8 @@ class TextView {
 
   static void ShowLocationMenu(const Location& loc);
   static void ShowLocationDetails(const Location& loc);
-  static void ShowChestInteraction(int gold_found);
+  static void ShowChestInteraction(int gold_found,
+                                   const std::string dropped_item);
 
   static void ShowAltarMenu(const std::vector<Blessing>& available_blessings,
                             const Player& player);
@@ -47,6 +48,10 @@ class TextView {
 
   static std::string GeneratePowerDescription(const std::string& ability,
                                               int min_power, int max_power);
+
+  static void ShowEvilEnding(GameState& state);
+  static void ShowGoodEnding(GameState& state);
+  static void ShowBloodAndSakeEnding(GameState& state);
 };
 
 #endif  // TEXTVIEW_H_

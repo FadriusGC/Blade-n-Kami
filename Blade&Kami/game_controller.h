@@ -26,6 +26,9 @@ class GameController {
   void HandleAltarMenu(int choice);
   void HandleBlessingCombatMenu(int choice);
   void HandleBlessingMenu(int choice);
+
+  static void HandleGameEnding(GameEnding& ending, GameState& state);
+  static GameEnding DetermineEnding(GameState& state);
 };
 
 #endif  // GAME_CONTROLLER_H_

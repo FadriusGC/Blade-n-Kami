@@ -1,5 +1,7 @@
 ﻿#include "game_controller.h"
 
+#include <filesystem>
+
 #include "ability_handler.h"
 #include "combat_logic.h"
 #include "combat_system.h"
@@ -7,6 +9,11 @@
 #include "input_handler.h"
 #include "kurai_blade.h"
 #include "text_view.h"
+
+namespace {
+std::mt19937 gen(std::random_device{}());
+}
+
 bool GameController::HandleMainMenu(int choice) {
   switch (choice) {
     case 1:
@@ -15,8 +22,19 @@ bool GameController::HandleMainMenu(int choice) {
       TextView::ShowMessage(u8"Новая игра начата!");
       return true;
     case 2:
-      std::cin.ignore();
-      TextView::ShowMessage(u8"Загрузка пока не реализована");
+      try {
+        if (!std::filesystem::exists("save.txt")) {
+          TextView::ShowMessage(u8"Ошибка: Файл сохранения не найден!");
+          std::cin.ignore();
+          return true;
+        }
+        state_->LoadFromFile("save.txt");
+        state_->current_menu_ = MenuState::kGameMenu;
+        TextView::ShowMessage(u8"Игра загружена!");
+        std::cin.ignore();
+      } catch (const std::exception& e) {
+        TextView::ShowMessage(u8"Ошибка загрузки: " + std::string(e.what()));
+      }
       return true;
     case 3:
       return false;
@@ -38,8 +56,13 @@ bool GameController::HandleGameMenu(int choice) {
       state_->current_menu_ = MenuState::kPlayerMenu;
       return true;
     case 3:
-      std::cin.ignore();
-      TextView::ShowMessage(u8"Сохранение пока не реализовано");
+      try {
+        state_->SaveToFile("save.txt");
+        TextView::ShowMessage(u8"Игра сохранена!");
+        std::cin.ignore();
+      } catch (const std::exception& e) {
+        TextView::ShowMessage(u8"Ошибка сохранения: " + std::string(e.what()));
+      }
       return true;
     case 4:
       state_->current_menu_ = MenuState::kMainMenu;
@@ -80,7 +103,25 @@ void GameController::HandleLocationExplore() {
 
       state_->current_location_->object_used_ = true;
 
-      TextView::ShowChestInteraction(gold_found);
+      std::uniform_real_distribution<> chest_drop_chance(0.0, 1.0);
+      double drop_probability =
+          0.4 + (state_->player_.level_ - 1) *
+                    0.05;  // 40% базовый шанс + 5% за уровень
+
+      if (chest_drop_chance(gen) <= drop_probability &&
+          !state_->item_templates_.empty()) {
+        std::uniform_int_distribution<> item_dis(
+            0, state_->item_templates_.size() - 1);
+        int random_index = item_dis(gen);
+
+        const Item& dropped_item = state_->item_templates_[random_index];
+        state_->player_inventory_.AddItem(dropped_item.id, *state_);
+
+        TextView::ShowChestInteraction(gold_found, dropped_item.name);
+      } else {
+        TextView::ShowChestInteraction(gold_found, "");
+      }
+
     } else if (state_->current_location_->object_id_ == "altar") {
       // Алтарь Ками
       if (state_->current_altar_blessings_.empty()) {
@@ -153,7 +194,7 @@ void GameController::HandleKuraiMenu(int choice) {
         std::cin.ignore();
         TextView::ShowMessage(u8"Урон меча улучшен!");
         break;
-      } else if (choice <= 2) {
+      } else if (choice <= 4) {
         std::cin.ignore();
         TextView::ShowMessage(u8"Не хватает точильных камней.");
         break;
@@ -166,7 +207,33 @@ void GameController::HandleKuraiMenu(int choice) {
         std::cin.ignore();
         TextView::ShowMessage(u8"Точность повышена!");
         break;
-      } else if (choice <= 2) {
+      } else if (choice <= 4) {
+        std::cin.ignore();
+        TextView::ShowMessage(u8"Не хватает точильных камней.");
+        break;
+      }
+      break;
+    case 3:
+      if (state_->player_inventory_.whetstones_ > 0) {
+        state_->player_.blade_.upgradeStat(BladeStatType::kCrit);
+        state_->player_inventory_.whetstones_--;
+        std::cin.ignore();
+        TextView::ShowMessage(u8"Крит повышен!");
+        break;
+      } else if (choice <= 4) {
+        std::cin.ignore();
+        TextView::ShowMessage(u8"Не хватает точильных камней.");
+        break;
+      }
+      break;
+    case 4:
+      if (state_->player_inventory_.whetstones_ > 0) {
+        state_->player_.blade_.upgradeStat(BladeStatType::kCapacity);
+        state_->player_inventory_.whetstones_--;
+        std::cin.ignore();
+        TextView::ShowMessage(u8"Духовная ёмкость повышена!");
+        break;
+      } else if (choice <= 4) {
         std::cin.ignore();
         TextView::ShowMessage(u8"Не хватает точильных камней.");
         break;
@@ -373,5 +440,25 @@ void GameController::HandleBlessingMenu(int choice) {
     std::cin.ignore();
     TextView::ShowMessage(u8"Неверный выбор!");
     return;
+  }
+}
+
+GameEnding GameController::DetermineEnding(GameState& state) {
+  if (state.player_.blessings_.empty()) {
+    return GameEnding::kBloodAndSake;
+  }
+  if (state.player_.ki_ <= 0) {
+    return GameEnding::kEvil;
+  }
+  return GameEnding::kGood;
+}
+
+void GameController::HandleGameEnding(GameEnding& ending, GameState& state) {
+  if (ending == GameEnding::kEvil) {
+    TextView::ShowEvilEnding(state);
+  } else if (ending == GameEnding::kGood) {
+    TextView::ShowGoodEnding(state);
+  } else if (ending == GameEnding::kBloodAndSake) {
+    TextView::ShowBloodAndSakeEnding(state);
   }
 }

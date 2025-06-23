@@ -16,6 +16,8 @@ class Inventory {
 
   void AddItem(const std::string& item_id, const GameState& state);
   void RemoveItem(const std::string& item_id);
+
+  void Clear();
 };
 
 #endif  // INVENTORY_H_
