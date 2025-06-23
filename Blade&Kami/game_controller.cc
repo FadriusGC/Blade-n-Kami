@@ -1,5 +1,7 @@
 ﻿#include "game_controller.h"
 
+#include <filesystem>
+
 #include "ability_handler.h"
 #include "combat_logic.h"
 #include "combat_system.h"
@@ -15,8 +17,19 @@ bool GameController::HandleMainMenu(int choice) {
       TextView::ShowMessage(u8"Новая игра начата!");
       return true;
     case 2:
-      std::cin.ignore();
-      TextView::ShowMessage(u8"Загрузка пока не реализована");
+      try {
+        if (!std::filesystem::exists("save.txt")) {
+          TextView::ShowMessage(u8"Ошибка: Файл сохранения не найден!");
+          std::cin.ignore();
+          return true;
+        }
+        state_->LoadFromFile("save.txt");
+        state_->current_menu_ = MenuState::kGameMenu;
+        TextView::ShowMessage(u8"Игра загружена!");
+        std::cin.ignore();
+      } catch (const std::exception& e) {
+        TextView::ShowMessage(u8"Ошибка загрузки: " + std::string(e.what()));
+      }
       return true;
     case 3:
       return false;
@@ -38,8 +51,13 @@ bool GameController::HandleGameMenu(int choice) {
       state_->current_menu_ = MenuState::kPlayerMenu;
       return true;
     case 3:
-      std::cin.ignore();
-      TextView::ShowMessage(u8"Сохранение пока не реализовано");
+      try {
+        state_->SaveToFile("save.txt");
+        TextView::ShowMessage(u8"Игра сохранена!");
+        std::cin.ignore();
+      } catch (const std::exception& e) {
+        TextView::ShowMessage(u8"Ошибка сохранения: " + std::string(e.what()));
+      }
       return true;
     case 4:
       state_->current_menu_ = MenuState::kMainMenu;

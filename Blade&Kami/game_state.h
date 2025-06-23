@@ -46,6 +46,9 @@ class GameState {
                   const std::string& enemies_file,
                   const std::string& items_file,
                   const std::string& blessings_file);
+
+  void SaveToFile(const std::string& filename);
+  void LoadFromFile(const std::string& filename);
 };
 
 #endif  // GAMESTATE_H_

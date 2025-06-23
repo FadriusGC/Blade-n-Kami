@@ -21,3 +21,9 @@ void Inventory::RemoveItem(const std::string& item_id) {
                    [&item_id](const Item& item) { return item.id == item_id; }),
                items_.end());
 }
+
+void Inventory::Clear() {
+  items_.clear();
+  whetstones_ = 0;
+  sake_charges_ = 0;
+}

@@ -109,6 +109,12 @@ class Player {
     }
     return active_blessings;
   }
+
+  void ClearBlessings() {
+	  blessings_.clear();
+  }
 };
+
+
 
 #endif  // PLAYER_H_

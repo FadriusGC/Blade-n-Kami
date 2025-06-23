@@ -18,8 +18,8 @@ int main() {
   Localise();
   try {
     GameState state;
-    state.Initialize("locations.txt", "enemies.txt", "items.txt",
-                     "blessings.txt");
+	state.Initialize("locations.txt", "enemies.txt", "items.txt",
+		"blessings.txt");
     AbilityHandler::InitAbilities();
     BlessingSystem::InitBlessings();
     GameController controller(&state);
