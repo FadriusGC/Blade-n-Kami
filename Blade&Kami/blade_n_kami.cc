@@ -18,8 +18,8 @@ int main() {
   Localise();
   try {
     GameState state;
-	state.Initialize("locations.txt", "enemies.txt", "items.txt",
-		"blessings.txt");
+    state.Initialize("locations.txt", "enemies.txt", "items.txt",
+                     "blessings.txt");
     AbilityHandler::InitAbilities();
     BlessingSystem::InitBlessings();
     GameController controller(&state);
@@ -80,42 +80,12 @@ int main() {
           break;
         }
         case MenuState::kCombatMenu: {
-          // Инициализация боя при входе
-          if (!state.current_enemy_ &&
-              state.current_location_->enemy_id_ != "") {
-            state.new_enemy_ = new Enemy(EnemyFactory::CreateEnemy(
-                state, state.current_location_->enemy_id_));
-            state.current_enemy_ = state.new_enemy_;
-          }
-
-          // Отображение интерфейса
+          CombatSystem::InitializeCombat(state);
           TextView::ShowCombatStats(state.player_, *state.current_enemy_);
           TextView::ShowCombatMenu(state.player_, *state.current_enemy_);
-
           auto result = controller.HandleCombatMenu(InputHandler::GetInput(),
                                                     *state.current_enemy_);
-
-          // Обработка результатов
-          switch (result) {
-            case CombatSystem::kPlayerWin:
-              state.current_enemy_ = nullptr;
-              delete state.new_enemy_;
-              state.current_location_->enemy_id_ = "";
-              std::cin.ignore();
-              state.current_menu_ = MenuState::kGameMenu;
-              break;
-
-            case CombatSystem::kEnemyWin:
-              TextView::ShowMessage(u8"Игрок погиб, игра окончена :(");
-              std::cin.ignore();
-              exit(0);
-
-            case CombatSystem::kFlee:
-              state.current_menu_ = MenuState::kGameMenu;
-              state.current_enemy_ = nullptr;
-              delete state.new_enemy_;
-              break;
-          }
+          CombatSystem::HandleCombatResult(result, state);
           break;
         }
 
@@ -143,7 +113,6 @@ int main() {
             break;
           }
 
-          // Отображение меню алтаря
           TextView::ShowAltarMenu(state.current_altar_blessings_,
                                   state.player_);
 
@@ -157,7 +126,6 @@ int main() {
           break;
         }
         case MenuState::kBlessingCombatMenu: {
-          // Получаем только активные благословения
           std::vector<Blessing> activeBlessings;
           for (const auto& blessing : state.player_.blessings_) {
             if (blessing.type == BlessingType::kActive) {

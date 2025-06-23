@@ -11,6 +11,11 @@ class CombatSystem {
 
   static CombatResult UpdateCombat(Player& player, Enemy& enemy,
                                    int player_action, GameState& state);
+
+  static void InitializeCombat(GameState& state);
+  static void CleanupCombat(GameState& state);
+  static CombatResult ProcessCombatTurn(GameState& state, int player_input);
+  static void HandleCombatResult(CombatResult result, GameState& state);
 };
 
 #endif  // COMBAT_SYSTEM_H_

@@ -19,7 +19,6 @@ class BlessingSystem {
 
  public:
   static void InitBlessings();
-
   static std::string GetKamiType(const Blessing& blessing);
   static std::vector<Blessing> GetRandomBlessings(
       const std::vector<Blessing>& all_blessings,
