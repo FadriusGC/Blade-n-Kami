@@ -20,7 +20,6 @@ void BlessingAbilityHandler::InitAbilities() {
   ability_map_["reiki_restore"] = &ReikiRestore;
 }
 
-// Реализации с учетом min/max и расхода Рэйки
 void BlessingAbilityHandler::Heal(Player& player, Enemy* enemy, int min_power,
                                   int max_power) {
   std::uniform_int_distribution<> dis(min_power, max_power);
@@ -114,7 +113,7 @@ void BlessingAbilityHandler::RuthlessCuts(Player& player, Enemy* enemy,
 void BlessingAbilityHandler::DragonTechniqueCalm(Player& player, Enemy* enemy,
                                                  int min_power, int max_power) {
   if (!enemy) return;
-  int base_damage = min_power;  // Фиксированное минимальное значение
+  int base_damage = min_power;
   int reiki_spent = player.current_reiki_;
   player.current_reiki_ = 0;
   int bonus_damage = static_cast<int>(reiki_spent * 0.5);
@@ -157,6 +156,5 @@ void BlessingAbilityHandler::LunarDance(Player& player, Enemy* enemy,
 
 void BlessingAbilityHandler::PurificationBoost(Player& p, Enemy* enemy,
                                                int min_power, int max_power) {
-  // Логика будет в CombatLogic
   TextView::ShowMessage(u8"🤍 Сила очищения увеличена!");
 }

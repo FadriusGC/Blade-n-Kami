@@ -5,8 +5,8 @@
 
 #include <iostream>
 bool Localise() {
-  SetConsoleOutputCP(CP_UTF8);  // Устанавливаем UTF-8 для вывода
-  SetConsoleCP(CP_UTF8);        // UTF-8 для ввода
+  SetConsoleOutputCP(CP_UTF8);
+  SetConsoleCP(CP_UTF8);
   return true;
 }
 

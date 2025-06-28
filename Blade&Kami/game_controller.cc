@@ -41,9 +41,7 @@ bool GameController::HandleMainMenu(int choice) {
     default:
       std::cin.ignore();
       TextView::ShowMessage(u8"Неверный выбор!");
-      return true;  // в целом дефолты можно переписать, просто оставив там
-                    // std::cin.ignore() т.к. отображение ошибок делает getInput
-                    // и дублировать по сути смысла нет.
+      return true;
   }
 }
 
@@ -94,7 +92,6 @@ void GameController::HandleLocationExplore() {
   TextView::ShowLocationDetails(*state_->current_location_);
   std::cin.ignore();
 
-  // Проверяем наличие объекта
   if (!state_->current_location_->object_id_.empty() &&
       !state_->current_location_->object_used_) {
     if (state_->current_location_->object_id_ == "chest") {
@@ -104,9 +101,7 @@ void GameController::HandleLocationExplore() {
       state_->current_location_->object_used_ = true;
 
       std::uniform_real_distribution<> chest_drop_chance(0.0, 1.0);
-      double drop_probability =
-          0.4 + (state_->player_.level_ - 1) *
-                    0.05;  // 40% базовый шанс + 5% за уровень
+      double drop_probability = 0.4 + (state_->player_.level_ - 1) * 0.05;
 
       if (chest_drop_chance(gen) <= drop_probability &&
           !state_->item_templates_.empty()) {
@@ -123,7 +118,6 @@ void GameController::HandleLocationExplore() {
       }
 
     } else if (state_->current_location_->object_id_ == "altar") {
-      // Алтарь Ками
       if (state_->current_altar_blessings_.empty()) {
         state_->current_altar_blessings_ = BlessingSystem::GetRandomBlessings(
             state_->blessing_templates_, state_->player_.blessings_, 3);
@@ -252,22 +246,21 @@ void GameController::HandleKuraiMenu(int choice) {
 CombatSystem::CombatResult GameController::HandleCombatMenu(int choice,
                                                             Enemy& enemy) {
   switch (choice) {
-    case 1:  // Атака
+    case 1:
       CombatSystem::UpdateCombat(state_->player_, enemy, choice, *state_);
       break;
-    case 2:  // Очищение
+    case 2:
       CombatSystem::UpdateCombat(state_->player_, enemy, choice, *state_);
       break;
-    case 3:  // Предметы
+    case 3:
       state_->current_menu_ = MenuState::kInvCombatMenu;
       return CombatSystem::kInProgress;
       break;
-    case 4:  // Благословения (новый пункт)
+    case 4:
       state_->current_menu_ = MenuState::kBlessingCombatMenu;
       return CombatSystem::kInProgress;
       break;
-    case 5:  // Бежать
-      // Возврат на предыдущую локацию
+    case 5:
       for (auto& loc : state_->locations_) {
         if (loc.id_ == state_->current_location_->id_ - 1) {
           state_->current_location_ = &loc;
@@ -342,10 +335,8 @@ void GameController::HandleItemUse(int item_index) {
   try {
     TextView::ShowMessage(u8"Использован предмет: [" + item.name + u8"]" +
                           u8"!");
-    // Для способностей, требующих врага
     AbilityHandler::Execute(item, state_->player_, state_->current_enemy_);
     std::cin.ignore();
-    // Удаление расходуемых предметов
     if (item.id != "sake_flask") {
       inv.items_.erase(inv.items_.begin() + item_index);
     }
@@ -360,7 +351,6 @@ void GameController::HandleAltarMenu(int choice) {
     return;
   }
 
-  // Получаем случайные благословения
   auto& available_blessings = state_->current_altar_blessings_;
 
   if (available_blessings.empty()) {
@@ -372,25 +362,16 @@ void GameController::HandleAltarMenu(int choice) {
 
   if (choice > 0 && choice <= available_blessings.size()) {
     Blessing selected_blessing = available_blessings[choice - 1];
-
-    // Показываем детали благословения
     TextView::ShowBlessingDetails(selected_blessing, state_->player_);
     std::cin.ignore();
-
-    // Подтверждение выбора
     TextView::ShowMessage(u8"Получить это благословение? (1 - Да, 0 - Нет): ");
     int confirm = InputHandler::GetInput();
-
     if (confirm == 1) {
       state_->player_.AddBlessing(selected_blessing);
       TextView::ShowMessage(u8"✨ Вы получили благословение: " +
                             selected_blessing.name);
-
-      // Применяем пассивные эффекты
       BlessingSystem::ApplyPassiveBlessings(state_->player_,
                                             {selected_blessing});
-
-      // Помечаем алтарь как использованный
       state_->current_location_->object_used_ = true;
       state_->current_altar_blessings_.clear();
       std::cin.ignore();
@@ -409,10 +390,7 @@ void GameController::HandleBlessingCombatMenu(int choice) {
     state_->current_menu_ = MenuState::kCombatMenu;
     return;
   }
-
-  // Получаем только активные благословения
   std::vector<Blessing> active_blessings = state_->player_.GetActiveBlessings();
-
   if (choice > 0 && choice <= active_blessings.size()) {
     Blessing& selected_blessing = active_blessings[choice - 1];
 

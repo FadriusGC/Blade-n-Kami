@@ -96,7 +96,6 @@ int main() {
           break;
         }
         case MenuState::kAltarMenu: {
-          // Проверка на доступные благословения
           if (state.current_altar_blessings_.empty()) {
             TextView::ShowMessage(u8"Нет доступных благословений!");
             std::cin.ignore();
