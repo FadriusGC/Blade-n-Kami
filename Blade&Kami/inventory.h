@@ -6,7 +6,7 @@
 
 #include "item.h"
 
-class GameState;  // Ïðåäâàðèòåëüíîå îáúÿâëåíèå
+class GameState;
 
 class Inventory {
  public:

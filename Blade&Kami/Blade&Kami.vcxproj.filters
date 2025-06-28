@@ -72,6 +72,9 @@
     <ClCompile Include="blessing_ability_handler.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="player.cc">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="text_view.h">

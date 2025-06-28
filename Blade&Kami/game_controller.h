@@ -9,7 +9,7 @@ class GameController {
   GameState* state_;
 
  public:
-  explicit GameController(GameState* state_) : state_(state_) {}
+  GameController(GameState* state_) : state_(state_) {}
 
   bool HandleMainMenu(int choice);
   bool HandleGameMenu(int choice);

@@ -147,6 +147,7 @@
     <ClCompile Include="kurai_blade.cc" />
     <ClCompile Include="location.cc" />
     <ClCompile Include="location_loader.cc" />
+    <ClCompile Include="player.cc" />
     <ClCompile Include="text_view.cc" />
   </ItemGroup>
   <ItemGroup>

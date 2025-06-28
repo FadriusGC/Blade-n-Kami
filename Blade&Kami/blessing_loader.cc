@@ -21,13 +21,11 @@ std::vector<Blessing> BlessingLoader::LoadFromFile(
     if (line.empty()) continue;
 
     if (line[0] == '[') {
-      // Сохраняем предыдущее благословение
       if (!current_id.empty()) {
         blessings.emplace_back(current_id, name, desc, kami, kami_type, type,
                                ability, base_power, reiki_cost);
       }
 
-      // Начинаем новое благословение
       current_id = line.substr(1, line.find(']') - 1);
       name.clear();
       desc.clear();
@@ -57,8 +55,6 @@ std::vector<Blessing> BlessingLoader::LoadFromFile(
       reiki_cost = std::stoi(line.substr(10));
     }
   }
-
-  // Сохраняем последнее благословение
   if (!current_id.empty()) {
     blessings.emplace_back(current_id, name, desc, kami, kami_type, type,
                            ability, base_power, reiki_cost);

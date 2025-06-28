@@ -45,9 +45,7 @@ std::vector<EnemyData> EnemyLoader::LoadFromFile(const std::string& filename) {
       current.exp_reward = std::stoi(line.substr(10));
     } else if (line.find("goldReward=") == 0) {
       current.gold_reward = std::stoi(line.substr(11));
-    }
-    // Аналогично для остальных параметров
-    else if (line.find("abilities=") == 0) {
+    } else if (line.find("abilities=") == 0) {
       std::stringstream ss(line.substr(10));
       std::string ability;
       while (getline(ss, ability, ',')) {

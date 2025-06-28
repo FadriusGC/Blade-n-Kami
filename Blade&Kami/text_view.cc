@@ -264,7 +264,6 @@ void TextView::ShowLocationDetails(const Location& loc) {
     if (loc.object_id_ == "chest") {
       std::cout << u8"\n🎁 Вы замечаете старинный сундук в углу.\n";
     }
-    // Можно добавить другие объекты позже
   } else {
     std::cout << u8"\nВы не замечаете каких-то более примечательных деталей "
                  u8"здесь...\n";
@@ -297,7 +296,7 @@ std::string TextView::WrapText(const std::string& text, int width) {
   std::string line;
 
   while (words >> word) {
-    if (line.length() + word.length() + 1 > width) {  // +1 для пробела
+    if (line.length() + word.length() + 1 > width) {
       wrapped << line << "\n";
       line.clear();
     }
@@ -415,8 +414,6 @@ void TextView::ShowCombatBlessingsMenu(
           BlessingSystem::CalculateModifiedPower(blessing, player);
       std::string power_desc = TextView::GeneratePowerDescription(
           blessing.ability, power.min, power.max);
-      // int power = BlessingSystem::calculateModifiedPower(blessing, player);
-
       std::cout << u8"[" << (i + 1) << u8"] " << status << u8" "
                 << blessing.name << u8"\n"
                 << u8"  Рэйки: " << blessing.reiki_cost << u8"\n  "
@@ -468,8 +465,6 @@ std::string TextView::GeneratePowerDescription(const std::string& ability,
   } else if (ability == "purification_boost") {
     return u8"Эффект: Увеличивает шанс очищения на 50%";
   }
-  // Добавьте другие способности по аналогии
-
   return u8"Сила/Увеличение параметров: " + std::to_string(min_power) + u8"-" +
          std::to_string(max_power);
 }

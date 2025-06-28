@@ -31,8 +31,6 @@ void GameState::SaveToFile(const std::string& filename) {
   if (!out) {
     throw std::runtime_error("Cannot save game");
   }
-
-  // Сохраняем состояние игрока
   out << "[Player]\n";
   out << "level=" << player_.level_ << "\n";
   out << "exp=" << player_.exp_ << "\n";
@@ -49,40 +47,28 @@ void GameState::SaveToFile(const std::string& filename) {
   out << "max_reiki=" << player_.max_reiki_ << "\n";
   out << "current_reiki=" << player_.current_reiki_ << "\n";
   out << "available_points=" << player_.available_points_ << "\n";
-
-  // Сохраняем меч
   out << "blade_min_damage=" << player_.blade_.min_damage_ << "\n";
   out << "blade_max_damage=" << player_.blade_.max_damage_ << "\n";
   out << "blade_accuracy=" << player_.blade_.accuracy_ << "\n";
   out << "blade_crit_chance=" << player_.blade_.crit_chance_ << "\n";
   out << "blade_spirit_capacity=" << player_.blade_.spirit_capacity_ << "\n";
-
-  // Сохраняем благословения игрока
   out << "[Blessings]\n";
   for (const auto& blessing : player_.blessings_) {
     out << blessing.id << "\n";
   }
-
-  // Сохраняем инвентарь
   out << "[Inventory]\n";
   out << "whetstones=" << player_inventory_.whetstones_ << "\n";
   out << "sake_charges=" << player_inventory_.sake_charges_ << "\n";
   for (const auto& item : player_inventory_.items_) {
     out << item.id << "\n";
   }
-
-  // Сохраняем состояние локаций
   out << "[Locations]\n";
   for (const auto& loc : locations_) {
     out << loc.id_ << ":" << loc.object_used_ << ":" << loc.enemy_id_ << "\n";
   }
-
-  // Сохраняем текущую локацию
   out << "[Current]\n";
   out << "location_id=" << current_location_->id_ << "\n";
   out << "menu_state=" << static_cast<int>(current_menu_) << "\n";
-
-  // Сохраняем благословения алтаря
   out << "[AltarBlessings]\n";
   for (const auto& blessing : current_altar_blessings_) {
     out << blessing.id << "\n";
@@ -100,7 +86,6 @@ void GameState::LoadFromFile(const std::string& filename) {
   std::string line;
   std::string section;
 
-  // Флаги для отслеживания начала секций
   bool blessings_section_started = false;
   bool inventory_section_started = false;
   bool altar_blessings_section_started = false;
@@ -110,7 +95,6 @@ void GameState::LoadFromFile(const std::string& filename) {
 
     if (line[0] == '[') {
       section = line;
-      // Сбрасываем флаги при смене секции
       blessings_section_started = false;
       inventory_section_started = false;
       altar_blessings_section_started = false;
@@ -165,13 +149,11 @@ void GameState::LoadFromFile(const std::string& filename) {
         player_.blade_.spirit_capacity_ = std::stoi(value);
 
     } else if (section == "[Blessings]") {
-      // Очищаем благословения только один раз при первом входе в секцию
       if (!blessings_section_started) {
         player_.blessings_.clear();
         blessings_section_started = true;
       }
 
-      // Ищем благословение по ID
       for (const auto& blessing : blessing_templates_) {
         if (blessing.id == line) {
           player_.blessings_.push_back(blessing);
@@ -180,7 +162,6 @@ void GameState::LoadFromFile(const std::string& filename) {
       }
 
     } else if (section == "[Inventory]") {
-      // Очищаем инвентарь только один раз при первом входе в секцию
       if (!inventory_section_started) {
         player_inventory_.items_.clear();
         player_inventory_.whetstones_ = 0;
@@ -199,7 +180,6 @@ void GameState::LoadFromFile(const std::string& filename) {
         else if (key == "sake_charges")
           player_inventory_.sake_charges_ = std::stoi(value);
       } else {
-        // Ищем предмет по ID
         for (const auto& item_template : item_templates_) {
           if (item_template.id == line) {
             player_inventory_.items_.push_back(item_template);
@@ -216,12 +196,11 @@ void GameState::LoadFromFile(const std::string& filename) {
         tokens.push_back(token);
       }
 
-      if (tokens.size() >= 2) {  // Изменено с == 3 на >= 2
+      if (tokens.size() >= 2) {
         int id = std::stoi(tokens[0]);
         bool used = (tokens[1] == "1");
         std::string enemy_id = (tokens.size() >= 3) ? tokens[2] : "";
 
-        // Ищем локацию и обновляем её состояние
         for (auto& loc : locations_) {
           if (loc.id_ == id) {
             loc.object_used_ = used;
@@ -249,13 +228,11 @@ void GameState::LoadFromFile(const std::string& filename) {
       }
 
     } else if (section == "[AltarBlessings]") {
-      // Очищаем благословения алтаря только один раз при первом входе в секцию
       if (!altar_blessings_section_started) {
         current_altar_blessings_.clear();
         altar_blessings_section_started = true;
       }
 
-      // Ищем благословение по ID
       for (const auto& blessing : blessing_templates_) {
         if (blessing.id == line) {
           current_altar_blessings_.push_back(blessing);

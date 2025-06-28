@@ -21,7 +21,6 @@ std::vector<Blessing> BlessingSystem::GetRandomBlessings(
     const std::vector<Blessing>& player_blessings, int count) {
   std::vector<Blessing> available_blessings;
 
-  // Фильтруем благословения, которых нет у игрока
   for (const auto& blessing : all_blessings) {
     bool has_blessing = false;
     for (const auto& player_blessing : player_blessings) {
@@ -35,12 +34,10 @@ std::vector<Blessing> BlessingSystem::GetRandomBlessings(
     }
   }
 
-  // Если доступных благословений меньше чем нужно, возвращаем все доступные
   if (available_blessings.size() <= count) {
     return available_blessings;
   }
 
-  // Выбираем случайные благословения
   std::vector<Blessing> selected_blessings;
   std::shuffle(available_blessings.begin(), available_blessings.end(), gen_);
 
@@ -54,14 +51,13 @@ std::vector<Blessing> BlessingSystem::GetRandomBlessings(
 bool BlessingSystem::CanUseBlessing(const Blessing& blessing,
                                     const Player& player) {
   if (blessing.type == BlessingType::kPassive) {
-    return true;  // Пассивные всегда активны
+    return true;
   }
 
   return player.current_reiki_ >= blessing.reiki_cost;
 }
 void BlessingSystem::ApplyPassiveBlessings(
     Player& player, const std::vector<Blessing>& blessings) {
-  // Применяем пассивные эффекты благословений
   for (const auto& blessing : blessings) {
     if (blessing.type == BlessingType::kPassive) {
       ModifiedPower power = CalculateModifiedPower(blessing, player);
@@ -176,7 +172,6 @@ void BlessingSystem::ApplyPassiveBlessings(
 
 ModifiedPower BlessingSystem::CalculateModifiedPower(const Blessing& blessing,
                                                      const Player& player) {
-  // Модификаторы: Ки, Дух игрока, Духовная ёмкость меча
   double ki_modifier = 1.0 + abs(player.ki_ / 100.0) * 0.5;
   double spirit_modifier = 1.0 + (player.spirit_ / 20.0) * 0.3;
   double blade_modifier = 1.0 + (player.blade_.spirit_capacity_ / 20.0) * 0.2;
@@ -196,12 +191,10 @@ void BlessingSystem::ExecuteBlessing(const Blessing& blessing, Player& player,
     return;
   }
 
-  // Тратим Рэйки для активных благословений
   if (blessing.type == BlessingType::kActive) {
     player.current_reiki_ -= blessing.reiki_cost;
   }
 
-  // Вычисляем модифицированную силу (min/max)
   ModifiedPower power = CalculateModifiedPower(blessing, player);
 
   TextView::ShowMessage(u8"✨ Используется благословение: " + blessing.name);
